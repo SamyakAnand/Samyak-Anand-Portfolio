@@ -1,130 +1,384 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { projects } from "../../constants";
+import { FiGithub, FiX, FiExternalLink } from "react-icons/fi";
+
+const categories = [
+  "All",
+  "Data Science",
+  "Data Analysis",
+  "Machine Learning",
+  "NLP",
+  "Deep Learning",
+  "Live Projects"
+];
 
 const Work = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [animate, setAnimate] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState({}); // Track current image index for each project
+  const sectionRef = useRef(null);
 
-  const handleOpenModal = (project) => {
-    setSelectedProject(project);
-  };
+  const filteredProjects =
+    activeCategory === "All"
+      ? projects
+      : projects.filter((project) =>
+          project.category.includes(activeCategory)
+        );
 
-  const handleCloseModal = () => {
-    setSelectedProject(null);
+  // Observe section in view to trigger animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          setAnimate(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Set up automatic image rotation for projects with multiple images
+  useEffect(() => {
+    const intervals = {};
+    
+    filteredProjects.forEach(project => {
+      if (project.images && project.images.length > 1) {
+        intervals[project.id] = setInterval(() => {
+          setCurrentImageIndex(prev => ({
+            ...prev,
+            [project.id]: ((prev[project.id] || 0) + 1) % project.images.length
+          }));
+        }, 3000); // Change image every 3 seconds
+      }
+    });
+    
+    return () => {
+      Object.values(intervals).forEach(interval => clearInterval(interval));
+    };
+  }, [filteredProjects]);
+
+  const handleOpenModal = (project) => setSelectedProject(project);
+  const handleCloseModal = () => setSelectedProject(null);
+
+  // Function to get the current image for a project
+  const getCurrentImage = (project) => {
+    if (project.images && project.images.length > 0) {
+      const index = currentImageIndex[project.id] || 0;
+      return project.images[index];
+    }
+    return project.image;
   };
 
   return (
     <section
+      ref={sectionRef}
       id="work"
-      className="py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[20vw] font-sans relative"
+      className="py-24 pb-24 px-[7vw] md:px-[7vw] lg:px-[10vw] font-sans relative"
     >
       {/* Section Title */}
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-white">PROJECTS</h2>
-        <div className="w-32 h-1 bg-purple-500 mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-4 text-lg font-semibold">
-          A showcase of the projects I have worked on, highlighting my skills
-          and experience in various technologies
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">PROJECTS</h2>
+        <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
+        <p className="text-gray-400 mt-6 text-lg max-w-3xl mx-auto">
+          A showcase of innovative projects demonstrating my expertise in data science, machine learning, and analytics. 
+          Each project solves real-world problems with cutting-edge technologies.
         </p>
       </div>
 
-      {/* Projects Grid */}
-      <div className="grid gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            onClick={() => handleOpenModal(project)}
-            className="border border-white bg-gray-900 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden cursor-pointer hover:shadow-purple-500/50 hover:-translate-y-2 transition-transform duration-300"
+      {/* Category Filter */}
+      <div className="flex flex-wrap justify-center gap-3 mb-16">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => setActiveCategory(category)}
+            className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+              activeCategory === category
+                ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/30"
+                : "bg-gray-800/50 text-gray-300 border border-gray-700 hover:bg-purple-700 hover:text-white hover:shadow-lg hover:shadow-purple-500/20"
+            }`}
           >
-            <div className="p-4">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-48 object-cover rounded-xl"
-              />
-            </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-white mb-2">
-                {project.title}
-              </h3>
-              <p className="text-gray-500 mb-4 pt-4 line-clamp-3">
-                {project.description}
-              </p>
-              <div className="mb-4">
-                {project.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="inline-block bg-[#251f38] text-xs font-semibold text-purple-500 rounded-full px-2 py-1 mr-2 mb-2"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+            {category}
+          </button>
         ))}
       </div>
 
-      {/* Modal Container */}
-      {selectedProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4">
-          <div className="bg-gray-900 rounded-xl shadow-2xl lg:w-full w-[90%] max-w-3xl overflow-hidden relative">
-            <div className="flex justify-end p-4">
-              <button
-                onClick={handleCloseModal}
-                className="text-white text-3xl font-bold hover:text-purple-500"
+      {/* Projects Grid */}
+      <div className="relative">
+        <div className="overflow-y-auto max-h-[700px] custom-scrollbar pr-2">
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {filteredProjects.map((project, index) => (
+              <div
+                key={project.id}
+                onClick={() => handleOpenModal(project)}
+                style={{
+                  transform: animate
+                    ? "translateY(0)"
+                    : "translateY(40px)",
+                  opacity: animate ? 1 : 0,
+                  transition: `all 0.8s ease ${index * 0.1}s`
+                }}
+                className="border border-gray-700 bg-gradient-to-br from-gray-900/80 to-gray-800/50 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 transition-all duration-300 group"
               >
-                &times;
-              </button>
-            </div>
-
-            <div className="flex flex-col">
-              <div className="w-full flex justify-center bg-gray-900 px-4">
-                <img
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  className="lg:w-full w-[95%] object-contain rounded-xl shadow-2xl"
-                />
-              </div>
-              <div className="lg:p-8 p-6">
-                <h3 className="lg:text-3xl font-bold text-white mb-4 text-md">
-                  {selectedProject.title}
-                </h3>
-                <p className="text-gray-400 mb-6 lg:text-base text-xs">
-                  {selectedProject.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {selectedProject.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="bg-[#251f38] text-xs font-semibold text-purple-500 rounded-full px-2 py-1"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="relative overflow-hidden">
+                  <img
+                    src={getCurrentImage(project)}
+                    alt={project.title}
+                    className="w-full h-48 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-80"></div>
+                  {/* Show indicator dots for projects with multiple images */}
+                  {project.images && project.images.length > 1 && (
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                      {project.images.map((_, idx) => (
+                        <div
+                          key={idx}
+                          className={`w-2 h-2 rounded-full ${
+                            idx === (currentImageIndex[project.id] || 0)
+                              ? "bg-white"
+                              : "bg-white/50"
+                          }`}
+                        ></div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                  </div>
                 </div>
-                <div className="flex gap-4">
-                  <a
-                    href={selectedProject.github}
-                    target="_blank"
+                <div className="p-6">
+                  <p className="text-gray-400 mb-4 text-sm line-clamp-3">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.category.map((cat, i) => (
+                      <span
+                        key={`cat-${cat}-${i}`}
+                        className="inline-block bg-purple-900/50 text-xs font-semibold text-purple-300 rounded-full px-3 py-1"
+                      >
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.tags.slice(0, 4).map((tag, i) => (
+                      <span
+                        key={`tag-${tag}-${i}`}
+                        className="inline-block bg-[#251f38] text-xs text-purple-400 rounded-full px-2 py-1"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {project.tags.length > 4 && (
+                      <span className="inline-block bg-[#251f38] text-xs text-purple-400 rounded-full px-2 py-1">
+                        +{project.tags.length - 4} more
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex justify-between items-center mt-4">
+                    <span className="text-purple-400 text-sm font-medium">View Details</span>
+                    <div className="flex gap-2">
+                      <FiGithub className="text-gray-400 hover:text-white transition-colors" />
+                    </div>
+                  </div>
+                  {/* Show Coming Soon badge for projects that are not yet live */}
+                  {project.comingSoon && (
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                        Coming Soon
+                      </span>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Modal */}
+      {selectedProject && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-lg p-4"
+          style={{
+            animation: "fadeSlideIn 0.5s ease forwards"
+          }}
+        >
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-gray-700 relative">
+            {/* Close Button */}
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white z-10 bg-gray-800/50 rounded-full p-2 transition-colors"
+            >
+              <FiX size={24} />
+            </button>
+            
+            <div className="flex flex-col">
+              {/* Top - Image */}
+              <div className="w-full">
+                <div className="h-64 lg:h-96 relative">
+                  {selectedProject.images && selectedProject.images.length > 1 ? (
+                    // Swiper for projects with multiple images
+                    <div className="relative w-full h-full">
+                      {selectedProject.images.map((image, idx) => (
+                        <div
+                          key={idx}
+                          className={`absolute inset-0 transition-opacity duration-500 ${
+                            idx === (currentImageIndex[selectedProject.id] || 0)
+                              ? "opacity-100"
+                              : "opacity-0"
+                          }`}
+                        >
+                          <img
+                            src={image}
+                            alt={`${selectedProject.title} ${idx + 1}`}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      ))}
+                      {/* Navigation dots */}
+                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                        {selectedProject.images.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentImageIndex(prev => ({
+                              ...prev,
+                              [selectedProject.id]: idx
+                            }))}
+                            className={`w-3 h-3 rounded-full ${
+                              idx === (currentImageIndex[selectedProject.id] || 0)
+                                ? "bg-white"
+                                : "bg-white/50"
+                            }`}
+                          ></button>
+                        ))}
+                      </div>
+                      {/* Navigation arrows */}
+                      <button
+                        onClick={() => setCurrentImageIndex(prev => ({
+                          ...prev,
+                          [selectedProject.id]: ((prev[selectedProject.id] || 0) - 1 + selectedProject.images.length) % selectedProject.images.length
+                        }))}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-black/30 rounded-full p-2 hover:bg-black/50 transition-colors"
+                      >
+                        &lt;
+                      </button>
+                      <button
+                        onClick={() => setCurrentImageIndex(prev => ({
+                          ...prev,
+                          [selectedProject.id]: ((prev[selectedProject.id] || 0) + 1) % selectedProject.images.length
+                        }))}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-black/30 rounded-full p-2 hover:bg-black/50 transition-colors"
+                      >
+                        &gt;
+                      </button>
+                    </div>
+                  ) : (
+                    // Single image for projects with one image
+                    <img
+                      src={selectedProject.image || selectedProject.images[0]}
+                      alt={selectedProject.title}
+                      className="w-full h-full object-contain"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                </div>
+              </div>
+              
+              {/* Bottom - Content */}
+              <div className="p-6 lg:p-8">
+                <div className="mb-6">
+                  <h3 className="text-3xl font-bold text-white mb-2">{selectedProject.title}</h3>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {selectedProject.category.map((cat, i) => (
+                      <span
+                        key={`modal-cat-${cat}-${i}`}
+                        className="inline-block bg-purple-900/50 text-sm font-semibold text-purple-300 rounded-full px-3 py-1"
+                      >
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <p className="text-gray-300 mb-6 leading-relaxed">{selectedProject.description}</p>
+                
+                <div className="mb-8">
+                  <h4 className="text-lg font-semibold text-white mb-3">Technologies Used</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.tags.map((tag, i) => (
+                      <span
+                        key={`modal-tag-${tag}-${i}`}
+                        className="inline-block bg-[#251f38] text-sm font-medium text-purple-400 rounded-full px-3 py-1.5"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="flex justify-center">
+                  <a 
+                    href={selectedProject.github} 
+                    target="_blank" 
                     rel="noopener noreferrer"
-                    className="w-1/2 bg-gray-800 hover:bg-purple-800 text-gray-400 lg:px-6 lg:py-2 px-2 py-1 rounded-xl lg:text-xl text-sm font-semibold text-center"
+                    className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-purple-800 text-gray-300 hover:text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 border border-gray-700 hover:border-purple-500"
                   >
-                    View Code
+                    <FiGithub size={20} />
+                    Source Code
                   </a>
-                  <a
-                    href={selectedProject.webapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-1/2 bg-purple-600 hover:bg-purple-800 text-white lg:px-6 lg:py-2 px-2 py-1 rounded-xl lg:text-xl text-sm font-semibold text-center"
-                  >
-                    View Live
-                  </a>
+                  {/* Show Live link if available */}
+                  {selectedProject.webapp && selectedProject.webapp !== "#" && (
+                    <a 
+                      href={selectedProject.webapp} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 ml-4 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/30"
+                    >
+                      <FiExternalLink size={20} />
+                      Live Project
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Styles */}
+      <style>{`
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #8b5cf6 #1f2937;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #1f2937;
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: #8b5cf6;
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-color: #a78bfa;
+        }
+        @keyframes fadeSlideIn {
+          0% { opacity: 0; transform: translateY(40px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </section>
   );
 };

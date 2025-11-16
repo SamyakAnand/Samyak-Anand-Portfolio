@@ -4,23 +4,334 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-    font-family: "Poppins", sans-serif;
+/* 1. Remove any default gap */
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
+/* 2. Global font */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+/* 3. Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
+/* 4. Tailwind-layered custom clip-paths */
 @layer utilities {
-    .clip-path-custom {
-      clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 95%, 0 100%);
-    }
-    .clip-path-custom-2 {
-        clip-path: polygon(0 0, 100% 0, 100% 98%, 25% 95%, 0 100%);
-      }
-    .clip-path-custom-3 {
-        clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 96%, 0 100%);
-      }
+  .clip-path-custom   { clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 95%, 0 100%); }
+  .clip-path-custom-2 { clip-path: polygon(0 0, 100% 0, 100% 98%, 25% 95%, 0 100%); }
+  .clip-path-custom-3 { clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 96%, 0 100%); }
+}
+
+/* 5. Blob Animation */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
   }
-  
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+/* 6. Custom cursors & trails */
+body {
+  cursor: auto;
+  /* Removed will-change: transform; to prevent stacking context issues */
+}
+
+a, button, .cursor-pointer {
+  cursor: pointer;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  /* Removed will-change: transform; to prevent stacking context issues */
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, rgba(130,69,236,0.6) 30%, rgba(130,69,236,0) 80%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadeTrail 0.6s forwards;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.cursor-star {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, rgba(255,255,255,0.9) 40%, rgba(255,255,255,0) 80%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: twinkle 0.8s forwards;
+  pointer-events: none;
+}
+
+/* 7. Cursor animations */
+@keyframes fadeTrail {
+  0% { opacity: 1; transform: scale(1); }
+ 100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes twinkle {
+  0%   { opacity: 1; transform: scale(1); }
+ 50%  { opacity: 0.4; transform: scale(1.3); }
+ 100% { opacity: 0; transform: scale(1); }
+}
+
+/* 8. Navbar animations & glow */
+@keyframes navFadeIn {
+  0%   { opacity: 0; transform: translateY(-100%); }
+ 100% { opacity: 1; transform: translateY(0); }
+}
+
+/* 9. Profile Animation Portal Effects */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes portalPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+ 50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes rise {
+  0% { transform: translateY(0); opacity: 1; }
+ 100% { transform: translateY(-200px); opacity: 0; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { filter: drop-shadow(0 0 20px #a855f7); }
+ 50% { filter: drop-shadow(0 0 40px #00ffff); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 30px #a855f7; opacity: 0.9; }
+ 50% { box-shadow: 0 0 60px #a855f7; opacity: 1; }
+}
+
+@keyframes pulseArc {
+  0%, 100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 10px #a855f7) drop-shadow(0 0 25px #9333ea);
+  }
+ 50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 25px #c084fc) drop-shadow(0 0 50px #a855f7);
+  }
+}
+
+@keyframes pulseHex {
+  0%, 100% { filter: drop-shadow(0 0 10px #a855f7) drop-shadow(0 0 20px #00ffff); }
+ 50% { filter: drop-shadow(0 0 25px #00ffff) drop-shadow(0 0 40px #a855f7); }
+}
+
+@keyframes hexGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px #a855f7) drop-shadow(0 0 25px #00ffff);
+  }
+ 50% {
+    filter: drop-shadow(0 0 35px #00ffff) drop-shadow(0 0 50px #a855f7);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+ 50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+    filter: drop-shadow(0 0 20px #a855f7);
+  }
+ 50% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 40px #8245ec);
+  }
+}
+
+/* 10. Liquid Glass UI Animations */
+@keyframes glassMotion {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(5px, -5px) rotate(1deg);
+    opacity: 1;
+  }
+}
+
+.animate-glassMotion {
+  animation: glassMotion 8s ease-in-out infinite;
+}
+
+.liquid-glass {
+  backdrop-filter: blur(20px);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(130, 69, 236, 0.15)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.05),
+    0 0 60px rgba(130, 69, 236, 0.3);
+  border-radius: 1.5rem;
+}
+
+.animate-nav-fade-in {
+  animation: navFadeIn 0.7s ease-out forwards;
+}
+
+.aura-glow {
+  text-shadow:
+    0 0 6px rgba(168,85,247,0.7),
+    0 0 12px rgba(168,85,247,0.4),
+    0 0 20px rgba(130,69,236,0.3);
+}
+
+.purple-underline {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 24px;
+  height: 2px;
+  background: linear-gradient(90deg, #a855f7, #8245ec, #a855f7);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  animation: pulse-lightning 1.2s infinite alternate;
+}
+
+@keyframes pulse-lightning {
+  0%   { box-shadow: 0 0 6px #a855f7; }
+ 100% { box-shadow: 0 0 12px #a855f7, 0 0 20px #8245ec; }
+}
+
+/* 11. Chatbot Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* 12. Skills Section Animations */
+@keyframes borderPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(130, 69, 236, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(130, 69, 236, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(130, 69, 236, 0);
+  }
+}
+
+@keyframes skillIconFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+}
+
+@keyframes skillGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.8)) drop-shadow(0 0 25px rgba(130, 69, 236, 0.6));
+  }
+}
+
+.animate-border-pulse {
+  animation: borderPulse 2s infinite;
+}
+
+.animate-skill-float {
+  animation: skillIconFloat 3s ease-in-out infinite;
+}
+
+.animate-skill-glow {
+  animation: skillGlow 2s ease-in-out infinite;
+}
+
+/* 13. Scrollbar Hide */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 14. Animation Delays */
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* 15. Chatbot Button Animations */
+@keyframes gradient-x {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+}
+
+/* 16. Floating animation for chat button */
+@keyframes float-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float-bob {
+  animation: float-bob 3s ease-in-out infinite;
+}
