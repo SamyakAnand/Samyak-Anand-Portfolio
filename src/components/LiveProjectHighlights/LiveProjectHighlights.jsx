@@ -298,6 +298,34 @@ const LiveProjectHighlights = () => {
             </AnimatePresence>
           </div>
           
+          {/* Previous Button */}
+          <motion.button
+            onClick={goToPrev}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 backdrop-blur-sm rounded-full p-3 text-white hover:bg-purple-600/50 transition-all duration-300 z-10 shadow-lg"
+            whileHover={{ scale: 1.1, backgroundColor: "rgba(139, 92, 246, 0.5)" }}
+            whileTap={{ scale: 0.9 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+            aria-label="Previous project"
+          >
+            <FiChevronLeft size={24} />
+          </motion.button>
+          
+          {/* Next Button */}
+          <motion.button
+            onClick={goToNext}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 backdrop-blur-sm rounded-full p-3 text-white hover:bg-purple-600/50 transition-all duration-300 z-10 shadow-lg"
+            whileHover={{ scale: 1.1, backgroundColor: "rgba(139, 92, 246, 0.5)" }}
+            whileTap={{ scale: 0.9 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+            aria-label="Next project"
+          >
+            <FiChevronRight size={24} />
+          </motion.button>
+          
           {/* Navigation Dots */}
           <motion.div
             className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3"
