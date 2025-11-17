@@ -39,6 +39,8 @@ import evoastraLogo from './assets/company_logo/evoastra.png';
 import webverseLogo from './assets/company_logo/webverse_logo.png';
 import glaLogo from './assets/education_logo/gla_logo.png';
 import bsaLogo from './assets/education_logo/bsa_logo.png';
+// Import your portfolio image
+import SamyakPortfolioImage from './assets/work_logo/sam_portfolio.png';
 
 export const projects = [
   {
@@ -224,6 +226,16 @@ export const projects = [
     category: ["Live Projects", "Website"],
     github: "#",
     webapp: "https://aurum-delights.vercel.app/",
+  },
+  {
+    id: 17,
+    title: "Samyak Anand Portfolio",
+    description: "Personal portfolio website showcasing projects, skills, and experiences as a Data Scientist & ML Engineer.",
+    image: SamyakPortfolioImage,
+    tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
+    category: ["Live Projects", "Portfolio"],
+    github: "https://github.com/SamyakAnand/Samyak-Portfolio",
+    webapp: "https://samyak-anand.vercel.app/",
   }
 ];
 

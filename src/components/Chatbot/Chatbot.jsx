@@ -44,75 +44,81 @@ const PortfolioChatbot = () => {
     // Only update suggestions when we have a new user message
     if (messages.length > 1 && messages[messages.length - 1].role === "user") {
       const lastUserMessage = messages[messages.length - 1].content.toLowerCase();
+      const previousUserMessage = messages.length > 2 && messages[messages.length - 2].role === "user" 
+        ? messages[messages.length - 2].content.toLowerCase() 
+        : "";
       
-      // Generate multiple suggestions based on the last user message
-      let newSuggestions = [];
-      
-      if (lastUserMessage.includes("project") || lastUserMessage.includes("work")) {
-        newSuggestions = [
-          "Show me details about his ML projects",
-          "What technologies did he use in his projects?",
-          "Can you tell me about his Power BI dashboards?",
-          "What was his most challenging project?",
-          "Show me his live projects"
-        ];
-      } else if (lastUserMessage.includes("skill") || lastUserMessage.includes("technology")) {
-        newSuggestions = [
-          "What programming languages does he know?",
-          "Tell me about his cloud experience",
-          "What ML frameworks is he proficient in?",
-          "Does he have experience with MLOps tools?"
-        ];
-      } else if (lastUserMessage.includes("certification") || lastUserMessage.includes("course")) {
-        newSuggestions = [
-          "What Kaggle certificates does he have?",
-          "Tell me about his Naresh IT course",
-          "Does he have any cloud certifications?",
-          "What about his university certifications?"
-        ];
-      } else if (lastUserMessage.includes("experience") || lastUserMessage.includes("internship")) {
-        newSuggestions = [
-          "What did he do at Evoastra?",
-          "Tell me about his Gilbert Research Center internship",
-          "What were his key achievements at Evoastra?",
-          "How long was his internship at Gilbert Research Center?"
-        ];
-      } else if (lastUserMessage.includes("education") || lastUserMessage.includes("study")) {
-        newSuggestions = [
-          "What's his highest qualification?",
-          "Where did he complete his diploma?",
-          "What was his university major?",
-          "Did he have any academic achievements?"
-        ];
-      } else if (lastUserMessage.includes("contact") || lastUserMessage.includes("hire")) {
-        newSuggestions = [
-          "What's his email address?",
-          "How can I connect with him on LinkedIn?",
-          "Does he have a phone number I can reach?",
-          "Where is he located?"
-        ];
-      } else if (lastUserMessage.includes("live") || lastUserMessage.includes("deploy")) {
-        newSuggestions = [
-          "Show me his live projects",
-          "What websites has he deployed?",
-          "Does he have any portfolio websites?",
-          "Show me his coming soon projects"
-        ];
-      } else {
-        // Default suggestions if no specific context
-        newSuggestions = [
-          "What makes him stand out as a data scientist?",
-          "What are his career goals?",
-          "How can I hire him for a project?",
-          "What's his GitHub profile?"
-        ];
+      // Only update suggestions if this is a new message (not a repeat)
+      if (lastUserMessage !== previousUserMessage) {
+        // Generate multiple suggestions based on the last user message
+        let newSuggestions = [];
+        
+        if (lastUserMessage.includes("project") || lastUserMessage.includes("work")) {
+          newSuggestions = [
+            "Show me details about his ML projects",
+            "What technologies did he use in his projects?",
+            "Can you tell me about his Power BI dashboards?",
+            "What was his most challenging project?",
+            "Show me his live projects"
+          ];
+        } else if (lastUserMessage.includes("skill") || lastUserMessage.includes("technology")) {
+          newSuggestions = [
+            "What programming languages does he know?",
+            "Tell me about his cloud experience",
+            "What ML frameworks is he proficient in?",
+            "Does he have experience with MLOps tools?"
+          ];
+        } else if (lastUserMessage.includes("certification") || lastUserMessage.includes("course")) {
+          newSuggestions = [
+            "What Kaggle certificates does he have?",
+            "Tell me about his Naresh IT course",
+            "Does he have any cloud certifications?",
+            "What about his university certifications?"
+          ];
+        } else if (lastUserMessage.includes("experience") || lastUserMessage.includes("internship")) {
+          newSuggestions = [
+            "What did he do at Evoastra?",
+            "Tell me about his Gilbert Research Center internship",
+            "What were his key achievements at Evoastra?",
+            "How long was his internship at Gilbert Research Center?"
+          ];
+        } else if (lastUserMessage.includes("education") || lastUserMessage.includes("study")) {
+          newSuggestions = [
+            "What's his highest qualification?",
+            "Where did he complete his diploma?",
+            "What was his university major?",
+            "Did he have any academic achievements?"
+          ];
+        } else if (lastUserMessage.includes("contact") || lastUserMessage.includes("hire")) {
+          newSuggestions = [
+            "What's his email address?",
+            "How can I connect with him on LinkedIn?",
+            "Does he have a phone number I can reach?",
+            "Where is he located?"
+          ];
+        } else if (lastUserMessage.includes("live") || lastUserMessage.includes("deploy")) {
+          newSuggestions = [
+            "Show me his live projects",
+            "What websites has he deployed?",
+            "Does he have any portfolio websites?",
+            "Show me his coming soon projects"
+          ];
+        } else {
+          // Default suggestions if no specific context
+          newSuggestions = [
+            "What makes him stand out as a data scientist?",
+            "What are his career goals?",
+            "How can I hire him for a project?",
+            "What's his GitHub profile?"
+          ];
+        }
+        
+        // Only update if suggestions are different to prevent unnecessary re-renders
+        setSuggestions(prevSuggestions => {
+          const suggestionsChanged = JSON.stringify(prevSuggestions) !== JSON.stringify(newSuggestions);
+          return suggestionsChanged ? newSuggestions : prevSuggestions;
+        });
       }
-      
-      // Only update if suggestions are different to prevent unnecessary re-renders
-      setSuggestions(prevSuggestions => {
-        const suggestionsChanged = JSON.stringify(prevSuggestions) !== JSON.stringify(newSuggestions);
-        return suggestionsChanged ? newSuggestions : prevSuggestions;
-      });
     }
   }, [messages]);
 
@@ -411,7 +417,7 @@ const PortfolioChatbot = () => {
         {/* Main content */}
         <div className="flex items-center justify-center relative z-10 w-full h-full rounded-full bg-gradient-to-br from-purple-700/80 to-pink-600/80 backdrop-blur-sm">
           <motion.span 
-            className="text-white text-2xl mr-1"
+            className="text-white text-lg mr-1"
             animate={{
               scale: [1, 1.3, 1],
             }}
@@ -423,7 +429,7 @@ const PortfolioChatbot = () => {
           >
             🤖
           </motion.span>
-          <span className="text-white text-lg font-bold tracking-wider">SAM</span>
+          <span className="text-white text-sm font-bold tracking-wider">SAM</span>
         </div>
         
         {/* Floating particles */}
