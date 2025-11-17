@@ -277,6 +277,46 @@ const PortfolioChatbot = () => {
       return "I'm doing great, thank you for asking! I'm here and ready to help you learn more about Samyak Anand's work and projects. What would you like to explore today?";
     }
     
+    // Personality/Character questions
+    if (lower.includes("personality") || lower.includes("character") || lower.includes("like to")) {
+      return "As Samyak's AI twin, I reflect his passion for data science and problem-solving. He's curious, detail-oriented, and enjoys turning complex data into actionable insights. He's also a team player who loves collaborating on innovative projects!";
+    }
+    
+    // Hobbies/Interests questions
+    if (lower.includes("hobby") || lower.includes("interest") || lower.includes("like to do") || lower.includes("free time")) {
+      return "Based on Samyak's portfolio, he's passionate about exploring new technologies in data science and machine learning. He likely enjoys working on personal projects, staying updated with industry trends, and possibly contributing to open-source initiatives in his free time.";
+    }
+    
+    // Motivation/Goals questions
+    if (lower.includes("motivate") || lower.includes("goal") || lower.includes("aspiration") || lower.includes("dream")) {
+      return "Somyak is motivated by the potential of data science to solve real-world problems. His goal is to become a skilled Data Scientist and ML Engineer who can drive business impact through innovative AI solutions. He's particularly interested in MLOps and building end-to-end ML pipelines.";
+    }
+    
+    // Strengths questions
+    if (lower.includes("strength") || lower.includes("strong") || lower.includes("best at")) {
+      return "Somyak's key strengths include analytical thinking, proficiency in Python and data analysis tools, ability to build end-to-end ML workflows, and creating insightful Power BI dashboards. He's also skilled at working in teams and translating business problems into data-driven solutions.";
+    }
+    
+    // Weaknesses/Improvement questions
+    if (lower.includes("weakness") || lower.includes("improve") || lower.includes("challenge")) {
+      return "Like any professional, Samyak is always learning and growing. He's actively working on expanding his expertise in deep learning, cloud technologies, and MLOps to stay current with industry advancements. His commitment to continuous learning is one of his strongest traits.";
+    }
+    
+    // Work style questions
+    if (lower.includes("work style") || lower.includes("work approach") || lower.includes("work habit")) {
+      return "Somyak approaches projects methodically, starting with understanding the business problem, then exploring and cleaning data, building and validating models, and finally deploying solutions. He values collaboration, documentation, and creating reproducible workflows.";
+    }
+    
+    // Teamwork questions
+    if (lower.includes("team") || lower.includes("collaborat") || lower.includes("work with others")) {
+      return "Somyak is a collaborative team player who has experience leading teams of interns. He values diverse perspectives and believes in the power of teamwork to solve complex problems. He's comfortable taking leadership roles while also contributing as a team member.";
+    }
+    
+    // Learning style questions
+    if (lower.includes("learn") || lower.includes("education style")) {
+      return "Somyak is a hands-on learner who believes in learning by doing. He builds projects, participates in internships, and takes practical courses to apply his knowledge. He's also active in the data science community and stays updated with the latest research and tools.";
+    }
+    
     // General greetings
     if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
       return "Hello there! 👋 I'm SAM, Samyak Anand's AI twin. I'm here to help you explore his portfolio. What would you like to know about his work?";
