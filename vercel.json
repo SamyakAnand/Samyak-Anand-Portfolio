@@ -11,6 +11,27 @@
   ],
   "routes": [
     {
+      "src": "/Samyak_Updated_CV.pdf",
+      "headers": {
+        "cache-control": "max-age=31536000"
+      },
+      "dest": "/Samyak_Updated_CV.pdf"
+    },
+    {
+      "src": "/Resume/(.*)",
+      "headers": {
+        "cache-control": "max-age=31536000"
+      },
+      "dest": "/Resume/$1"
+    },
+    {
+      "src": "/images/(.*)",
+      "headers": {
+        "cache-control": "max-age=31536000"
+      },
+      "dest": "/images/$1"
+    },
+    {
       "src": "/assets/(.*)",
       "headers": {
         "cache-control": "max-age=31536000"
