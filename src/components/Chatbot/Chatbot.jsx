@@ -14,6 +14,7 @@ const PortfolioChatbot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [suggestionsCount, setSuggestionsCount] = useState(0); // Track how many times suggestions have been shown
   const [isBrowser, setIsBrowser] = useState(false);
   const messagesEndRef = useRef(null);
   const suggestionsRef = useRef(null);
@@ -36,6 +37,8 @@ const PortfolioChatbot = () => {
         "Tell me about SAM's skills",
         "Show me his live projects"
       ]);
+      // Increment suggestions count for initial suggestions
+      setSuggestionsCount(1);
     }
   }, [messages]);
 
@@ -48,8 +51,8 @@ const PortfolioChatbot = () => {
         ? messages[messages.length - 2].content.toLowerCase() 
         : "";
       
-      // Only update suggestions if this is a new message (not a repeat)
-      if (lastUserMessage !== previousUserMessage) {
+      // Only update suggestions if this is a new message (not a repeat) and we haven't shown suggestions more than 2 times
+      if (lastUserMessage !== previousUserMessage && suggestionsCount < 2) {
         // Generate multiple suggestions based on the last user message
         let newSuggestions = [];
         
@@ -116,11 +119,15 @@ const PortfolioChatbot = () => {
         // Only update if suggestions are different to prevent unnecessary re-renders
         setSuggestions(prevSuggestions => {
           const suggestionsChanged = JSON.stringify(prevSuggestions) !== JSON.stringify(newSuggestions);
+          if (suggestionsChanged) {
+            // Increment the suggestions count when new suggestions are actually set
+            setSuggestionsCount(prevCount => prevCount + 1);
+          }
           return suggestionsChanged ? newSuggestions : prevSuggestions;
         });
       }
     }
-  }, [messages]);
+  }, [messages, suggestionsCount]);
 
   const handleNavigation = (content) => {
     const lower = content.toLowerCase();
@@ -528,7 +535,7 @@ const PortfolioChatbot = () => {
               className="px-4 pb-2 flex flex-col gap-2 max-h-32 overflow-y-auto"
             >
               <AnimatePresence>
-                {suggestions.slice(0, 2).map((suggestion, index) => (
+                {suggestionsCount < 2 && suggestions.slice(0, 2).map((suggestion, index) => (
                   <motion.button
                     key={index}
                     onClick={() => handleSuggestionClick(suggestion)}
