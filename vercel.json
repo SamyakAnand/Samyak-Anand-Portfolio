@@ -39,6 +39,13 @@
       "dest": "/assets/$1"
     },
     {
+      "src": "/favicon-(.*)",
+      "headers": {
+        "cache-control": "max-age=31536000"
+      },
+      "dest": "/favicon-$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
