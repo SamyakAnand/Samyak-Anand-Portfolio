@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { projects } from "../../constants";
-import { FiGithub, FiX, FiExternalLink } from "react-icons/fi";
+import { FiX, FiExternalLink } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 const categories = [
   "All",
@@ -80,19 +81,31 @@ const Work = () => {
       className="py-24 pb-24 px-[7vw] md:px-[7vw] lg:px-[10vw] font-sans relative"
     >
       {/* Section Title */}
-      <div className="text-center mb-16">
+      <motion.div
+        className="text-center mb-16"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">PROJECTS</h2>
         <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
         <p className="text-gray-400 mt-6 text-lg max-w-3xl mx-auto">
           A showcase of innovative projects demonstrating my expertise in data science, machine learning, and analytics. 
           Each project solves real-world problems with cutting-edge technologies.
         </p>
-      </div>
+      </motion.div>
 
       {/* Category Filter */}
-      <div className="flex flex-wrap justify-center gap-3 mb-16">
+      <motion.div
+        className="flex flex-wrap justify-center gap-3 mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         {categories.map((category) => (
-          <button
+          <motion.button
             key={category}
             onClick={() => setActiveCategory(category)}
             className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
@@ -100,18 +113,25 @@ const Work = () => {
                 ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/30"
                 : "bg-gray-800/50 text-gray-300 border border-gray-700 hover:bg-purple-700 hover:text-white hover:shadow-lg hover:shadow-purple-500/20"
             }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
             {category}
-          </button>
+          </motion.button>
         ))}
-      </div>
+      </motion.div>
 
       {/* Projects Grid */}
       <div className="relative">
         <div className="overflow-y-auto max-h-[700px] custom-scrollbar pr-2">
           <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project, index) => (
-              <div
+              <motion.div
                 key={project.id}
                 onClick={() => handleOpenModal(project)}
                 style={{
@@ -122,12 +142,23 @@ const Work = () => {
                   transition: `all 0.8s ease ${index * 0.1}s`
                 }}
                 className="border border-gray-700 bg-gradient-to-br from-gray-900/80 to-gray-800/50 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 transition-all duration-300 group"
+                whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(139, 92, 246, 0.3), 0 10px 10px -5px rgba(139, 92, 246, 0.2)" }}
+                whileTap={{ scale: 0.98 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <div className="relative overflow-hidden">
-                  <img
+                  <motion.img
                     src={getCurrentImage(project)}
                     alt={project.title}
                     className="w-full h-48 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-110"
+                    whileHover={{ scale: 1.05 }}
+                    whileInView={{ opacity: 1 }}
+                    initial={{ opacity: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-80"></div>
                   {/* Show indicator dots for projects with multiple images */}
@@ -153,22 +184,32 @@ const Work = () => {
                   <p className="text-gray-400 mb-4 text-sm line-clamp-3">{project.description}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.category.map((cat, i) => (
-                      <span
+                      <motion.span
                         key={`cat-${cat}-${i}`}
                         className="inline-block bg-purple-900/50 text-xs font-semibold text-purple-300 rounded-full px-3 py-1"
+                        whileHover={{ scale: 1.1 }}
+                        whileInView={{ opacity: 1 }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: i * 0.05 }}
                       >
                         {cat}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {project.tags.slice(0, 4).map((tag, i) => (
-                      <span
+                      <motion.span
                         key={`tag-${tag}-${i}`}
                         className="inline-block bg-[#251f38] text-xs text-purple-400 rounded-full px-2 py-1"
+                        whileHover={{ scale: 1.1 }}
+                        whileInView={{ opacity: 1 }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: i * 0.05 }}
                       >
                         {tag}
-                      </span>
+                      </motion.span>
                     ))}
                     {project.tags.length > 4 && (
                       <span className="inline-block bg-[#251f38] text-xs text-purple-400 rounded-full px-2 py-1">
@@ -178,9 +219,6 @@ const Work = () => {
                   </div>
                   <div className="flex justify-between items-center mt-4">
                     <span className="text-purple-400 text-sm font-medium">View Details</span>
-                    <div className="flex gap-2">
-                      <FiGithub className="text-gray-400 hover:text-white transition-colors" />
-                    </div>
                   </div>
                   {/* Show Coming Soon badge for projects that are not yet live */}
                   {project.comingSoon && (
@@ -192,7 +230,7 @@ const Work = () => {
                   )}
 
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -206,7 +244,12 @@ const Work = () => {
             animation: "fadeSlideIn 0.5s ease forwards"
           }}
         >
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-gray-700 relative">
+          <motion.div 
+            className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-gray-700 relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             {/* Close Button */}
             <button
               onClick={handleCloseModal}
@@ -223,20 +266,23 @@ const Work = () => {
                     // Swiper for projects with multiple images
                     <div className="relative w-full h-full">
                       {selectedProject.images.map((image, idx) => (
-                        <div
+                        <motion.div
                           key={idx}
                           className={`absolute inset-0 transition-opacity duration-500 ${
                             idx === (currentImageIndex[selectedProject.id] || 0)
                               ? "opacity-100"
                               : "opacity-0"
                           }`}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: idx === (currentImageIndex[selectedProject.id] || 0) ? 1 : 0 }}
+                          transition={{ duration: 0.5 }}
                         >
                           <img
                             src={image}
                             alt={`${selectedProject.title} ${idx + 1}`}
                             className="w-full h-full object-contain"
                           />
-                        </div>
+                        </motion.div>
                       ))}
                       {/* Navigation dots */}
                       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
@@ -277,10 +323,13 @@ const Work = () => {
                     </div>
                   ) : (
                     // Single image for projects with one image
-                    <img
+                    <motion.img
                       src={selectedProject.image || selectedProject.images[0]}
                       alt={selectedProject.title}
                       className="w-full h-full object-contain"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3 }}
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
@@ -290,61 +339,82 @@ const Work = () => {
               {/* Bottom - Content */}
               <div className="p-6 lg:p-8">
                 <div className="mb-6">
-                  <h3 className="text-3xl font-bold text-white mb-2">{selectedProject.title}</h3>
+                  <motion.h3 
+                    className="text-3xl font-bold text-white mb-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {selectedProject.title}
+                  </motion.h3>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {selectedProject.category.map((cat, i) => (
-                      <span
+                      <motion.span
                         key={`modal-cat-${cat}-${i}`}
                         className="inline-block bg-purple-900/50 text-sm font-semibold text-purple-300 rounded-full px-3 py-1"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, delay: i * 0.1 }}
                       >
                         {cat}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
                 
-                <p className="text-gray-300 mb-6 leading-relaxed">{selectedProject.description}</p>
+                <motion.p 
+                  className="text-gray-300 mb-6 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                >
+                  {selectedProject.description}
+                </motion.p>
                 
-                <div className="mb-8">
+                <motion.div
+                  className="mb-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.3 }}
+                >
                   <h4 className="text-lg font-semibold text-white mb-3">Technologies Used</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.tags.map((tag, i) => (
-                      <span
+                      <motion.span
                         key={`modal-tag-${tag}-${i}`}
                         className="inline-block bg-[#251f38] text-sm font-medium text-purple-400 rounded-full px-3 py-1.5"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, delay: 0.4 + i * 0.05 }}
                       >
                         {tag}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
-                </div>
+                </motion.div>
                 
-                <div className="flex justify-center">
-                  <a 
-                    href={selectedProject.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-purple-800 text-gray-300 hover:text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 border border-gray-700 hover:border-purple-500"
-                  >
-                    <FiGithub size={20} />
-                    Source Code
-                  </a>
+                <motion.div
+                  className="flex justify-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.5 }}
+                >
                   {/* Show Live link if available */}
                   {selectedProject.webapp && selectedProject.webapp !== "#" && (
                     <a 
                       href={selectedProject.webapp} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 ml-4 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/30"
+                      className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/30"
                     >
                       <FiExternalLink size={20} />
                       Live Project
                     </a>
                   )}
-                </div>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
 

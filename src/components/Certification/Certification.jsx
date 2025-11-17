@@ -3,6 +3,7 @@ import { certifications } from "../../constants";
 import { FaCertificate, FaPython, FaJava, FaChartLine, FaDatabase, FaCloud } from "react-icons/fa";
 import { FiX, FiExternalLink, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { SiKaggle, SiScikitlearn, SiTensorflow, SiPytorch } from "react-icons/si";
+import { motion } from "framer-motion";
 
 // Function to get appropriate icon based on certification platform or content
 const getCertificationIcon = (cert) => {
@@ -120,16 +121,28 @@ const Certification = () => {
       className="py-24 px-[7vw] md:px-[7vw] lg:px-[10vw] font-sans relative"
     >
       {/* Title */}
-      <div className="text-center mb-16">
+      <motion.div
+        className="text-center mb-16"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 dark:text-white light:text-[var(--text-primary)]">CERTIFICATIONS</h2>
         <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full dark:bg-gradient-to-r dark:from-purple-500 dark:to-pink-500 light:bg-gradient-to-r light:from-[var(--accent-secondary)] light:to-[var(--accent-primary)]"></div>
         <p className="text-gray-400 mt-6 text-lg max-w-3xl mx-auto dark:text-gray-400 light:text-[var(--text-tertiary)]">
           Industry-recognized certifications that validate my expertise and commitment to continuous learning in data science and machine learning.
         </p>
-      </div>
+      </motion.div>
 
       {/* Navigation buttons */}
-      <div className="flex justify-center items-center mb-6 gap-4">
+      <motion.div
+        className="flex justify-center items-center mb-6 gap-4"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         <button 
           onClick={prevCertifications}
           disabled={currentIndex === 0}
@@ -149,13 +162,13 @@ const Certification = () => {
         >
           <FiChevronRight size={24} />
         </button>
-      </div>
+      </motion.div>
 
       {/* Container with enhanced styling */}
       <div className="relative p-6 rounded-3xl shadow-2xl border border-gray-700 bg-gradient-to-br from-gray-900/80 to-gray-800/50 backdrop-blur-md shadow-[0_0_30px_2px_rgba(130,69,236,0.2)]">
         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {visibleCertifications.map((cert, index) => (
-            <div
+            <motion.div
               key={cert.id}
               onClick={() => handleOpenModal(cert)}
               style={{
@@ -164,6 +177,12 @@ const Certification = () => {
                 transition: `all 0.8s ease ${index * 0.1}s`,
               }}
               className="border border-gray-700 bg-gradient-to-br from-gray-900/80 to-gray-800/50 backdrop-blur-md rounded-2xl shadow-xl cursor-pointer hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 transition-all duration-300 p-6 group"
+              whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(139, 92, 246, 0.3), 0 10px 10px -5px rgba(139, 92, 246, 0.2)" }}
+              whileTap={{ scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className="flex justify-center items-center mb-6">
                 <div className="relative">
@@ -171,16 +190,34 @@ const Certification = () => {
                   <div className="absolute inset-0 rounded-full blur-xl opacity-30 animate-pulse"></div>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3 text-center dark:text-white light:text-[var(--text-primary)]">{cert.title}</h3>
-              <p className="text-gray-400 mb-5 text-center text-sm line-clamp-3 dark:text-gray-400 light:text-[var(--text-tertiary)]">{cert.description}</p>
+              <motion.h3 
+                className="text-2xl font-bold text-white mb-3 text-center dark:text-white light:text-[var(--text-primary)]"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                {cert.title}
+              </motion.h3>
+              <motion.p 
+                className="text-gray-400 mb-5 text-center text-sm line-clamp-3 dark:text-gray-400 light:text-[var(--text-tertiary)]"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
+                {cert.description}
+              </motion.p>
               <div className="flex flex-wrap justify-center gap-2 mb-4">
                 {cert.tags.slice(0, 3).map((tag, i) => (
-                  <span
+                  <motion.span
                     key={i}
                     className="bg-purple-900/50 text-xs font-semibold text-purple-300 rounded-full px-3 py-1"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.3 + i * 0.05 }}
+                    whileHover={{ scale: 1.1 }}
                   >
                     {tag}
-                  </span>
+                  </motion.span>
                 ))}
                 {cert.tags.length > 3 && (
                   <span className="bg-purple-900/50 text-xs font-semibold text-purple-300 rounded-full px-3 py-1">
@@ -193,7 +230,7 @@ const Certification = () => {
                   View Details
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -204,8 +241,11 @@ const Certification = () => {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-lg p-4"
           onClick={handleCloseModal}
         >
-          <div 
+          <motion.div 
             className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-gray-700 relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -240,27 +280,52 @@ const Certification = () => {
               </div>
               
               <div className="text-center w-full">
-                <h3 className="text-3xl font-bold text-white mb-2 dark:text-white light:text-[var(--text-primary)]">{selectedCertification.title}</h3>
+                <motion.h3 
+                  className="text-3xl font-bold text-white mb-2 dark:text-white light:text-[var(--text-primary)]"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {selectedCertification.title}
+                </motion.h3>
                 
                 {/* Platform/Issuer Information */}
-                <div className="flex justify-center items-center mb-6">
+                <motion.div
+                  className="flex justify-center items-center mb-6"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
+                >
                   <span className="bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full text-sm dark:bg-purple-900/50 dark:text-purple-300 light:bg-[var(--card-bg)] light:text-[var(--accent-primary)]">
                     {selectedCertification.platform || "Certification Platform"}
                   </span>
-                </div>
+                </motion.div>
                 
-                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                <motion.div
+                  className="flex flex-wrap justify-center gap-2 mb-6"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                >
                   {selectedCertification.tags.map((tag, i) => (
-                    <span
+                    <motion.span
                       key={i}
                       className="bg-purple-900/50 text-sm font-semibold text-purple-300 rounded-full px-3 py-1.5"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: 0.3 + i * 0.05 }}
                     >
                       {tag}
-                    </span>
+                    </motion.span>
                   ))}
-                </div>
+                </motion.div>
                 
-                <div className="bg-gray-800/50 rounded-xl p-6 mb-6 text-left">
+                <motion.div
+                  className="bg-gray-800/50 rounded-xl p-6 mb-6 text-left"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.4 }}
+                >
                   <h4 className="text-lg font-semibold text-white mb-3">What I Learned</h4>
                   <p className="text-gray-300 mb-4 whitespace-pre-line">{selectedCertification.description}</p>
                   
@@ -270,22 +335,27 @@ const Certification = () => {
                       <p className="text-gray-300 whitespace-pre-line">{selectedCertification.details}</p>
                     </>
                   )}
-                </div>
+                </motion.div>
                 
                 {selectedCertification.certificate && (
-                  <a
+                  <motion.a
                     href={selectedCertification.certificate}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.5 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     View Certificate
                     <FiExternalLink size={18} />
-                  </a>
+                  </motion.a>
                 )}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
 

@@ -56,7 +56,8 @@ const ExperienceEducation = () => {
       {/* Section Title */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
         transition={{ duration: 0.5 }}
         className="text-center mb-12"
       >
@@ -72,7 +73,8 @@ const ExperienceEducation = () => {
       {/* Tab Filter with Enhanced Design */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.2 }}
         className="flex justify-center mb-10"
       >
@@ -128,6 +130,8 @@ const ExperienceEducation = () => {
         animate="visible"
         exit="exit"
         className="transition-all duration-300"
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
       >
         {activeTab === "experience" ? (
           // Experience Content - Journey Tree Style
@@ -135,6 +139,8 @@ const ExperienceEducation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
           >
             <div className="relative">
               {/* Timeline */}
@@ -144,7 +150,8 @@ const ExperienceEducation = () => {
                 <motion.div
                   key={exp.id}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.5, delay: index * 0.2 }}
                   className="flex mb-10"
                 >
@@ -161,6 +168,10 @@ const ExperienceEducation = () => {
                         <motion.div 
                           whileHover={{ scale: 1.05 }}
                           className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-lg sm:rounded-xl overflow-hidden flex-shrink-0"
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.3, delay: 0.1 }}
                         >
                           <img
                             src={getImageForExperience(exp.id)}
@@ -173,6 +184,8 @@ const ExperienceEducation = () => {
                             initial={{ x: -10, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true }}
                             className="text-lg sm:text-xl font-bold text-white dark:text-white light:text-[var(--text-primary)]"
                           >
                             {exp.role}
@@ -181,6 +194,8 @@ const ExperienceEducation = () => {
                             initial={{ x: -10, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true }}
                             className="text-base sm:text-lg text-[#8245ec] mt-1 dark:text-[#8245ec] light:text-[var(--accent-primary)]"
                           >
                             {exp.company}
@@ -189,6 +204,8 @@ const ExperienceEducation = () => {
                             initial={{ x: -10, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.4 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true }}
                             className="text-gray-400 mt-2 text-sm sm:text-base dark:text-gray-400 light:text-[var(--text-tertiary)]"
                           >
                             {exp.date}
@@ -201,6 +218,8 @@ const ExperienceEducation = () => {
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.5 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        viewport={{ once: true }}
                         className="mt-4"
                       >
                         <p className="mt-3 text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-line dark:text-gray-300 light:text-[var(--text-secondary)]">
@@ -213,6 +232,8 @@ const ExperienceEducation = () => {
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.6 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        viewport={{ once: true }}
                         className="mt-4"
                       >
                         <h5 className="font-bold text-white text-sm sm:text-base mb-2 dark:text-white light:text-[var(--text-primary)]">Skills:</h5>
@@ -223,6 +244,9 @@ const ExperienceEducation = () => {
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ duration: 0.3, delay: 0.7 + skillIndex * 0.05 }}
+                              whileHover={{ scale: 1.1 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true }}
                               className="bg-gray-800/50 text-gray-300 px-2 py-1 text-xs sm:text-sm rounded-full border border-gray-700"
                             >
                               {skill}
@@ -242,6 +266,8 @@ const ExperienceEducation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
           >
             <div className="relative">
               {/* Timeline for mobile - simplified */}
@@ -251,7 +277,8 @@ const ExperienceEducation = () => {
                 <motion.div
                   key={edu.id}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.5, delay: index * 0.2 }}
                   className="flex mb-10"
                 >
@@ -268,6 +295,10 @@ const ExperienceEducation = () => {
                         <motion.div 
                           whileHover={{ scale: 1.05 }}
                           className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-lg sm:rounded-xl overflow-hidden flex-shrink-0"
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.3, delay: 0.1 }}
                         >
                           <img
                             src={getImageForEducation(edu.id)}
@@ -280,6 +311,8 @@ const ExperienceEducation = () => {
                             initial={{ x: -10, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true }}
                             className="text-lg sm:text-xl font-bold text-white dark:text-white light:text-[var(--text-primary)]"
                           >
                             {edu.school}
@@ -288,6 +321,8 @@ const ExperienceEducation = () => {
                             initial={{ x: -10, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true }}
                             className="text-base sm:text-lg text-[#8245ec] mt-1 dark:text-[#8245ec] light:text-[var(--accent-primary)]"
                           >
                             {edu.degree}
@@ -296,6 +331,8 @@ const ExperienceEducation = () => {
                             initial={{ x: -10, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.4 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true }}
                             className="text-gray-400 mt-2 text-sm sm:text-base dark:text-gray-400 light:text-[var(--text-tertiary)]"
                           >
                             {edu.date}
@@ -308,6 +345,8 @@ const ExperienceEducation = () => {
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.6 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        viewport={{ once: true }}
                         className="mt-4"
                       >
                         <p className="mt-3 text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-line dark:text-gray-300 light:text-[var(--text-secondary)]">
@@ -317,13 +356,18 @@ const ExperienceEducation = () => {
                         {edu.details && (
                           <ul className="mt-3 space-y-1">
                             {edu.details.map((detail, detailIndex) => (
-                              <li 
+                              <motion.li 
                                 key={detailIndex} 
                                 className="text-gray-400 text-sm flex items-start"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: 0.7 + detailIndex * 0.1 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
                               >
                                 <span className="inline-block w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
                                 {detail}
-                              </li>
+                              </motion.li>
                             ))}
                           </ul>
                         )}
@@ -333,12 +377,18 @@ const ExperienceEducation = () => {
                             <h4 className="text-purple-400 font-semibold text-sm mb-2">Key Skills:</h4>
                             <div className="flex flex-wrap gap-2">
                               {edu.skills.map((skill, skillIndex) => (
-                                <span
+                                <motion.span
                                   key={skillIndex}
+                                  whileHover={{ scale: 1.1 }}
                                   className="px-3 py-1 bg-gray-800/50 text-gray-300 text-xs rounded-full border border-gray-700"
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{ duration: 0.3, delay: 0.8 + skillIndex * 0.05 }}
+                                  whileInView={{ opacity: 1, scale: 1 }}
+                                  viewport={{ once: true }}
                                 >
                                   {skill}
-                                </span>
+                                </motion.span>
                               ))}
                             </div>
                           </div>

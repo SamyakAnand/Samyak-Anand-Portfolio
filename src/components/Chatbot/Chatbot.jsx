@@ -30,12 +30,13 @@ const PortfolioChatbot = () => {
         "Show me his live projects"
       ]);
     }
-  }, [messages.length]);
+  }, [messages]);
 
   // Generate context-aware suggestions based on last user message
   useEffect(() => {
-    if (messages.length > 1 && messages[messages.length - 2].role === "user") {
-      const lastUserMessage = messages[messages.length - 2].content.toLowerCase();
+    // Only update suggestions when we have a new user message
+    if (messages.length > 1 && messages[messages.length - 1].role === "user") {
+      const lastUserMessage = messages[messages.length - 1].content.toLowerCase();
       
       // Generate multiple suggestions based on the last user message
       let newSuggestions = [];
@@ -100,7 +101,11 @@ const PortfolioChatbot = () => {
         ];
       }
       
-      setSuggestions(newSuggestions);
+      // Only update if suggestions are different to prevent unnecessary re-renders
+      setSuggestions(prevSuggestions => {
+        const suggestionsChanged = JSON.stringify(prevSuggestions) !== JSON.stringify(newSuggestions);
+        return suggestionsChanged ? newSuggestions : prevSuggestions;
+      });
     }
   }, [messages]);
 
@@ -371,25 +376,42 @@ const PortfolioChatbot = () => {
   return (
     <div className="chatbot-wrapper">
       {/* Floating Button */}
-      <div
+      <motion.div
         onClick={() => setOpen(!open)}
         className="chatbot-icon bg-gradient-to-r from-purple-600 via-purple-700 to-pink-500 p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center group relative overflow-hidden cursor-pointer"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         <div className="flex items-center relative z-10">
-          <span className="text-white text-lg mr-1">🤖</span>
-          <span className="text-white text-lg font-bold">SAM</span>
+          <motion.span 
+            className="text-white text-xl mr-1"
+            animate={{
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            🤖
+          </motion.span>
+          <span className="text-white text-xl font-bold">SAM</span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Chat Window */}
       <AnimatePresence>
         {open && (
           <motion.div 
             className="chatbot-window bg-gradient-to-br from-[#1a0b2e]/95 to-[#0d081f]/95 backdrop-blur-2xl border border-white/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <div className="p-4 text-white bg-gradient-to-r from-purple-600 via-purple-700 to-pink-500 rounded-t-2xl font-semibold flex justify-between items-center relative overflow-hidden">
               <div className="flex items-center relative z-10">
@@ -401,18 +423,21 @@ const PortfolioChatbot = () => {
                   transition={{
                     duration: 2,
                     repeat: Infinity,
+                    ease: "easeInOut"
                   }}
                 >
                   🤖
                 </motion.span>
                 <span>SAM</span>
               </div>
-              <button 
+              <motion.button 
                 onClick={() => setOpen(false)}
                 className="text-white hover:text-gray-200 transition-colors relative z-10 hover:bg-white/20 p-1 rounded-full"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 ✕
-              </button>
+              </motion.button>
             </div>
 
             {/* Chat Log */}
@@ -429,6 +454,8 @@ const PortfolioChatbot = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                   >
                     {m.content}
                   </motion.div>
@@ -478,13 +505,17 @@ const PortfolioChatbot = () => {
             {/* Input */}
             <div className="p-4 border-t border-white/10">
               <div className="flex gap-2">
-                <input
+                <motion.input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyPress}
                   placeholder="Chat with SAM..."
                   className="flex-1 bg-[#2d1a4d]/50 border border-white/20 rounded-xl px-3 py-2 text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-500 backdrop-blur-sm"
                   disabled={isLoading}
+                  whileFocus={{ scale: 1.02 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
                 />
                 <motion.button
                   onClick={() => sendMessage()}
@@ -496,13 +527,21 @@ const PortfolioChatbot = () => {
                   }`}
                   whileHover={{ scale: isLoading ? 1 : 1.05 }}
                   whileTap={{ scale: isLoading ? 1 : 0.95 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
                 >
                   <span className="text-white">➤</span>
                 </motion.button>
               </div>
-              <div className="text-xs text-purple-400 text-center mt-2 opacity-60">
+              <motion.div 
+                className="text-xs text-purple-400 text-center mt-2 opacity-60"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
                 AI assistant by Samyak Anand ©
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         )}

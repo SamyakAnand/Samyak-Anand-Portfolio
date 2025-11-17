@@ -154,8 +154,31 @@ const Skills = () => {
     >
       {/* Animated background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-cyan-500 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-pulse animation-delay-2000"></div>
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-pulse"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        ></motion.div>
+        <motion.div 
+          className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-cyan-500 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-pulse animation-delay-2000"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.4, 0.2]
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        ></motion.div>
       </div>
 
       {/* Section Title */}
@@ -180,7 +203,7 @@ const Skills = () => {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-100px" }}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10"
       >
         {updatedSkillsInfo.map((category, index) => (
@@ -189,6 +212,10 @@ const Skills = () => {
             variants={categoryVariants}
             whileHover="hover"
             className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700 shadow-xl hover:border-[#8245ec] transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 group relative overflow-hidden"
+            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
           >
             {/* Glowing border effect */}
             <div className="absolute inset-0 rounded-2xl border border-transparent animate-border-pulse"></div>
@@ -207,6 +234,10 @@ const Skills = () => {
                   variants={skillVariants}
                   whileHover="hover"
                   className="flex flex-col items-center justify-center p-3 rounded-xl bg-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-[#8245ec] transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 relative overflow-hidden"
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.3, delay: skillIndex * 0.05 }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
                   <div className="w-16 h-16 mb-2 flex items-center justify-center relative z-10">
@@ -223,6 +254,10 @@ const Skills = () => {
                         rotate: [0, 10, -10, 0],
                         transition: { duration: 0.5 }
                       }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3 }}
                     />
                   </div>
                   <motion.span 
@@ -231,6 +266,10 @@ const Skills = () => {
                       color: "#a855f7",
                       fontWeight: "500"
                     }}
+                    whileInView={{ opacity: 1 }}
+                    initial={{ opacity: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
                   >
                     {skill.name}
                   </motion.span>

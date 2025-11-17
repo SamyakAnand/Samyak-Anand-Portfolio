@@ -47,6 +47,37 @@ html {
   animation: blob 7s infinite;
 }
 
+/* Fallback animation for production */
+@keyframes blob-fallback {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(15px, -25px) scale(1.05);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob-fallback {
+  animation: blob-fallback 5s infinite;
+}
+
+/* Profile image pulse fallback */
+@keyframes pulse-fallback {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-pulse-fallback {
+  animation: pulse-fallback 2s ease-in-out infinite;
+}
+
 /* 6. Custom cursors & trails */
 body {
   cursor: auto;

@@ -146,11 +146,27 @@ const Services = () => {
   return (
     <section id="services" className="py-24 px-[7vw] md:px-[7vw] lg:px-[10vw] font-sans relative overflow-hidden">
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Services</h2>
+        <motion.h2 
+          className="text-4xl md:text-5xl font-bold text-white mb-4"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          Services
+        </motion.h2>
         <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
-        <p className="text-gray-400 mt-6 text-lg max-w-3xl mx-auto">
+        <motion.p 
+          className="text-gray-400 mt-6 text-lg max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
           End-to-end AI and data science solutions tailored to your business needs
-        </p>
+        </motion.p>
       </div>
 
       {/* Services Grid */}
@@ -188,6 +204,8 @@ const Services = () => {
               whileTap={{ scale: 0.98 }}
               onClick={() => setSelectedService(service)}
               className={`bg-gradient-to-br ${service.color} rounded-2xl p-6 flex flex-col items-center text-center cursor-pointer hover:shadow-[0_0_30px_rgba(130,69,236,0.6)] transition-all duration-300 group relative overflow-hidden`}
+              whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
             >
               {/* Shine effect on hover */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -195,9 +213,30 @@ const Services = () => {
               </div>
               
               <div className="text-white mb-4 relative z-10">{service.icon}</div>
-              <h3 className="text-xl font-bold text-white mb-2 relative z-10">{service.title}</h3>
-              <p className="text-white/90 text-sm mb-3 relative z-10">{service.tagline}</p>
-              <p className="text-white/80 text-sm relative z-10">{service.description}</p>
+              <motion.h3 
+                className="text-xl font-bold text-white mb-2 relative z-10"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                {service.title}
+              </motion.h3>
+              <motion.p 
+                className="text-white/90 text-sm mb-3 relative z-10"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
+                {service.tagline}
+              </motion.p>
+              <motion.p 
+                className="text-white/80 text-sm relative z-10"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+              >
+                {service.description}
+              </motion.p>
             </motion.div>
           );
         })}
@@ -209,6 +248,8 @@ const Services = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
       >
         <p className="text-gray-300 text-lg mb-6">💡 Have an idea or project in mind? Let's build something amazing together.</p>
         <motion.a
@@ -216,6 +257,11 @@ const Services = () => {
           className="inline-block text-white py-4 px-8 rounded-full mt-5 text-lg font-bold transition-all duration-300 transform hover:scale-105 relative overflow-hidden group animate-float shadow-lg hover:shadow-xl"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800 rounded-full"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-600 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full"></div>
@@ -272,38 +318,89 @@ const Services = () => {
               <div className="flex justify-between items-start">
                 <div>
                   <div className="text-white mb-2">{selectedService.icon}</div>
-                  <h3 className="text-2xl font-bold text-white">{selectedService.title}</h3>
-                  <p className="text-white/90 mt-1">{selectedService.tagline}</p>
+                  <motion.h3 
+                    className="text-2xl font-bold text-white"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {selectedService.title}
+                  </motion.h3>
+                  <motion.p 
+                    className="text-white/90 mt-1"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                  >
+                    {selectedService.tagline}
+                  </motion.p>
                 </div>
               </div>
             </div>
             
             <div className="p-6">
-              <p className="text-gray-300 mb-4">{selectedService.fullDescription}</p>
+              <motion.p 
+                className="text-gray-300 mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
+                {selectedService.fullDescription}
+              </motion.p>
               
-              <div className="mt-6">
+              <motion.div
+                className="mt-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+              >
                 <h4 className="text-lg font-semibold text-white mb-3">Key Benefits:</h4>
                 <ul className="space-y-2">
-                  <li className="flex items-start">
+                  <motion.li 
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.4 }}
+                  >
                     <span className="text-green-400 mr-2">✓</span>
                     <span className="text-gray-300">Tailored solutions for your specific business needs</span>
-                  </li>
-                  <li className="flex items-start">
+                  </motion.li>
+                  <motion.li 
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.5 }}
+                  >
                     <span className="text-green-400 mr-2">✓</span>
                     <span className="text-gray-300">Cutting-edge technologies and methodologies</span>
-                  </li>
-                  <li className="flex items-start">
+                  </motion.li>
+                  <motion.li 
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.6 }}
+                  >
                     <span className="text-green-400 mr-2">✓</span>
                     <span className="text-gray-300">End-to-end implementation and support</span>
-                  </li>
-                  <li className="flex items-start">
+                  </motion.li>
+                  <motion.li 
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.7 }}
+                  >
                     <span className="text-green-400 mr-2">✓</span>
                     <span className="text-gray-300">Measurable ROI and business impact</span>
-                  </li>
+                  </motion.li>
                 </ul>
-              </div>
+              </motion.div>
               
-              <div className="mt-8 flex justify-center">
+              <motion.div 
+                className="mt-8 flex justify-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.8 }}
+              >
                 <a
                   href="#contact"
                   onClick={() => setSelectedService(null)}
@@ -311,7 +408,7 @@ const Services = () => {
                 >
                   Get This Service
                 </a>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
