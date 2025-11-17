@@ -267,6 +267,16 @@ const PortfolioChatbot = () => {
   const getResponse = (messageText) => {
     const lower = messageText.toLowerCase();
     
+    // About SAM/Samyak responses
+    if (lower.includes("who") && (lower.includes("sam") || lower.includes("samyak") || lower.includes("you"))) {
+      return "I'm SAM, Samyak Anand's AI assistant. I'm an AI twin designed to help you explore Samyak's portfolio, projects, skills, and experience. I can answer questions about his work in Data Science, Machine Learning, and Business Intelligence. What would you like to know specifically?";
+    }
+    
+    // How are you responses
+    if (lower.includes("how are you") || (lower.includes("how") && lower.includes("you"))) {
+      return "I'm doing great, thank you for asking! I'm here and ready to help you learn more about Samyak Anand's work and projects. What would you like to explore today?";
+    }
+    
     // Project-related responses
     if (lower.includes("project")) {
       if (lower.includes("power bi") || lower.includes("dashboard")) {
@@ -349,7 +359,7 @@ const PortfolioChatbot = () => {
     }
     
     // Fallback response
-    return "I'm SAM, Samyak Anand's AI assistant. I can help you learn about his projects, skills, experience, and education. Try asking about his Power BI dashboards, ML projects, or certifications!";
+    return "I'm SAM, Samyak Anand's AI assistant. I can help you learn about his projects, skills, experience, and education. Try asking specific questions like: 'What Power BI projects has Samyak worked on?', 'Tell me about his machine learning experience', or 'Show me his certifications'.";
   };
 
   const sendMessage = async (messageText = input) => {
