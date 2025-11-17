@@ -11,6 +11,7 @@ const About = () => {
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageError, setImageError] = useState(false);
 
   // Auto-slide effect for profile images
   useEffect(() => {
@@ -27,6 +28,7 @@ const About = () => {
   // Check if images exist and handle loading errors
   const handleImageError = (e) => {
     console.log("Image failed to load:", e.target.src);
+    setImageError(true);
     // Try to load the first image as fallback
     if (e.target.src.includes('profile2.png')) {
       e.target.src = '/images/profile1.png';

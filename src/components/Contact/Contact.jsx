@@ -23,8 +23,8 @@ const Contact = () => {
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     // If no public key, don't initialize but don't crash the app
-    if (!publicKey) {
-      console.warn("EmailJS public key not found - contact form will not work");
+    if (!publicKey || publicKey === 'your_emailjs_public_key_here') {
+      console.warn("EmailJS public key not found or not configured - contact form will not work");
       return;
     }
 
@@ -53,8 +53,12 @@ const Contact = () => {
     const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 
-    if (!publicKey || !serviceID || !templateID) {
-      toast.error("Contact form is not configured properly.");
+    if (!publicKey || !serviceID || !templateID || 
+        publicKey === 'your_emailjs_public_key_here' ||
+        serviceID === 'your_emailjs_service_id_here' ||
+        templateID === 'your_emailjs_template_id_here') {
+      toast.error("Contact form is not configured properly. Please contact the site administrator.");
+      console.error("EmailJS configuration missing or using default values");
       return;
     }
 
@@ -71,6 +75,12 @@ const Contact = () => {
     }
 
     try {
+      // Show loading state
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      const originalText = submitButton.innerHTML;
+      submitButton.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...';
+      submitButton.disabled = true;
+
       const result = await emailjs.sendForm(
         serviceID,
         templateID,
@@ -82,9 +92,18 @@ const Contact = () => {
       toast.success("Message sent successfully!");
       form.current.reset();
 
+      // Reset button
+      submitButton.innerHTML = originalText;
+      submitButton.disabled = false;
+
     } catch (error) {
       console.error("❌ Email error:", error);
       toast.error("Failed to send message. Please try again.");
+      
+      // Reset button
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      submitButton.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> Send Message';
+      submitButton.disabled = false;
     }
   };
 
@@ -98,6 +117,15 @@ const Contact = () => {
       id="contact"
       className="flex flex-col items-center justify-center py-24 px-[7vw] md:px-[7vw] lg:px-[10vw]"
     >
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+          animation: spin 1s linear infinite;
+        }
+      `}</style>
       <ToastContainer />
 
       {/* Section Title */}
