@@ -423,7 +423,7 @@ const PortfolioChatbot = () => {
           >
             🤖
           </motion.span>
-          <span className="text-white text-xl font-bold tracking-wider">SAM</span>
+          <span className="text-white text-lg font-bold tracking-wider">SAM</span>
         </div>
         
         {/* Floating particles */}

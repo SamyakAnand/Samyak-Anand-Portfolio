@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { certifications } from "../../constants";
 import { FaCertificate, FaPython, FaJava, FaChartLine, FaDatabase, FaCloud } from "react-icons/fa";
-import { FiX, FiExternalLink, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiX, FiExternalLink, FiChevronLeft, FiChevronRight, FiAward } from "react-icons/fi";
 import { SiKaggle, SiScikitlearn, SiTensorflow, SiPytorch } from "react-icons/si";
 import { motion } from "framer-motion";
 
