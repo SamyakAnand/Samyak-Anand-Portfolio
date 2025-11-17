@@ -1,116 +1,84 @@
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiMail, FiMapPin, FiMessageSquare, FiPhone, FiSend, FiUser } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
-  const form = useRef(null);
-  const [isEmailJSSetup, setIsEmailJSSetup] = useState(false);
-  const [isBrowser, setIsBrowser] = useState(false);
+  const [formData, setFormData] = useState({
+    user_name: "",
+    user_email: "",
+    subject: "",
+    message: ""
+  });
 
-  // Check if we're in browser environment
   useEffect(() => {
-    setIsBrowser(typeof window !== 'undefined');
-  }, []);
-
-  // Initialize EmailJS (Correct v4 format)
-  useEffect(() => {
-    // Only initialize EmailJS in browser environment
-    if (!isBrowser) return;
-
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    // If no public key, don't initialize but don't crash the app
-    if (!publicKey || publicKey === 'your_emailjs_public_key_here') {
-      console.warn("EmailJS public key not found or not configured - contact form will not work");
+    if (!publicKey) {
+      console.error("❌ EmailJS PUBLIC KEY missing");
       return;
     }
 
-    try {
-      // v4 syntax
-      emailjs.init({
-        publicKey: publicKey,
-      });
-      
-      setIsEmailJSSetup(true);
-      console.log("✔ EmailJS v4 initialized");
-    } catch (error) {
-      console.error("❌ EmailJS initialization error:", error);
-    }
-  }, [isBrowser]);
+    // CORRECT v3 initialization
+    emailjs.init(publicKey);
+    console.log("✔ EmailJS v3 initialized");
+  }, []);
 
-  // SEND EMAIL HANDLER
-  const sendEmail = async (e) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const sendEmail = (e) => {
     e.preventDefault();
-    
-    // Check if we're in browser environment
-    if (!isBrowser) return;
-    
-    // Check if EmailJS is properly set up
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
     const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 
-    if (!publicKey || !serviceID || !templateID || 
-        publicKey === 'your_emailjs_public_key_here' ||
-        serviceID === 'your_emailjs_service_id_here' ||
-        templateID === 'your_emailjs_template_id_here') {
-      toast.error("Contact form is not configured properly. Please contact the site administrator.");
-      console.error("EmailJS configuration missing or using default values");
+    if (!serviceID || !templateID) {
+      toast.error("EmailJS not configured on server!");
       return;
     }
 
-    if (!isEmailJSSetup) {
-      // Try to initialize again
-      try {
-        emailjs.init({ publicKey });
-        setIsEmailJSSetup(true);
-      } catch (error) {
-        console.error("Failed to initialize EmailJS:", error);
-        toast.error("Contact form service unavailable.");
-        return;
-      }
-    }
+    // Show loading state
+    const submitButton = e.target.querySelector('button[type="submit"]');
+    const originalText = submitButton.innerHTML;
+    submitButton.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...';
+    submitButton.disabled = true;
 
-    try {
-      // Show loading state
-      const submitButton = e.target.querySelector('button[type="submit"]');
-      const originalText = submitButton.innerHTML;
-      submitButton.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...';
-      submitButton.disabled = true;
-
-      const result = await emailjs.sendForm(
-        serviceID,
-        templateID,
-        form.current,
-        { publicKey: publicKey }  // REQUIRED in v4
-      );
-
-      console.log("✔ SUCCESS:", result);
-      toast.success("Message sent successfully!");
-      form.current.reset();
-
-      // Reset button
-      submitButton.innerHTML = originalText;
-      submitButton.disabled = false;
-
-    } catch (error) {
-      console.error("❌ Email error:", error);
-      toast.error("Failed to send message. Please try again.");
-      
-      // Reset button
-      const submitButton = e.target.querySelector('button[type="submit"]');
-      submitButton.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> Send Message';
-      submitButton.disabled = false;
-    }
+    // Use send() with controlled component data instead of sendForm()
+    emailjs
+      .send(serviceID, templateID, formData)
+      .then((result) => {
+        console.log("✔ SUCCESS:", result.text);
+        toast.success("Message sent! 🎉");
+        
+        // Reset form
+        setFormData({
+          user_name: "",
+          user_email: "",
+          subject: "",
+          message: ""
+        });
+        
+        // Reset button
+        submitButton.innerHTML = originalText;
+        submitButton.disabled = false;
+      })
+      .catch((error) => {
+        console.error("❌ EmailJS error:", error);
+        toast.error("Failed to send message.");
+        
+        // Reset button
+        submitButton.innerHTML = originalText;
+        submitButton.disabled = false;
+      });
   };
-
-  // Show a message if we're not in browser environment
-  if (!isBrowser) {
-    return null;
-  }
 
   return (
     <section
@@ -160,7 +128,7 @@ const Contact = () => {
             <h3 className="text-xl font-bold text-purple-500">Send Me a Message</h3>
           </div>
           
-          <form ref={form} onSubmit={sendEmail} className="space-y-6">
+          <form onSubmit={sendEmail} className="space-y-6">
             <div>
               <label htmlFor="user_name" className="block text-gray-300 mb-2">Full Name</label>
               <div className="relative">
@@ -170,6 +138,8 @@ const Contact = () => {
                 <motion.input
                   type="text"
                   name="user_name"
+                  value={formData.user_name}
+                  onChange={handleInputChange}
                   placeholder="Enter your full name"
                   className="w-full rounded-xl pl-10 px-4 py-3 bg-white/10 backdrop-blur-sm border-2 border-gray-700 transition-all duration-300 text-white placeholder-white/60 focus:outline-none focus:ring-0 focus:border-purple-500 shadow-lg shadow-purple-500/20"
                   required
@@ -191,6 +161,8 @@ const Contact = () => {
                 <motion.input
                   type="email"
                   name="user_email"
+                  value={formData.user_email}
+                  onChange={handleInputChange}
                   placeholder="Enter your email address"
                   className="w-full rounded-xl pl-10 px-4 py-3 bg-white/10 backdrop-blur-sm border-2 border-gray-700 transition-all duration-300 text-white placeholder-white/60 focus:outline-none focus:ring-0 focus:border-purple-500 shadow-lg shadow-purple-500/20"
                   required
@@ -212,6 +184,8 @@ const Contact = () => {
                 <motion.input
                   type="text"
                   name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
                   placeholder="What is this regarding?"
                   className="w-full rounded-xl pl-10 px-4 py-3 bg-white/10 backdrop-blur-sm border-2 border-gray-700 transition-all duration-300 text-white placeholder-white/60 focus:outline-none focus:ring-0 focus:border-purple-500 shadow-lg shadow-purple-500/20"
                   required
@@ -228,6 +202,8 @@ const Contact = () => {
               <label htmlFor="message" className="block text-gray-300 mb-2">Your Message</label>
               <motion.textarea
                 name="message"
+                value={formData.message}
+                onChange={handleInputChange}
                 placeholder="Type your message here..."
                 rows="5"
                 className="w-full rounded-xl px-4 py-3 bg-white/10 backdrop-blur-sm border-2 border-gray-700 transition-all duration-300 text-white placeholder-white/60 focus:outline-none focus:ring-0 focus:border-purple-500 shadow-lg shadow-purple-500/20 resize-none"
@@ -242,10 +218,9 @@ const Contact = () => {
             
             <motion.button
               type="submit"
-              disabled={!isEmailJSSetup}
-              className={`w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 flex items-center justify-center gap-2 ${!isEmailJSSetup ? 'opacity-50 cursor-not-allowed' : ''}`}
-              whileHover={{ scale: isEmailJSSetup ? 1.02 : 1, boxShadow: isEmailJSSetup ? "0 15px 30px -5px rgba(139, 92, 246, 0.6), 0 10px 15px -5px rgba(139, 92, 246, 0.4)" : "none" }}
-              whileTap={{ scale: isEmailJSSetup ? 0.98 : 1 }}
+              className="w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.02, boxShadow: "0 15px 30px -5px rgba(139, 92, 246, 0.6), 0 10px 15px -5px rgba(139, 92, 246, 0.4)" }}
+              whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.5 }}

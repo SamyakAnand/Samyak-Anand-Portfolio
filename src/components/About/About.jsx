@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import ReactTypingEffect from 'react-typing-effect';
-import Tilt from 'react-parallax-tilt';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import Tilt from 'react-parallax-tilt';
+import ReactTypingEffect from 'react-typing-effect';
 
 const About = () => {
   // Profile image paths - using only the two specified images from public directory
