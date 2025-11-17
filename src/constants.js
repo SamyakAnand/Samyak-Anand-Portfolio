@@ -34,6 +34,11 @@ import HorekaImage from './assets/work_logo/Horeka.png';
 import AurumImage from './assets/work_logo/aurum.png';
 // Network Security Project Image
 import NetworkSecurityImage from './assets/work_logo/Gemini_Generated_Image_huwzkdhuwzkdhuwz.png';
+// Experience and Education Images
+import evoastraLogo from './assets/company_logo/evoastra.png';
+import webverseLogo from './assets/company_logo/webverse_logo.png';
+import glaLogo from './assets/education_logo/gla_logo.png';
+import bsaLogo from './assets/education_logo/bsa_logo.png';
 
 export const projects = [
   {
@@ -300,7 +305,7 @@ export const SkillsInfo = [
 export const experiences = [
   {
     id: 1,
-    img: "/src/assets/company_logo/evoastra.png",
+    img: evoastraLogo,
     role: "Data Scientist Intern",
     company: "Evoastra Ventures Inc",
     date: "Jun 2025 - Present",
@@ -309,7 +314,7 @@ export const experiences = [
   },
   {
     id: 2,
-    img: "/src/assets/company_logo/webverse_logo.png",
+    img: webverseLogo,
     role: "Data Science & ML Intern",
     company: "Gilbert Research Center",
     date: "Mar - Jul 2024",
@@ -322,7 +327,7 @@ export const experiences = [
 export const education = [
   {
     id: 1,
-    img: "/src/assets/education_logo/gla_logo.png",
+    img: glaLogo,
     school: "Ballarpur Institute of Technology",
     date: "Sep 2021 - Aug 2024",
     desc: "B.Tech in Computer Science & Engineering.",
@@ -334,7 +339,7 @@ export const education = [
   },
   {
     id: 2,
-    img: "/src/assets/education_logo/bsa_logo.png",
+    img: bsaLogo,
     school: "Bajaj College of Polytechnic",
     date: "Jun 2018 – Aug 2021",
     desc: "Diploma in Computer Science with focus on programming, database management, and computer networks.",
@@ -417,6 +422,7 @@ export const certifications = [
     tags: ["Data Science", "Machine Learning", "Internship", "Python"],
     platform: "Evoastra Ventures",
     credential: "https://drive.google.com/file/d/1ALH-bn08GuyttrPXgytg5msicyTivg8U/view?usp=sharing",
+    logo: evoastraLogo
   },
   {
     id: 8,
@@ -447,6 +453,7 @@ export const certifications = [
     tags: ["Data Science", "Machine Learning", "Internship", "Clinical Data"],
     platform: "Gilbert Research Center",
     credential: "https://drive.google.com/file/d/110GOvC_rg53Na7fu77q6JEbazoFC1L2D/view?usp=sharing",
+    logo: webverseLogo
   },
   {
     id: 11,

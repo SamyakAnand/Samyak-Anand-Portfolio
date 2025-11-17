@@ -1,12 +1,13 @@
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiMail, FiMapPin, FiMessageSquare, FiPhone, FiSend, FiUser } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
   const form = useRef(null);
+  const [isEmailJSSetup, setIsEmailJSSetup] = useState(false);
 
   // Initialize EmailJS (Correct v4 format)
   useEffect(() => {
@@ -16,24 +17,46 @@ const Contact = () => {
 
     if (!publicKey) {
       console.error("❌ Missing PUBLIC KEY");
+      toast.error("Contact form not configured properly. Please contact site administrator.");
       return;
     }
 
-    // v4 syntax
-    emailjs.init({
-      publicKey: publicKey,
-    });
-
-    console.log("✔ EmailJS v4 initialized");
+    try {
+      // v4 syntax
+      emailjs.init({
+        publicKey: publicKey,
+      });
+      
+      setIsEmailJSSetup(true);
+      console.log("✔ EmailJS v4 initialized");
+    } catch (error) {
+      console.error("❌ EmailJS initialization error:", error);
+      toast.error("Contact form service unavailable.");
+    }
   }, []);
 
   // SEND EMAIL HANDLER
   const sendEmail = async (e) => {
     e.preventDefault();
+    
+    if (!isEmailJSSetup) {
+      toast.error("Contact form not ready. Please try again.");
+      return;
+    }
 
     const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // Validate required environment variables
+    if (!serviceID || !templateID || !publicKey) {
+      console.error("❌ Missing EmailJS configuration");
+      console.log("serviceID:", serviceID);
+      console.log("templateID:", templateID);
+      console.log("publicKey:", publicKey);
+      toast.error("Contact form not configured properly.");
+      return;
+    }
 
     console.log("====== EMAILJS DEBUG INFO ======");
     console.log("serviceID:", serviceID);
@@ -50,12 +73,12 @@ const Contact = () => {
       );
 
       console.log("✔ SUCCESS:", result);
-      toast.success("Message sent!");
+      toast.success("Message sent successfully!");
       form.current.reset();
 
     } catch (error) {
       console.error("❌ Email error:", error);
-      toast.error("Failed to send message.");
+      toast.error("Failed to send message. Please try again.");
     }
   };
 
@@ -180,9 +203,10 @@ const Contact = () => {
             
             <motion.button
               type="submit"
-              className="w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 flex items-center justify-center gap-2"
-              whileHover={{ scale: 1.02, boxShadow: "0 15px 30px -5px rgba(139, 92, 246, 0.6), 0 10px 15px -5px rgba(139, 92, 246, 0.4)" }}
-              whileTap={{ scale: 0.98 }}
+              disabled={!isEmailJSSetup}
+              className={`w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 flex items-center justify-center gap-2 ${!isEmailJSSetup ? 'opacity-50 cursor-not-allowed' : ''}`}
+              whileHover={{ scale: isEmailJSSetup ? 1.02 : 1, boxShadow: isEmailJSSetup ? "0 15px 30px -5px rgba(139, 92, 246, 0.6), 0 10px 15px -5px rgba(139, 92, 246, 0.4)" : "none" }}
+              whileTap={{ scale: isEmailJSSetup ? 0.98 : 1 }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.5 }}

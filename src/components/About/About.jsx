@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactTypingEffect from 'react-typing-effect';
 import Tilt from 'react-parallax-tilt';
-import profile1 from '/images/profile1.png';
-import profile2 from '/images/profile2.png';
 import { motion } from 'framer-motion';
 
 const About = () => {
-  // Profile image paths - using only the two specified images
+  // Profile image paths - using only the two specified images from public directory
   const profileImages = [
-    profile1,
-    profile2,
+    '/images/profile1.png',
+    '/images/profile2.png',
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -26,12 +24,9 @@ const About = () => {
   return (
     <section
       id="about"
-      className="py-4 px-[7vw] md:px-[7vw] lg:px-[20vw] font-sans mt-16 md:mt-24 lg:mt-32 relative"
+      className="py-4 px-[7vw] md:px-[7vw] lg:px-[20vw] font-sans mt-16 md:mt-24 lg:mt-32"
     >
-      {/* Blur blob behind name */}
-      <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-500 rounded-full filter blur-3xl opacity-20 pointer-events-none"></div>
-      
-      <div className="flex flex-col-reverse md:flex-row justify-between items-center relative z-10">
+      <div className="flex flex-col-reverse md:flex-row justify-between items-center">
         {/* Left Side */}
         <motion.div 
           className="md:w-1/2 text-center md:text-left mt-8 md:mt-0"

@@ -1,31 +1,9 @@
 import React, { useState } from "react";
 import { experiences, education } from "../../constants";
 import { motion } from "framer-motion";
-// Import local images
-import bsaLogo from "../../assets/education_logo/bsa_logo.png";
-import glaLogo from "../../assets/education_logo/gla_logo.png";
-import evoastraLogo from "../../assets/company_logo/evoastra.png";
-import webverseLogo from "../../assets/company_logo/webverse_logo.png";
 
 const ExperienceEducation = () => {
   const [activeTab, setActiveTab] = useState("experience");
-
-  // Map local images to data
-  const getImageForExperience = (id) => {
-    switch(id) {
-      case 1: return evoastraLogo;
-      case 2: return webverseLogo;
-      default: return evoastraLogo;
-    }
-  };
-
-  const getImageForEducation = (id) => {
-    switch(id) {
-      case 1: return glaLogo;  // B.Tech should use gla_logo.png
-      case 2: return bsaLogo;  // Diploma should use bsa_logo.png
-      default: return glaLogo;
-    }
-  };
 
   // Animation variants
   const tabVariants = {
@@ -174,7 +152,7 @@ const ExperienceEducation = () => {
                           transition={{ duration: 0.3, delay: 0.1 }}
                         >
                           <img
-                            src={getImageForExperience(exp.id)}
+                            src={exp.img}
                             alt={exp.company}
                             className="w-full h-full object-contain p-2"
                           />
@@ -206,53 +184,42 @@ const ExperienceEducation = () => {
                             transition={{ duration: 0.5, delay: 0.4 }}
                             whileInView={{ x: 0, opacity: 1 }}
                             viewport={{ once: true }}
-                            className="text-gray-400 mt-2 text-sm sm:text-base dark:text-gray-400 light:text-[var(--text-tertiary)]"
+                            className="text-sm sm:text-base text-gray-400 mt-1 dark:text-gray-400 light:text-[var(--text-tertiary)]"
                           >
                             {exp.date}
                           </motion.p>
                         </div>
                       </div>
 
-                      {/* Details */}
-                      <motion.div
-                        initial={{ y: 10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
+                      {/* Description */}
+                      <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.5 }}
-                        whileInView={{ y: 0, opacity: 1 }}
+                        whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
-                        className="mt-4"
+                        className="mt-4 text-gray-300 text-sm sm:text-base dark:text-gray-300 light:text-[var(--text-secondary)]"
                       >
-                        <p className="mt-3 text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-line dark:text-gray-300 light:text-[var(--text-secondary)]">
-                          {exp.desc}
-                        </p>
-                      </motion.div>
-                      
+                        {exp.desc}
+                      </motion.p>
+
                       {/* Skills */}
-                      <motion.div
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
+                      <motion.div 
+                        className="mt-4 flex flex-wrap gap-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.6 }}
-                        whileInView={{ y: 0, opacity: 1 }}
+                        whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
-                        className="mt-4"
                       >
-                        <h5 className="font-bold text-white text-sm sm:text-base mb-2 dark:text-white light:text-[var(--text-primary)]">Skills:</h5>
-                        <div className="flex flex-wrap gap-2">
-                          {exp.skills.map((skill, skillIndex) => (
-                            <motion.span
-                              key={skillIndex}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 0.3, delay: 0.7 + skillIndex * 0.05 }}
-                              whileHover={{ scale: 1.1 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true }}
-                              className="bg-gray-800/50 text-gray-300 px-2 py-1 text-xs sm:text-sm rounded-full border border-gray-700"
-                            >
-                              {skill}
-                            </motion.span>
-                          ))}
-                        </div>
+                        {exp.skills.map((skill, skillIndex) => (
+                          <span 
+                            key={skillIndex}
+                            className="px-3 py-1 bg-purple-900/50 text-purple-300 text-xs sm:text-sm rounded-full border border-purple-700/50"
+                          >
+                            {skill}
+                          </span>
+                        ))}
                       </motion.div>
                     </div>
                   </div>
@@ -261,7 +228,7 @@ const ExperienceEducation = () => {
             </div>
           </motion.div>
         ) : (
-          // Education Content - Mobile optimized
+          // Education Content - Journey Tree Style
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -270,7 +237,7 @@ const ExperienceEducation = () => {
             viewport={{ once: true }}
           >
             <div className="relative">
-              {/* Timeline for mobile - simplified */}
+              {/* Timeline */}
               <div className="absolute left-4 sm:left-6 top-0 w-1 bg-gradient-to-b from-[#8245ec] via-purple-400 to-[#8245ec] h-full rounded-full"></div>
 
               {education.map((edu, index) => (
@@ -301,7 +268,7 @@ const ExperienceEducation = () => {
                           transition={{ duration: 0.3, delay: 0.1 }}
                         >
                           <img
-                            src={getImageForEducation(edu.id)}
+                            src={edu.img}
                             alt={edu.school}
                             className="w-full h-full object-contain p-2"
                           />
@@ -315,7 +282,7 @@ const ExperienceEducation = () => {
                             viewport={{ once: true }}
                             className="text-lg sm:text-xl font-bold text-white dark:text-white light:text-[var(--text-primary)]"
                           >
-                            {edu.school}
+                            {edu.degree}
                           </motion.h3>
                           <motion.h4 
                             initial={{ x: -10, opacity: 0 }}
@@ -325,7 +292,7 @@ const ExperienceEducation = () => {
                             viewport={{ once: true }}
                             className="text-base sm:text-lg text-[#8245ec] mt-1 dark:text-[#8245ec] light:text-[var(--accent-primary)]"
                           >
-                            {edu.degree}
+                            {edu.school}
                           </motion.h4>
                           <motion.p 
                             initial={{ x: -10, opacity: 0 }}
@@ -333,66 +300,42 @@ const ExperienceEducation = () => {
                             transition={{ duration: 0.5, delay: 0.4 }}
                             whileInView={{ x: 0, opacity: 1 }}
                             viewport={{ once: true }}
-                            className="text-gray-400 mt-2 text-sm sm:text-base dark:text-gray-400 light:text-[var(--text-tertiary)]"
+                            className="text-sm sm:text-base text-gray-400 mt-1 dark:text-gray-400 light:text-[var(--text-tertiary)]"
                           >
                             {edu.date}
                           </motion.p>
                         </div>
                       </div>
 
-                      {/* Details */}
-                      <motion.div
-                        initial={{ y: 10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.5, delay: 0.6 }}
-                        whileInView={{ y: 0, opacity: 1 }}
+                      {/* Description */}
+                      <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.5 }}
+                        whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
-                        className="mt-4"
+                        className="mt-4 text-gray-300 text-sm sm:text-base dark:text-gray-300 light:text-[var(--text-secondary)]"
                       >
-                        <p className="mt-3 text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-line dark:text-gray-300 light:text-[var(--text-secondary)]">
-                          {edu.desc}
-                        </p>
-                        {/* Education Details */}
-                        {edu.details && (
-                          <ul className="mt-3 space-y-1">
-                            {edu.details.map((detail, detailIndex) => (
-                              <motion.li 
-                                key={detailIndex} 
-                                className="text-gray-400 text-sm flex items-start"
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.3, delay: 0.7 + detailIndex * 0.1 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                              >
-                                <span className="inline-block w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-                                {detail}
-                              </motion.li>
-                            ))}
-                          </ul>
-                        )}
-                        {/* Education Skills */}
-                        {edu.skills && (
-                          <div className="mt-4">
-                            <h4 className="text-purple-400 font-semibold text-sm mb-2">Key Skills:</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {edu.skills.map((skill, skillIndex) => (
-                                <motion.span
-                                  key={skillIndex}
-                                  whileHover={{ scale: 1.1 }}
-                                  className="px-3 py-1 bg-gray-800/50 text-gray-300 text-xs rounded-full border border-gray-700"
-                                  initial={{ opacity: 0, scale: 0.8 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{ duration: 0.3, delay: 0.8 + skillIndex * 0.05 }}
-                                  whileInView={{ opacity: 1, scale: 1 }}
-                                  viewport={{ once: true }}
-                                >
-                                  {skill}
-                                </motion.span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                        {edu.desc}
+                      </motion.p>
+
+                      {/* Skills */}
+                      <motion.div 
+                        className="mt-4 flex flex-wrap gap-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                      >
+                        {edu.skills.map((skill, skillIndex) => (
+                          <span 
+                            key={skillIndex}
+                            className="px-3 py-1 bg-purple-900/50 text-purple-300 text-xs sm:text-sm rounded-full border border-purple-700/50"
+                          >
+                            {skill}
+                          </span>
+                        ))}
                       </motion.div>
                     </div>
                   </div>

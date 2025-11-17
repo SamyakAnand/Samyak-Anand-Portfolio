@@ -31,18 +31,20 @@ npm run build
 
 For the portfolio to function correctly, you must set the following environment variables in your Vercel project settings or local `.env` file:
 
-### EmailJS Configuration (Contact Form)
+### EmailJS Configuration (Contact Form) - REQUIRED
 - `VITE_EMAILJS_SERVICE_ID` - Your EmailJS service ID
 - `VITE_EMAILJS_TEMPLATE_ID` - Your EmailJS template ID
 - `VITE_EMAILJS_PUBLIC_KEY` - Your EmailJS public key
 
-### Resume Download
+### Resume Download - REQUIRED
 - `VITE_RESUME_DOWNLOAD_URL` - Direct link to your resume file
 
-### EURI Chatbot API (if used)
+### EURI Chatbot API (Optional)
 - `VITE_EURI_API_KEY` - API key for EURI chatbot
 - `VITE_EURI_API_URL` - API endpoint for EURI chatbot
 - `VITE_EURI_MODEL` - Model name for EURI chatbot
+
+**Note:** Check the `.env.example` file for a template of all required environment variables.
 
 ## 🛠️ Local Development
 

@@ -7,6 +7,19 @@ import { motion } from "framer-motion";
 
 // Function to get appropriate icon based on certification platform or content
 const getCertificationIcon = (cert) => {
+  // Check if certificate has a custom logo
+  if (cert.logo) {
+    return (
+      <div className="w-16 h-16 flex items-center justify-center">
+        <img 
+          src={cert.logo} 
+          alt={cert.platform || cert.issuer} 
+          className="max-w-full max-h-full object-contain"
+        />
+      </div>
+    );
+  }
+  
   // Check platform first
   if (cert.platform && cert.platform.toLowerCase().includes("kaggle")) {
     return <SiKaggle className="text-blue-500" size={64} />;
@@ -337,9 +350,9 @@ const Certification = () => {
                   )}
                 </motion.div>
                 
-                {selectedCertification.certificate && (
+                {selectedCertification.credential && (
                   <motion.a
-                    href={selectedCertification.certificate}
+                    href={selectedCertification.credential}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50"
