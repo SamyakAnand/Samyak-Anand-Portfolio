@@ -244,7 +244,16 @@ const Skills = () => {
                     <motion.img
                       src={skill.logo}
                       alt={`${skill.name} logo`}
-                      className="w-12 h-12 object-contain filter drop-shadow-lg"
+                      className={`w-12 h-12 object-contain filter drop-shadow-lg ${
+                        skill.name === "Pandas" || skill.name === "NumPy" 
+                          ? "invert brightness-0" 
+                          : ""
+                      }`}
+                      style={{
+                        filter: skill.name === "Pandas" || skill.name === "NumPy" 
+                          ? "invert(1) brightness(2)" 
+                          : "none"
+                      }}
                       onError={(e) => {
                         // Fallback for images that fail to load
                         e.target.src = "https://skillicons.dev/icons?i=code&theme=dark";

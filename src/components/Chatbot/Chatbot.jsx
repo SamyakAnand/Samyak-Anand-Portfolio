@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FiSend } from "react-icons/fi";
 import "./Chatbot.css"; // Import the CSS file
 
 const PortfolioChatbot = () => {
@@ -13,8 +14,14 @@ const PortfolioChatbot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [isBrowser, setIsBrowser] = useState(false);
   const messagesEndRef = useRef(null);
   const suggestionsRef = useRef(null);
+
+  // Check if we're in browser environment
+  useEffect(() => {
+    setIsBrowser(typeof window !== 'undefined');
+  }, []);
 
   // Auto-scroll to bottom of messages
   useEffect(() => {
@@ -112,6 +119,9 @@ const PortfolioChatbot = () => {
   const handleNavigation = (content) => {
     const lower = content.toLowerCase();
     console.log("Chatbot navigation triggered with content:", content);
+    
+    // Only attempt navigation in browser environment
+    if (!isBrowser) return;
     
     // Helper function to scroll to element with better reliability
     const scrollToElement = (elementId) => {
@@ -229,12 +239,14 @@ const PortfolioChatbot = () => {
     // Resume download
     if (lower.includes("cv") || lower.includes("resume") || lower.includes("download")) {
       console.log("Opening CV download link");
-      setTimeout(() => {
-        window.open(
-          import.meta.env.VITE_RESUME_DOWNLOAD_URL,
-          "_blank"
-        );
-      }, 300); // Slight delay to allow any scrolling to complete
+      const resumeUrl = import.meta.env.VITE_RESUME_DOWNLOAD_URL;
+      if (resumeUrl) {
+        setTimeout(() => {
+          window.open(resumeUrl, "_blank");
+        }, 300); // Slight delay to allow any scrolling to complete
+      } else {
+        console.warn("Resume download URL not configured");
+      }
       return;
     }
   };
@@ -373,33 +385,60 @@ const PortfolioChatbot = () => {
     }
   };
 
+  // Don't render anything if we're not in browser environment
+  if (!isBrowser) {
+    return null;
+  }
+
   return (
     <div className="chatbot-wrapper">
       {/* Floating Button */}
       <motion.div
         onClick={() => setOpen(!open)}
-        className="chatbot-icon bg-gradient-to-r from-purple-600 via-purple-700 to-pink-500 p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center group relative overflow-hidden cursor-pointer"
-        whileHover={{ scale: 1.1 }}
+        className="chatbot-icon bg-gradient-to-r from-purple-600 via-purple-700 to-pink-500 p-0 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center group relative overflow-hidden cursor-pointer border-2 border-white/30"
+        whileHover={{ scale: 1.15 }}
         whileTap={{ scale: 0.9 }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
-        <div className="flex items-center relative z-10">
+        {/* Pulsing glow effect */}
+        <div className="absolute inset-0 rounded-full animate-pulse bg-gradient-to-r from-purple-600 to-pink-500 opacity-70 blur-md"></div>
+        
+        {/* Inner glow */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20"></div>
+        
+        {/* Main content */}
+        <div className="flex items-center justify-center relative z-10 w-full h-full rounded-full bg-gradient-to-br from-purple-700/80 to-pink-600/80 backdrop-blur-sm">
           <motion.span 
-            className="text-white text-xl mr-1"
+            className="text-white text-2xl mr-1"
             animate={{
-              scale: [1, 1.2, 1],
+              scale: [1, 1.3, 1],
             }}
             transition={{
-              duration: 2,
+              duration: 3,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           >
             🤖
           </motion.span>
-          <span className="text-white text-xl font-bold">SAM</span>
+          <span className="text-white text-xl font-bold tracking-wider">SAM</span>
+        </div>
+        
+        {/* Floating particles */}
+        <div className="absolute inset-0 rounded-full overflow-hidden">
+          {[...Array(6)].map((_, i) => (
+            <div 
+              key={i}
+              className="absolute w-1.5 h-1.5 bg-white rounded-full opacity-40"
+              style={{
+                top: `${50 + Math.sin(i * 60 * Math.PI / 180) * 35}%`,
+                left: `${50 + Math.cos(i * 60 * Math.PI / 180) * 35}%`,
+                animation: `float-bob 4s infinite ${i * 0.5}s`
+              }}
+            ></div>
+          ))}
         </div>
       </motion.div>
 
@@ -492,26 +531,26 @@ const PortfolioChatbot = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2, delay: index * 0.1 }}
+                    transition={{ duration: 0.3 }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    💡 {suggestion}
+                    {suggestion}
                   </motion.button>
                 ))}
               </AnimatePresence>
             </div>
 
-            {/* Input */}
+            {/* Input Area */}
             <div className="p-4 border-t border-white/10">
               <div className="flex gap-2">
                 <motion.input
+                  type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  placeholder="Chat with SAM..."
-                  className="flex-1 bg-[#2d1a4d]/50 border border-white/20 rounded-xl px-3 py-2 text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-500 backdrop-blur-sm"
-                  disabled={isLoading}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Type your message..."
+                  className="flex-1 bg-gray-800/50 backdrop-blur-sm border border-white/20 rounded-full px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   whileFocus={{ scale: 1.02 }}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -519,19 +558,15 @@ const PortfolioChatbot = () => {
                 />
                 <motion.button
                   onClick={() => sendMessage()}
-                  disabled={isLoading}
-                  className={`px-4 py-2 rounded-xl transition ${
-                    isLoading
-                      ? "bg-gray-500 cursor-not-allowed"
-                      : "bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
-                  }`}
-                  whileHover={{ scale: isLoading ? 1 : 1.05 }}
-                  whileTap={{ scale: isLoading ? 1 : 0.95 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 }}
+                  disabled={!input.trim() || isLoading}
+                  className="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white rounded-full p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <span className="text-white">➤</span>
+                  <FiSend size={20} />
                 </motion.button>
               </div>
               <motion.div 

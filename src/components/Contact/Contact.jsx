@@ -8,16 +8,23 @@ import "react-toastify/dist/ReactToastify.css";
 const Contact = () => {
   const form = useRef(null);
   const [isEmailJSSetup, setIsEmailJSSetup] = useState(false);
+  const [isBrowser, setIsBrowser] = useState(false);
+
+  // Check if we're in browser environment
+  useEffect(() => {
+    setIsBrowser(typeof window !== 'undefined');
+  }, []);
 
   // Initialize EmailJS (Correct v4 format)
   useEffect(() => {
+    // Only initialize EmailJS in browser environment
+    if (!isBrowser) return;
+
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    console.log("Initializing EmailJS v4 with key:", publicKey);
-
+    // If no public key, don't initialize but don't crash the app
     if (!publicKey) {
-      console.error("❌ Missing PUBLIC KEY");
-      toast.error("Contact form not configured properly. Please contact site administrator.");
+      console.warn("EmailJS public key not found - contact form will not work");
       return;
     }
 
@@ -31,38 +38,37 @@ const Contact = () => {
       console.log("✔ EmailJS v4 initialized");
     } catch (error) {
       console.error("❌ EmailJS initialization error:", error);
-      toast.error("Contact form service unavailable.");
     }
-  }, []);
+  }, [isBrowser]);
 
   // SEND EMAIL HANDLER
   const sendEmail = async (e) => {
     e.preventDefault();
     
-    if (!isEmailJSSetup) {
-      toast.error("Contact form not ready. Please try again.");
-      return;
-    }
-
+    // Check if we're in browser environment
+    if (!isBrowser) return;
+    
+    // Check if EmailJS is properly set up
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
     const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    // Validate required environment variables
-    if (!serviceID || !templateID || !publicKey) {
-      console.error("❌ Missing EmailJS configuration");
-      console.log("serviceID:", serviceID);
-      console.log("templateID:", templateID);
-      console.log("publicKey:", publicKey);
-      toast.error("Contact form not configured properly.");
+    if (!publicKey || !serviceID || !templateID) {
+      toast.error("Contact form is not configured properly.");
       return;
     }
 
-    console.log("====== EMAILJS DEBUG INFO ======");
-    console.log("serviceID:", serviceID);
-    console.log("templateID:", templateID);
-    console.log("publicKey:", publicKey);
-    console.log("===============================");
+    if (!isEmailJSSetup) {
+      // Try to initialize again
+      try {
+        emailjs.init({ publicKey });
+        setIsEmailJSSetup(true);
+      } catch (error) {
+        console.error("Failed to initialize EmailJS:", error);
+        toast.error("Contact form service unavailable.");
+        return;
+      }
+    }
 
     try {
       const result = await emailjs.sendForm(
@@ -81,6 +87,11 @@ const Contact = () => {
       toast.error("Failed to send message. Please try again.");
     }
   };
+
+  // Show a message if we're not in browser environment
+  if (!isBrowser) {
+    return null;
+  }
 
   return (
     <section
@@ -198,7 +209,7 @@ const Contact = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.4 }}
-              ></motion.textarea>
+              />
             </div>
             
             <motion.button

@@ -21,6 +21,21 @@ const About = () => {
     return () => clearInterval(interval);
   }, [profileImages.length]);
 
+  // Fallback resume URL with better error handling
+  const resumeUrl = import.meta.env.VITE_RESUME_DOWNLOAD_URL || '#';
+
+  // Check if images exist and handle loading errors
+  const handleImageError = (e) => {
+    console.log("Image failed to load:", e.target.src);
+    // Try to load the first image as fallback
+    if (e.target.src.includes('profile2.png')) {
+      e.target.src = '/images/profile1.png';
+    } else {
+      // If both images fail, use a data URL for a simple placeholder
+      e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
+    }
+  };
+
   return (
     <section
       id="about"
@@ -87,7 +102,7 @@ const About = () => {
           
           {/* Resume Button */}
           <motion.a
-            href={import.meta.env.VITE_RESUME_DOWNLOAD_URL}
+            href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block text-white py-3 px-8 rounded-full mt-5 text-lg font-bold transition duration-300 transform hover:scale-105"
@@ -122,6 +137,7 @@ const About = () => {
               src={profileImages[currentImageIndex]}
               alt="Samyak Anand"
               className="w-full h-full rounded-full object-contain drop-shadow-[0_10px_20px_rgba(130,69,236,0.5)]"
+              onError={handleImageError}
             />
           </Tilt>
         </div>

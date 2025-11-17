@@ -29,49 +29,61 @@ npm run build
 
 ## 🔐 Environment Variables
 
-For the portfolio to function correctly, you must set the following environment variables in your Vercel project settings or local `.env` file:
-
-### EmailJS Configuration (Contact Form) - REQUIRED
-- `VITE_EMAILJS_SERVICE_ID` - Your EmailJS service ID
-- `VITE_EMAILJS_TEMPLATE_ID` - Your EmailJS template ID
-- `VITE_EMAILJS_PUBLIC_KEY` - Your EmailJS public key
-
-### Resume Download - REQUIRED
-- `VITE_RESUME_DOWNLOAD_URL` - Direct link to your resume file
-
-### EURI Chatbot API (Optional)
-- `VITE_EURI_API_KEY` - API key for EURI chatbot
-- `VITE_EURI_API_URL` - API endpoint for EURI chatbot
-- `VITE_EURI_MODEL` - Model name for EURI chatbot
-
-**Note:** Check the `.env.example` file for a template of all required environment variables.
-
-## 🛠️ Local Development
+For the portfolio to function correctly, you must set the following environment variables in your Vercel project settings:
 
 ```bash
-# Install dependencies
-npm install
+# Resume Download Link (Required - link to your resume)
+VITE_RESUME_DOWNLOAD_URL=your_resume_download_link_here
 
-# Start development server
-npm run dev
-
-# The app will be available at http://localhost:5173
+# EmailJS Configuration (Required - for contact form)
+VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id_here
+VITE_EMAILJS_TEMPLATE_ID=your_emailjs_template_id_here
+VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key_here
 ```
 
-## 🏗️ Build for Production
+### Setting Environment Variables in Vercel
+1. Go to your Vercel project dashboard
+2. Click on "Settings" tab
+3. Click on "Environment Variables" in the sidebar
+4. Add each variable with its corresponding value
+5. Redeploy your project for changes to take effect
 
+## 🛠️ Development
+
+### Prerequisites
+- Node.js (version 14 or higher)
+- npm or yarn
+
+### Installation
 ```bash
-# Build for production
+# Clone the repository
+git clone <repository-url>
+
+# Navigate to the project directory
+cd Samyak-Portfolio
+
+# Install dependencies
+npm install
+```
+
+### Running the Development Server
+```bash
+# Start the development server
+npm run dev
+
+# Open your browser and visit http://localhost:5173
+```
+
+### Building for Production
+```bash
+# Build the project
 npm run build
 
-# Preview the production build locally
+# Preview the production build
 npm run preview
 ```
 
-The build output will be in the `dist` folder.
-
 ## 📁 Project Structure
-
 ```
 src/
 ├── assets/          # Images, logos, and other assets
@@ -82,15 +94,14 @@ src/
 ```
 
 ## 🎨 Technologies Used
-
-- **React** - Frontend library
-- **Vite** - Build tool and development server
-- **Tailwind CSS** - Styling framework
-- **Framer Motion** - Animation library
-- **EmailJS** - Contact form handling
-- **React Icons** - Icon library
-- **React Parallax Tilt** - 3D tilt effects
+- React
+- Vite
+- Tailwind CSS
+- Framer Motion
+- EmailJS
+- React Icons
+- React Parallax Tilt
+- React Typing Effect
 
 ## 📞 Contact
-
-For any inquiries, please reach out via the contact form on the website or directly at samyak.g.anand@gmail.com.
+If you have any questions or feedback, feel free to reach out to Samyak Anand at samyakanand2003@gmail.com.

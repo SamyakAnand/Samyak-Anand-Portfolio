@@ -101,46 +101,13 @@ const LiveProjectHighlights = () => {
         </motion.div>
 
         <motion.div
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-xl border border-gray-700/70 shadow-2xl hover:shadow-purple-500/20 transition-all duration-500"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          whileHover={{ 
-            boxShadow: "0 25px 50px -12px rgba(139, 92, 246, 0.25)",
-            y: -10
-          }}
+          className="relative"
         >
-          {/* Glowing border effect */}
-          <div className="absolute inset-0 rounded-3xl border border-purple-500/30 shadow-[0_0_60px_10px_rgba(139,92,246,0.2)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-          
-          {/* Navigation Arrows */}
-          <motion.button
-            onClick={goToPrev}
-            className="absolute left-6 top-1/2 transform -translate-y-1/2 z-10 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full p-4 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-purple-500/50 hover:scale-110"
-            aria-label="Previous slide"
-            whileHover={{ scale: 1.1, boxShadow: "0 10px 20px rgba(139, 92, 246, 0.4)" }}
-            whileTap={{ scale: 0.9 }}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-          >
-            <FiChevronLeft size={28} />
-          </motion.button>
-          
-          <motion.button
-            onClick={goToNext}
-            className="absolute right-6 top-1/2 transform -translate-y-1/2 z-10 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full p-4 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-purple-500/50 hover:scale-110"
-            aria-label="Next slide"
-            whileHover={{ scale: 1.1, boxShadow: "0 10px 20px rgba(139, 92, 246, 0.4)" }}
-            whileTap={{ scale: 0.9 }}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-          >
-            <FiChevronRight size={28} />
-          </motion.button>
-
           <div className="relative h-96 md:h-[500px]">
             <AnimatePresence mode="wait">
               <motion.div
@@ -169,59 +136,61 @@ const LiveProjectHighlights = () => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent"></div>
-                  {/* Glowing border effect */}
-                  <div className="absolute inset-0 rounded-lg border-2 border-purple-500/30 shadow-[0_0_30px_5px_rgba(139,92,246,0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70"
+                    style={{ animationDelay: '0.5s' }}
+                  ></div>
+                  <motion.div 
+                    className="absolute bottom-6 left-6 w-4 h-4 bg-purple-500 rounded-full"
+                    animate={{
+                      scale: [1, 1.5, 1],
+                      opacity: [0.7, 1, 0.7],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{ animationDelay: '1s' }}
+                  ></motion.div>
+                  <motion.div 
+                    className="absolute top-6 right-6 w-6 h-6 bg-pink-500 rounded-full"
+                    animate={{
+                      scale: [1, 1.3, 1],
+                      opacity: [0.5, 0.8, 0.5],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{ animationDelay: '1.5s' }}
+                  ></motion.div>
                 </motion.div>
                 
                 {/* Content */}
                 <motion.div
-                  className="w-full md:w-3/5 h-1/2 md:h-full p-8 md:p-12 flex flex-col justify-center bg-gradient-to-br from-gray-900/95 to-gray-800/95 relative overflow-hidden"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  className="w-full md:w-3/5 h-1/2 md:h-full bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-10 flex flex-col justify-center relative overflow-hidden"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  {/* Animated background elements */}
-                  <motion.div
-                    className="absolute top-0 right-0 w-40 h-40 bg-purple-500 rounded-full filter blur-3xl opacity-20 animate-pulse"
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5"
                     animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.2, 0.3, 0.2]
+                      background: [
+                        "linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%)",
+                        "linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)",
+                        "linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%)",
+                      ]
                     }}
                     transition={{
-                      duration: 4,
+                      duration: 8,
                       repeat: Infinity,
                       ease: "easeInOut"
                     }}
-                  ></motion.div>
-                  <motion.div
-                    className="absolute bottom-0 left-0 w-32 h-32 bg-pink-500 rounded-full filter blur-3xl opacity-20 animate-pulse"
-                    animate={{
-                      scale: [1, 1.3, 1],
-                      opacity: [0.2, 0.4, 0.2]
-                    }}
-                    transition={{
-                      duration: 5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1
-                    }}
-                    style={{ animationDelay: '1s' }}
-                  ></motion.div>
-                  <motion.div
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500 rounded-full filter blur-3xl opacity-10 animate-pulse"
-                    animate={{
-                      scale: [1, 1.1, 1],
-                      opacity: [0.1, 0.2, 0.1]
-                    }}
-                    transition={{
-                      duration: 6,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 2
-                    }}
                     style={{ animationDelay: '2s' }}
-                  ></motion.div>
+                  ></div>
                   
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -307,38 +276,20 @@ const LiveProjectHighlights = () => {
                           <span>Coming Soon</span>
                         </motion.div>
                       ) : (
-                        <>
-                          <motion.a
-                            href={liveProjects[currentIndex].webapp}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-3 w-full md:w-48 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-purple-500/40 backdrop-blur-sm border border-purple-500/30"
-                            whileHover={{ scale: 1.05, boxShadow: "0 15px 30px -5px rgba(139, 92, 246, 0.6), 0 10px 15px -5px rgba(139, 92, 246, 0.4)" }}
-                            whileTap={{ scale: 0.95 }}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.3, delay: 0.7 }}
-                          >
-                            <FiExternalLink size={20} />
-                            <span>View Live</span>
-                          </motion.a>
-                          {liveProjects[currentIndex].github && liveProjects[currentIndex].github !== "#" && (
-                            <motion.a
-                              href={liveProjects[currentIndex].github}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center justify-center gap-3 w-full md:w-48 px-6 py-3 rounded-xl bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-gray-500/40 backdrop-blur-sm border border-gray-600/30"
-                              whileHover={{ scale: 1.05, boxShadow: "0 15px 30px -5px rgba(107, 114, 128, 0.6), 0 10px 15px -5px rgba(107, 114, 128, 0.4)" }}
-                              whileTap={{ scale: 0.95 }}
-                              initial={{ opacity: 0, scale: 0.9 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 0.3, delay: 0.8 }}
-                            >
-                              <FiCode size={20} />
-                              <span>Source Code</span>
-                            </motion.a>
-                          )}
-                        </>
+                        <motion.a
+                          href={liveProjects[currentIndex].webapp}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-3 w-full md:w-48 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-purple-500/40 backdrop-blur-sm border border-purple-500/30"
+                          whileHover={{ scale: 1.05, boxShadow: "0 15px 30px -5px rgba(139, 92, 246, 0.6), 0 10px 15px -5px rgba(139, 92, 246, 0.4)" }}
+                          whileTap={{ scale: 0.95 }}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, delay: 0.7 }}
+                        >
+                          <FiExternalLink size={20} />
+                          <span>View Live</span>
+                        </motion.a>
                       )}
                     </motion.div>
                   </motion.div>

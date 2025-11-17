@@ -33,6 +33,22 @@
     100% { transform: scale(1); opacity: 1; }
 }
 
+/* Floating animation for particles */
+@keyframes float-bob {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    25% {
+        transform: translateY(-5px) translateX(2px);
+    }
+    50% {
+        transform: translateY(-10px) translateX(0);
+    }
+    75% {
+        transform: translateY(-5px) translateX(-2px);
+    }
+}
+
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
     .chatbot-window {

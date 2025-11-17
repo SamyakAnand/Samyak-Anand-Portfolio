@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #050414;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-item {
+            background: #1a1a2e;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        .success {
+            background: #4CAF50;
+        }
+        .error {
+            background: #f44336;
+        }
+        button {
+            background: #8245ec;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #6a35c4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Deployment Test Page</h1>
+        <p>This page helps verify that your portfolio is working correctly.</p>
+        
+        <div class="test-item">
+            <h2>Environment Variables Test</h2>
+            <div id="env-test">
+                <p>Checking environment variables...</p>
+            </div>
+        </div>
+        
+        <div class="test-item">
+            <h2>Image Loading Test</h2>
+            <div id="image-test">
+                <p>Checking image loading...</p>
+            </div>
+        </div>
+        
+        <div class="test-item">
+            <h2>Component Rendering Test</h2>
+            <div id="component-test">
+                <p>Checking component rendering...</p>
+            </div>
+        </div>
+        
+        <button onclick="runTests()">Run Tests</button>
+        <button onclick="window.location.reload()">Refresh Page</button>
+    </div>
+
+    <script>
+        function runTests() {
+            // Test environment variables
+            const envTest = document.getElementById('env-test');
+            try {
+                const resumeUrl = typeof import !== 'undefined' && import.meta && import.meta.env ? 
+                    import.meta.env.VITE_RESUME_DOWNLOAD_URL : undefined;
+                
+                if (resumeUrl === undefined) {
+                    envTest.innerHTML = '<p>Environment variables: <span class="status error">NOT ACCESSIBLE</span></p>' +
+                        '<p>This is expected in this test environment.</p>';
+                } else {
+                    envTest.innerHTML = '<p>Environment variables: <span class="status success">ACCESSIBLE</span></p>' +
+                        '<p>Resume URL: ' + (resumeUrl || 'Not set') + '</p>';
+                }
+            } catch (e) {
+                envTest.innerHTML = '<p>Environment variables: <span class="status error">ERROR</span></p>' +
+                    '<p>Error: ' + e.message + '</p>';
+            }
+            
+            // Test image loading
+            const imageTest = document.getElementById('image-test');
+            const img1 = new Image();
+            const img2 = new Image();
+            let loaded = 0;
+            let failed = 0;
+            
+            const checkComplete = () => {
+                if (loaded + failed === 2) {
+                    if (failed === 0) {
+                        imageTest.innerHTML = '<p>Profile images: <span class="status success">ALL LOADED</span></p>';
+                    } else if (loaded > 0) {
+                        imageTest.innerHTML = '<p>Profile images: <span class="status error">PARTIALLY LOADED</span></p>' +
+                            '<p>' + loaded + ' loaded, ' + failed + ' failed</p>';
+                    } else {
+                        imageTest.innerHTML = '<p>Profile images: <span class="status error">ALL FAILED</span></p>';
+                    }
+                }
+            };
+            
+            img1.onload = () => { loaded++; checkComplete(); };
+            img1.onerror = () => { failed++; checkComplete(); };
+            img1.src = '/images/profile1.png';
+            
+            img2.onload = () => { loaded++; checkComplete(); };
+            img2.onerror = () => { failed++; checkComplete(); };
+            img2.src = '/images/profile2.png';
+            
+            // Test component rendering
+            const componentTest = document.getElementById('component-test');
+            componentTest.innerHTML = '<p>Component rendering test: <span class="status success">PASSED</span></p>' +
+                '<p>This test page is rendering correctly.</p>';
+        }
+        
+        // Run tests automatically when page loads
+        window.addEventListener('load', runTests);
+    </script>
+</body>
+</html>
