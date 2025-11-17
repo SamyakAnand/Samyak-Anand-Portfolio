@@ -277,6 +277,26 @@ const PortfolioChatbot = () => {
       return "I'm doing great, thank you for asking! I'm here and ready to help you learn more about Samyak Anand's work and projects. What would you like to explore today?";
     }
     
+    // General greetings
+    if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
+      return "Hello there! 👋 I'm SAM, Samyak Anand's AI twin. I'm here to help you explore his portfolio. What would you like to know about his work?";
+    }
+    
+    // Goodbye responses
+    if (lower.includes("bye") || lower.includes("goodbye") || lower.includes("see you")) {
+      return "Goodbye! Feel free to come back anytime if you want to learn more about Samyak's work. Have a great day! 👋";
+    }
+    
+    // Thank you responses
+    if (lower.includes("thank")) {
+      return "You're welcome! 😊 Is there anything else you'd like to know about Samyak's work or projects?";
+    }
+    
+    // Help responses
+    if (lower.includes("help") || lower.includes("what can you do")) {
+      return "I'm SAM, Samyak Anand's AI assistant. I can help you learn about his projects, skills, experience, and education. You can ask me about his Power BI dashboards, machine learning projects, certifications, work experience, or skills. What would you like to know?";
+    }
+    
     // Project-related responses
     if (lower.includes("project")) {
       if (lower.includes("power bi") || lower.includes("dashboard")) {
@@ -349,13 +369,19 @@ const PortfolioChatbot = () => {
       return "You can download my resume using the link in the contact section. It contains detailed information about my experience, skills, and projects.";
     }
     
-    // Default responses
-    if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
-      return "Hello there! 👋 I'm SAM, Samyak Anand's AI twin. I'm here to help you explore his portfolio. What would you like to know about his work?";
+    // Weather responses (just for fun)
+    if (lower.includes("weather") || lower.includes("temperature")) {
+      return "I'm an AI assistant focused on Samyak's portfolio, so I don't have access to real-time weather data. But I hope you're having a great day regardless of the weather! ☀️🌧️";
     }
     
-    if (lower.includes("thank")) {
-      return "You're welcome! 😊 Is there anything else you'd like to know about Samyak's work or projects?";
+    // Time responses (just for fun)
+    if (lower.includes("time") || lower.includes("date")) {
+      return "I'm focused on helping you learn about Samyak's work, but I'm always here when you need assistance with his portfolio! What would you like to know?";
+    }
+    
+    // Joke responses (just for fun)
+    if (lower.includes("joke") || lower.includes("funny")) {
+      return "Why don't data scientists like to go camping? They prefer debugging indoors where there are fewer actual bugs! 😄 Want to learn more about Samyak's projects?";
     }
     
     // Fallback response
