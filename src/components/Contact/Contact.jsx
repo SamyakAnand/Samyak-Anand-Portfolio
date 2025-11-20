@@ -59,7 +59,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="flex flex-col items-center justify-center py-24 px-[7vw] md:px-[7vw] lg:px-[10vw] relative overflow-hidden"
+      className="flex flex-col items-center justify-center py-16 md:py-24 px-4 md:px-[7vw] lg:px-[10vw] relative overflow-hidden"
     >
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -86,10 +86,10 @@ const Contact = () => {
         </p>
       </motion.div>
 
-      <div className="mt-8 grid md:grid-cols-2 gap-8 items-stretch w-full max-w-6xl relative z-10">
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch w-full max-w-6xl relative z-10">
         {/* Contact Form */}
         <motion.div
-          className="glass-card rounded-3xl p-8 border border-white/10 shadow-2xl"
+          className="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl"
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -103,7 +103,7 @@ const Contact = () => {
           </div>
 
           <form onSubmit={sendEmail} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="user_name" className="block text-gray-400 mb-2 text-sm font-medium">Full Name</label>
                 <div className="relative group">
@@ -199,19 +199,19 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <div className="glass-card rounded-3xl p-8 border border-white/10 shadow-2xl flex-grow">
-            <div className="flex items-center gap-3 mb-8">
+          <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl flex-grow">
+            <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
                 <FiPhone className="w-6 h-6 text-purple-400" />
               </div>
               <h3 className="text-2xl font-bold text-white">Contact Info</h3>
             </div>
 
-            <p className="text-gray-400 mb-8 leading-relaxed">
+            <p className="text-gray-400 mb-6 leading-relaxed text-sm md:text-base">
               I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
             </p>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <a
                 href="mailto:samyak.g.anand@gmail.com"
                 className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 hover:bg-white/10 transition-all duration-300 group"
@@ -220,8 +220,8 @@ const Contact = () => {
                   <FiMail className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Mail me at</div>
-                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors">samyak.g.anand@gmail.com</div>
+                  <div className="text-xs md:text-sm text-gray-400 mb-1">Mail me at</div>
+                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors text-sm md:text-base">samyak.g.anand@gmail.com</div>
                 </div>
               </a>
 
@@ -233,8 +233,8 @@ const Contact = () => {
                   <FiPhone className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Call me at</div>
-                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors">+91 9623719948</div>
+                  <div className="text-xs md:text-sm text-gray-400 mb-1">Call me at</div>
+                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors text-sm md:text-base">+91 9623719948</div>
                 </div>
               </a>
 
@@ -248,15 +248,15 @@ const Contact = () => {
                   <FiMapPin className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Location</div>
-                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors">Hyderabad, Telangana, India</div>
+                  <div className="text-xs md:text-sm text-gray-400 mb-1">Location</div>
+                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors text-sm md:text-base">Hyderabad, Telangana, India</div>
                 </div>
               </a>
             </div>
           </div>
 
           {/* Social Links Card */}
-          <div className="glass-card rounded-3xl p-8 border border-white/10 shadow-2xl">
+          <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl">
             <h4 className="text-lg font-bold text-white mb-6">Connect with me</h4>
             <div className="flex gap-4 justify-between sm:justify-start">
               <motion.a
