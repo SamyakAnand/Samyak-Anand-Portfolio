@@ -83,7 +83,7 @@ const LiveProjectHighlights = () => {
               </div>
 
               {/* Content Section */}
-              <div className="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-12 flex flex-col justify-center relative bg-primary/50 backdrop-blur-sm">
+              <div className="w-full md:w-1/2 h-1/2 md:h-full p-6 md:p-12 flex flex-col justify-center relative bg-primary/50 backdrop-blur-sm">
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -106,11 +106,11 @@ const LiveProjectHighlights = () => {
                     {liveProjects[currentIndex].description}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-8">
+                  <div className="flex flex-wrap gap-2 mb-6">
                     {liveProjects[currentIndex].tags.slice(0, 4).map((tag, index) => (
                       <span
                         key={index}
-                        className="text-xs md:text-sm px-2.5 py-1 md:px-3 md:py-1.5 rounded-full bg-gradient-to-r from-purple-600/40 to-pink-600/40 text-white font-medium border border-[#a855f7]/50 backdrop-blur-sm shadow-sm whitespace-nowrap"
+                        className="text-xs md:text-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full bg-gradient-to-r from-purple-600/40 to-pink-600/40 text-white font-medium border border-[#a855f7]/50 backdrop-blur-sm shadow-sm whitespace-nowrap"
                       >
                         {tag}
                       </span>
@@ -119,7 +119,7 @@ const LiveProjectHighlights = () => {
 
                   <div className="flex gap-4">
                     {liveProjects[currentIndex].comingSoon ? (
-                      <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-700 text-gray-400 cursor-not-allowed">
+                      <button className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-xl bg-gray-700 text-gray-400 cursor-not-allowed text-sm md:text-base">
                         <FiStar /> Coming Soon
                       </button>
                     ) : (
@@ -127,7 +127,7 @@ const LiveProjectHighlights = () => {
                         href={liveProjects[currentIndex].webapp}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm md:text-base"
                       >
                         <FiExternalLink /> Visit Site
                       </a>
