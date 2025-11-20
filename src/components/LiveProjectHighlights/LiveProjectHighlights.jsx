@@ -60,7 +60,7 @@ const LiveProjectHighlights = () => {
           </h2>
         </div>
 
-        <div className="relative h-[600px] md:h-[500px] w-full glass-card rounded-2xl overflow-hidden border border-white/10">
+        <div className="relative h-[500px] md:h-[400px] w-full glass-card rounded-2xl overflow-hidden border border-white/10">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -83,57 +83,64 @@ const LiveProjectHighlights = () => {
               </div>
 
               {/* Content Section */}
-              <div className="w-full md:w-1/2 h-1/2 md:h-full p-4 md:p-12 flex flex-col justify-center relative bg-primary/50 backdrop-blur-sm">
+              <div className="w-full md:w-1/2 h-1/2 md:h-full p-3 md:p-12 flex flex-col justify-center relative bg-primary/50 backdrop-blur-sm">
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
+                  className="flex flex-col h-full"
                 >
-                  <div className="flex flex-wrap gap-3 mb-6">
-                    <span className="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
-                      LIVE
-                    </span>
-                    <span className="px-3 py-1 text-xs font-bold rounded-full bg-tertiary text-secondary border border-white/10">
-                      {liveProjects[currentIndex].category.filter(cat => cat !== "Live Projects")[0] || "Web App"}
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">
-                    {liveProjects[currentIndex].title}
-                  </h3>
-
-                  <p className="text-secondary text-sm md:text-base leading-relaxed mb-4 md:mb-8 line-clamp-3 md:line-clamp-none">
-                    {liveProjects[currentIndex].description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {liveProjects[currentIndex].tags.slice(0, 4).map((tag, index) => (
-                      <span
-                        key={index}
-                        className="text-xs md:text-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full bg-gradient-to-r from-purple-600/40 to-pink-600/40 text-white font-medium border border-[#a855f7]/50 backdrop-blur-sm shadow-sm whitespace-nowrap"
-                      >
-                        {tag}
+                  <div className="flex-shrink-0">
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
+                        LIVE
                       </span>
-                    ))}
+                      <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-tertiary text-secondary border border-white/10">
+                        {liveProjects[currentIndex].category.filter(cat => cat !== "Live Projects")[0] || "Web App"}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl md:text-3xl font-bold text-white mb-2 md:mb-3">
+                      {liveProjects[currentIndex].title}
+                    </h3>
+
+                    <p className="text-secondary text-xs md:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-2 md:line-clamp-none">
+                      {liveProjects[currentIndex].description}
+                    </p>
                   </div>
 
-                  <div className="flex flex-wrap gap-3">
-                    {liveProjects[currentIndex].comingSoon ? (
-                      <button className="flex items-center gap-1 md:gap-2 px-3 py-2 md:px-6 md:py-3 rounded-xl bg-gray-700 text-gray-400 cursor-not-allowed text-xs md:text-base min-w-0">
-                        <FiStar className="text-xs md:text-base flex-shrink-0" />
-                        <span className="truncate">Coming Soon</span>
-                      </button>
-                    ) : (
-                      <a
-                        href={liveProjects[currentIndex].webapp}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 md:gap-2 px-3 py-2 md:px-6 md:py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-xs md:text-base min-w-0"
-                      >
-                        <FiExternalLink className="text-xs md:text-base flex-shrink-0" />
-                        <span className="truncate">Visit Site</span>
-                      </a>
-                    )}
+                  <div className="flex-shrink-0 mb-3 md:mb-4">
+                    <div className="flex flex-wrap gap-1 md:gap-2 mb-3 md:mb-4">
+                      {liveProjects[currentIndex].tags.slice(0, 3).map((tag, index) => (
+                        <span
+                          key={index}
+                          className="text-[9px] md:text-xs px-1.5 py-1 md:px-2 md:py-1 rounded-full bg-gradient-to-r from-purple-600/40 to-pink-600/40 text-white font-medium border border-[#a855f7]/50 backdrop-blur-sm shadow-sm whitespace-nowrap"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex-shrink-0 mt-auto pt-2">
+                    <div className="flex flex-wrap gap-2">
+                      {liveProjects[currentIndex].comingSoon ? (
+                        <button className="flex items-center justify-center gap-1 md:gap-2 px-2 py-1.5 md:px-4 md:py-2.5 rounded-lg bg-gray-700 text-gray-400 cursor-not-allowed text-[10px] md:text-sm font-medium min-w-[80px] md:min-w-[120px] w-full sm:w-auto">
+                          <FiStar className="text-[10px] md:text-sm flex-shrink-0" />
+                          <span className="truncate">Coming Soon</span>
+                        </button>
+                      ) : (
+                        <a
+                          href={liveProjects[currentIndex].webapp}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-1 md:gap-2 px-2 py-1.5 md:px-4 md:py-2.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-[10px] md:text-sm min-w-[80px] md:min-w-[120px] w-full sm:w-auto"
+                        >
+                          <FiExternalLink className="text-[10px] md:text-sm flex-shrink-0" />
+                          <span className="truncate">Visit Site</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               </div>
