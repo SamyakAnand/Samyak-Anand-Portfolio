@@ -1,39 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { projects } from "../../constants";
-import { FiExternalLink, FiChevronLeft, FiChevronRight, FiZap, FiGlobe, FiStar, FiCode } from "react-icons/fi";
+import { FiExternalLink, FiChevronLeft, FiChevronRight, FiZap, FiGlobe, FiStar } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LiveProjectHighlights = () => {
-  // Filter live projects (those with "Live Projects" in their category)
-  const liveProjects = projects.filter(project => 
+  const liveProjects = projects.filter(project =>
     project.category.includes("Live Projects")
   );
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-scroll functionality
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex(prevIndex => (prevIndex + 1) % liveProjects.length);
-    }, 5000); // Change slide every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [liveProjects.length]);
 
-  // Handle manual navigation
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
 
-  // Navigation functions
   const goToPrev = () => {
-    setCurrentIndex(prevIndex => 
+    setCurrentIndex(prevIndex =>
       prevIndex === 0 ? liveProjects.length - 1 : prevIndex - 1
     );
   };
 
   const goToNext = () => {
-    setCurrentIndex(prevIndex => 
+    setCurrentIndex(prevIndex =>
       prevIndex === liveProjects.length - 1 ? 0 : prevIndex + 1
     );
   };
@@ -42,35 +38,10 @@ const LiveProjectHighlights = () => {
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden" id="live-projects">
-      {/* Animated background elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500 rounded-full filter blur-3xl opacity-10"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -100, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        ></motion.div>
-        <motion.div
-          className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-pink-500 rounded-full filter blur-3xl opacity-10"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, 100, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        ></motion.div>
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-[100px] animate-blob" />
+        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-[100px] animate-blob animation-delay-2000" />
       </div>
 
       <motion.div
@@ -80,288 +51,119 @@ const LiveProjectHighlights = () => {
         transition={{ duration: 0.5 }}
         className="max-w-7xl mx-auto relative z-10"
       >
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <div className="flex justify-center items-center mb-4">
-            <FiZap className="text-yellow-400 text-2xl mr-2 animate-pulse" />
-            <h2 className="text-4xl md:text-5xl font-bold text-white">
-              Live Projects & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Startups</span>
-            </h2>
-          </div>
-          <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-6 rounded-full"></div>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Explore my deployed real-world websites and startup ventures
+        <div className="text-center mb-16">
+          <p className="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider mb-2">
+            Real-world applications
           </p>
-        </motion.div>
+          <h2 className="text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">
+            Live Projects.
+          </h2>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="relative"
-        >
-          <div className="relative h-96 md:h-[500px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, x: 150 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -150 }}
-                transition={{ duration: 0.7, ease: "easeInOut" }}
-                className="absolute inset-0 flex flex-col md:flex-row"
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                {/* Image */}
+        <div className="relative h-[600px] md:h-[500px] w-full glass-card rounded-2xl overflow-hidden border border-white/10">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0 flex flex-col md:flex-row"
+            >
+              {/* Image Section */}
+              <div className="w-full md:w-1/2 h-1/2 md:h-full relative group overflow-hidden bg-black-200">
+                <motion.img
+                  src={liveProjects[currentIndex].image}
+                  alt={liveProjects[currentIndex].title}
+                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                  initial={{ scale: 1 }}
+                  whileHover={{ scale: 1.05 }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black-100 via-transparent to-transparent opacity-60" />
+              </div>
+
+              {/* Content Section */}
+              <div className="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-12 flex flex-col justify-center relative bg-primary/50 backdrop-blur-sm">
                 <motion.div
-                  className="w-full md:w-2/5 h-1/2 md:h-full overflow-hidden relative group"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
                 >
-                  <motion.img
-                    src={liveProjects[currentIndex].image}
-                    alt={liveProjects[currentIndex].title}
-                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                  />
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70"
-                    style={{ animationDelay: '0.5s' }}
-                  ></div>
-                  <motion.div 
-                    className="absolute bottom-6 left-6 w-4 h-4 bg-purple-500 rounded-full"
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.7, 1, 0.7],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    style={{ animationDelay: '1s' }}
-                  ></motion.div>
-                  <motion.div 
-                    className="absolute top-6 right-6 w-6 h-6 bg-pink-500 rounded-full"
-                    animate={{
-                      scale: [1, 1.3, 1],
-                      opacity: [0.5, 0.8, 0.5],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    style={{ animationDelay: '1.5s' }}
-                  ></motion.div>
-                </motion.div>
-                
-                {/* Content */}
-                <motion.div
-                  className="w-full md:w-3/5 h-1/2 md:h-full bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-10 flex flex-col justify-center relative overflow-hidden"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5"
-                    animate={{
-                      background: [
-                        "linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%)",
-                        "linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)",
-                        "linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%)",
-                      ]
-                    }}
-                    transition={{
-                      duration: 8,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    style={{ animationDelay: '2s' }}
-                  ></div>
-                  
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                  >
-                    <motion.div
-                      className="mb-6 flex flex-wrap gap-3"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0.3 }}
-                    >
-                      <span className="inline-flex items-center px-4 py-2 text-sm font-semibold rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
-                        <FiGlobe className="mr-2" /> {liveProjects[currentIndex].category.filter(cat => cat !== "Live Projects")[0] || "Website"}
+                  <div className="flex flex-wrap gap-3 mb-6">
+                    <span className="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
+                      LIVE
+                    </span>
+                    <span className="px-3 py-1 text-xs font-bold rounded-full bg-tertiary text-secondary border border-white/10">
+                      {liveProjects[currentIndex].category.filter(cat => cat !== "Live Projects")[0] || "Web App"}
+                    </span>
+                  </div>
+
+                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    {liveProjects[currentIndex].title}
+                  </h3>
+
+                  <p className="text-secondary text-base leading-relaxed mb-8 line-clamp-3 md:line-clamp-none">
+                    {liveProjects[currentIndex].description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {liveProjects[currentIndex].tags.slice(0, 4).map((tag, index) => (
+                      <span
+                        key={index}
+                        className="text-xs md:text-sm px-2.5 py-1 md:px-3 md:py-1.5 rounded-full bg-gradient-to-r from-purple-600/40 to-pink-600/40 text-white font-medium border border-[#a855f7]/50 backdrop-blur-sm shadow-sm whitespace-nowrap"
+                      >
+                        {tag}
                       </span>
-                      {/* Show Coming Soon badge for projects that are not yet live */}
-                      {liveProjects[currentIndex].comingSoon && (
-                        <motion.span
-                          className="inline-flex items-center px-4 py-2 text-sm font-semibold rounded-full bg-red-500 text-white animate-pulse shadow-lg"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: 0.4 }}
-                        >
-                          <FiZap className="mr-2" /> Coming Soon
-                        </motion.span>
-                      )}
-                    </motion.div>
-                    
-                    <motion.h3 
-                      className="text-2xl md:text-3xl font-bold text-white mb-4"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                    >
-                      {liveProjects[currentIndex].title}
-                    </motion.h3>
-                    
-                    <motion.p 
-                      className="text-gray-300 mb-6 text-base leading-relaxed"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.4 }}
-                    >
-                      {liveProjects[currentIndex].description}
-                    </motion.p>
-                    
-                    <motion.div 
-                      className="flex flex-wrap gap-3 mb-8"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
-                    >
-                      {liveProjects[currentIndex].tags.slice(0, 4).map((tag, index) => (
-                        <motion.span
-                          key={index}
-                          className="px-3 py-1.5 text-sm rounded-lg bg-gray-700/60 text-gray-200 backdrop-blur-sm border border-gray-600/50 hover:bg-purple-600/30 hover:text-white transition-all duration-300"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
-                          whileHover={{ scale: 1.1, backgroundColor: "rgba(139, 92, 246, 0.3)" }}
-                        >
-                          {tag}
-                        </motion.span>
-                      ))}
-                    </motion.div>
-                    
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.6 }}
-                      className="flex flex-wrap gap-4"
-                    >
-                      {liveProjects[currentIndex].comingSoon ? (
-                        <motion.div
-                          className="flex items-center justify-center gap-3 w-full md:w-48 px-6 py-3 rounded-xl bg-gray-700 text-gray-400 font-semibold text-base cursor-not-allowed backdrop-blur-sm border border-gray-600/50"
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: 0.7 }}
-                        >
-                          <FiStar size={20} />
-                          <span>Coming Soon</span>
-                        </motion.div>
-                      ) : (
-                        <motion.a
-                          href={liveProjects[currentIndex].webapp}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-3 w-full md:w-48 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-purple-500/40 backdrop-blur-sm border border-purple-500/30"
-                          whileHover={{ scale: 1.05, boxShadow: "0 15px 30px -5px rgba(139, 92, 246, 0.6), 0 10px 15px -5px rgba(139, 92, 246, 0.4)" }}
-                          whileTap={{ scale: 0.95 }}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: 0.7 }}
-                        >
-                          <FiExternalLink size={20} />
-                          <span>View Live</span>
-                        </motion.a>
-                      )}
-                    </motion.div>
-                  </motion.div>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-4">
+                    {liveProjects[currentIndex].comingSoon ? (
+                      <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-700 text-gray-400 cursor-not-allowed">
+                        <FiStar /> Coming Soon
+                      </button>
+                    ) : (
+                      <a
+                        href={liveProjects[currentIndex].webapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                      >
+                        <FiExternalLink /> Visit Site
+                      </a>
+                    )}
+                  </div>
                 </motion.div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-          
-          {/* Previous Button */}
-          <motion.button
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Navigation Buttons */}
+          <button
             onClick={goToPrev}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 backdrop-blur-sm rounded-full p-3 text-white hover:bg-purple-600/50 transition-all duration-300 z-10 shadow-lg"
-            whileHover={{ scale: 1.1, backgroundColor: "rgba(139, 92, 246, 0.5)" }}
-            whileTap={{ scale: 0.9 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.5 }}
-            aria-label="Previous project"
+            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-white hover:text-primary transition-all z-20 backdrop-blur-sm"
           >
             <FiChevronLeft size={24} />
-          </motion.button>
-          
-          {/* Next Button */}
-          <motion.button
+          </button>
+          <button
             onClick={goToNext}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 backdrop-blur-sm rounded-full p-3 text-white hover:bg-purple-600/50 transition-all duration-300 z-10 shadow-lg"
-            whileHover={{ scale: 1.1, backgroundColor: "rgba(139, 92, 246, 0.5)" }}
-            whileTap={{ scale: 0.9 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.5 }}
-            aria-label="Next project"
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white hover:bg-white hover:text-primary transition-all z-20 backdrop-blur-sm"
           >
             <FiChevronRight size={24} />
-          </motion.button>
-          
-          {/* Navigation Dots */}
-          <motion.div
-            className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
+          </button>
+
+          {/* Dots */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
             {liveProjects.map((_, index) => (
-              <motion.button
+              <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-4 h-4 rounded-full transition-all duration-500 ${
-                  index === currentIndex ? "bg-gradient-to-r from-purple-500 to-pink-500 w-8 shadow-lg shadow-purple-500/50" : "bg-gray-600"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.9 + index * 0.1 }}
+                className={`w-2 h-2 rounded-full transition-all ${index === currentIndex ? "w-8 bg-white" : "bg-white/50"
+                  }`}
               />
             ))}
-          </motion.div>
-        </motion.div>
-        
-        {/* Project Counter */}
-        <motion.div 
-          className="text-center mt-6 text-gray-400 text-base"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          Project <span className="text-purple-400 font-bold">{currentIndex + 1}</span> of <span className="text-purple-400 font-bold">{liveProjects.length}</span>
-        </motion.div>
+          </div>
+        </div>
       </motion.div>
     </section>
   );

@@ -41,9 +41,55 @@ const About = () => {
   return (
     <section
       id="about"
-      className="py-4 px-[7vw] md:px-[7vw] lg:px-[20vw] font-sans mt-16 md:mt-24 lg:mt-32"
+      className="py-4 px-[7vw] md:px-[7vw] lg:px-[20vw] font-sans mt-16 md:mt-24 lg:mt-32 relative overflow-hidden"
     >
-      <div className="flex flex-col-reverse md:flex-row justify-between items-center">
+      {/* Stars Background */}
+      <div className="absolute inset-0 z-0">
+        {/* Static stars */}
+        <div className="absolute inset-0">
+          {[...Array(100)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full bg-white"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                width: `${Math.random() * 3}px`,
+                height: `${Math.random() * 3}px`,
+                opacity: Math.random() * 0.8 + 0.2,
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Twinkling stars */}
+        <div className="absolute inset-0">
+          {[...Array(50)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full bg-white"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                width: `${Math.random() * 2 + 1}px`,
+                height: `${Math.random() * 2 + 1}px`,
+              }}
+              animate={{
+                opacity: [0.2, 1, 0.2],
+                scale: [0.8, 1.2, 0.8],
+              }}
+              transition={{
+                duration: Math.random() * 3 + 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col-reverse md:flex-row justify-between items-center relative z-10">
         {/* Left Side */}
         <motion.div 
           className="md:w-1/2 text-center md:text-left mt-8 md:mt-0"
@@ -53,24 +99,15 @@ const About = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
         >
-          {/* Greeting */}
+          {/* Name */}
           <motion.h1 
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2 leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
-            Hi, I am
-          </motion.h1>
-          {/* Name */}
-          <motion.h2 
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight relative"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-          >
             Samyak Anand
-          </motion.h2>
+          </motion.h1>
           
           {/* Skills Heading with Typing Effect */}
           <motion.h3 

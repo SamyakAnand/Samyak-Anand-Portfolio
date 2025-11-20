@@ -1,368 +1,219 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 1. Remove any default gap */
-html, body {
+:root {
+  --black-gradient: linear-gradient(
+    144.39deg,
+    #ffffff -278.56%,
+    #6d6d6d -78.47%,
+    #11101d 91.61%
+  );
+  --card-gradient: linear-gradient(
+    113.49deg,
+    #9893da -30.3%,
+    #181433 75.64%
+  );
+}
+
+* {
   margin: 0;
   padding: 0;
-}
-
-/* 2. Global font */
-* {
+  box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-}
-
-/* 3. Smooth scrolling */
-html {
   scroll-behavior: smooth;
 }
 
-/* 4. Tailwind-layered custom clip-paths */
-@layer utilities {
-  .clip-path-custom   { clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 95%, 0 100%); }
-  .clip-path-custom-2 { clip-path: polygon(0 0, 100% 0, 100% 98%, 25% 95%, 0 100%); }
-  .clip-path-custom-3 { clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 96%, 0 100%); }
-}
-
-/* 5. Blob Animation */
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-.animate-blob {
-  animation: blob 7s infinite;
-}
-
-/* Fallback animation for production */
-@keyframes blob-fallback {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  50% {
-    transform: translate(15px, -25px) scale(1.05);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-.animate-blob-fallback {
-  animation: blob-fallback 5s infinite;
-}
-
-/* Profile image pulse fallback */
-@keyframes pulse-fallback {
-  0%, 100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.animate-pulse-fallback {
-  animation: pulse-fallback 2s ease-in-out infinite;
-}
-
-/* 6. Custom cursors & trails */
 body {
-  cursor: auto;
-  /* Removed will-change: transform; to prevent stacking context issues */
+  background-color: #050816;
+  overflow-x: hidden;
 }
 
-a, button, .cursor-pointer {
-  cursor: pointer;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.custom-cursor {
-  position: fixed;
-  width: 40px;
-  height: 40px;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  /* Removed will-change: transform; to prevent stacking context issues */
+::-webkit-scrollbar-track {
+  background: #050816;
 }
 
-.cursor-trail {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background: radial-gradient(circle, rgba(130,69,236,0.6) 30%, rgba(130,69,236,0) 80%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: fadeTrail 0.6s forwards;
-  pointer-events: none;
-  z-index: 9999;
+::-webkit-scrollbar-thumb {
+  background: #915eff;
+  border-radius: 5px;
 }
 
-.cursor-star {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  background: radial-gradient(circle, rgba(255,255,255,0.9) 40%, rgba(255,255,255,0) 80%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: twinkle 0.8s forwards;
-  pointer-events: none;
+::-webkit-scrollbar-thumb:hover {
+  background: #7e4bd1;
 }
 
-/* 7. Cursor animations */
-@keyframes fadeTrail {
-  0% { opacity: 1; transform: scale(1); }
- 100% { opacity: 0; transform: scale(1.5); }
-}
-
-@keyframes twinkle {
-  0%   { opacity: 1; transform: scale(1); }
- 50%  { opacity: 0.4; transform: scale(1.3); }
- 100% { opacity: 0; transform: scale(1); }
-}
-
-/* 8. Navbar animations & glow */
-@keyframes navFadeIn {
-  0%   { opacity: 0; transform: translateY(-100%); }
- 100% { opacity: 1; transform: translateY(0); }
-}
-
-/* 9. Profile Animation Portal Effects */
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes portalPulse {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
- 50% { transform: scale(1.05); opacity: 1; }
-}
-
-@keyframes rise {
-  0% { transform: translateY(0); opacity: 1; }
- 100% { transform: translateY(-200px); opacity: 0; }
-}
-
-@keyframes pulseGlow {
-  0%, 100% { filter: drop-shadow(0 0 20px #a855f7); }
- 50% { filter: drop-shadow(0 0 40px #00ffff); }
-}
-
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 30px #a855f7; opacity: 0.9; }
- 50% { box-shadow: 0 0 60px #a855f7; opacity: 1; }
-}
-
-@keyframes pulseArc {
-  0%, 100% {
-    opacity: 0.8;
-    filter: drop-shadow(0 0 10px #a855f7) drop-shadow(0 0 25px #9333ea);
-  }
- 50% {
-    opacity: 1;
-    filter: drop-shadow(0 0 25px #c084fc) drop-shadow(0 0 50px #a855f7);
-  }
-}
-
-@keyframes pulseHex {
-  0%, 100% { filter: drop-shadow(0 0 10px #a855f7) drop-shadow(0 0 20px #00ffff); }
- 50% { filter: drop-shadow(0 0 25px #00ffff) drop-shadow(0 0 40px #a855f7); }
-}
-
-@keyframes hexGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 15px #a855f7) drop-shadow(0 0 25px #00ffff);
-  }
- 50% {
-    filter: drop-shadow(0 0 35px #00ffff) drop-shadow(0 0 50px #a855f7);
-  }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
- 50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse-slow {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-    filter: drop-shadow(0 0 20px #a855f7);
-  }
- 50% {
-    opacity: 1;
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 40px #8245ec);
-  }
-}
-
-/* 10. Liquid Glass UI Animations */
-@keyframes glassMotion {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate(5px, -5px) rotate(1deg);
-    opacity: 1;
-  }
-}
-
-.animate-glassMotion {
-  animation: glassMotion 8s ease-in-out infinite;
-}
-
-.liquid-glass {
-  backdrop-filter: blur(20px);
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(130, 69, 236, 0.15)
-  );
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.05),
-    0 0 60px rgba(130, 69, 236, 0.3);
-  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
-.animate-nav-fade-in {
-  animation: navFadeIn 0.7s ease-out forwards;
+.glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-.aura-glow {
-  text-shadow:
-    0 0 6px rgba(168,85,247,0.7),
-    0 0 12px rgba(168,85,247,0.4),
-    0 0 20px rgba(130,69,236,0.3);
+/* Text Gradients */
+.text-gradient {
+  background: linear-gradient(to right, #915eff, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.purple-underline {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  width: 24px;
-  height: 2px;
-  background: linear-gradient(90deg, #a855f7, #8245ec, #a855f7);
-  border-radius: 2px;
-  transform: translateX(-50%);
-  animation: pulse-lightning 1.2s infinite alternate;
+.blue-text-gradient {
+  background: -webkit-linear-gradient(#33bbcf, #33bbcf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-@keyframes pulse-lightning {
-  0%   { box-shadow: 0 0 6px #a855f7; }
- 100% { box-shadow: 0 0 12px #a855f7, 0 0 20px #8245ec; }
+.pink-text-gradient {
+  background: #ec008c;
+  background: -webkit-linear-gradient(to right, #ec008c 0%, #fc6767 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* 11. Chatbot Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.green-text-gradient {
+  background: #11998e;
+  background: -webkit-linear-gradient(to right, #11998e 0%, #38ef7d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.4s ease-out forwards;
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
 }
 
-/* 12. Skills Section Animations */
-@keyframes borderPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(130, 69, 236, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(130, 69, 236, 0);
-  }
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(145, 94, 255, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(145, 94, 255, 0.8); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite;
+}
+
+/* Utility */
+.hash-span {
+  margin-top: -100px;
+  padding-bottom: 100px;
+  display: block;
+}
+
+.canvas-loader {
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  animation: mul 1s infinite linear;
+  transform: translateZ(0);
+}
+
+@keyframes mul {
+  0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(130, 69, 236, 0);
+    box-shadow: 0em -2.6em 0em 0em #ffffff,
+      1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
+      0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.5),
+      -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7);
   }
-}
-
-@keyframes skillIconFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.7),
+      1.8em -1.8em 0 0em #ffffff,
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
+      0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5);
   }
-  50% {
-    transform: translateY(-5px) rotate(2deg);
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.5),
+      1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7),
+      2.5em 0em 0 0em #ffffff,
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
+      0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
-}
-
-@keyframes skillGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.5));
-  }
-  50% {
-    filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.8)) drop-shadow(0 0 25px rgba(130, 69, 236, 0.6));
-  }
-}
-
-.animate-border-pulse {
-  animation: borderPulse 2s infinite;
-}
-
-.animate-skill-float {
-  animation: skillIconFloat 3s ease-in-out infinite;
-}
-
-.animate-skill-glow {
-  animation: skillGlow 2s ease-in-out infinite;
-}
-
-/* 13. Scrollbar Hide */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* 14. Animation Delays */
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-/* 15. Chatbot Button Animations */
-@keyframes gradient-x {
-  0%, 100% {
-    background-size: 200% 200%;
-    background-position: left center;
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
+      1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5),
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.7),
+      1.75em 1.75em 0 0em #ffffff,
+      0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
   50% {
-    background-size: 200% 200%;
-    background-position: right center;
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
+      1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.5),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7),
+      0em 2.5em 0 0em #ffffff,
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
-}
-
-.animate-gradient-x {
-  animation: gradient-x 3s ease infinite;
-}
-
-/* 16. Floating animation for chat button */
-@keyframes float-bob {
-  0%, 100% {
-    transform: translateY(0);
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
+      1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.5),
+      0em 2.5em 0 0em rgba(255, 255, 255, 0.7),
+      -1.8em 1.8em 0 0em #ffffff,
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
-  50% {
-    transform: translateY(-10px);
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
+      1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
+      0em 2.5em 0 0em rgba(255, 255, 255, 0.5),
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7),
+      -2.6em 0em 0 0em #ffffff,
+      -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
-}
-
-.animate-float-bob {
-  animation: float-bob 3s ease-in-out infinite;
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
+      1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
+      0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5),
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7),
+      -1.8em -1.8em 0 0em #ffffff;
+  }
 }

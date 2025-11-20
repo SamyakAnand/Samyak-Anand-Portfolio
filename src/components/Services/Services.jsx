@@ -284,18 +284,18 @@ const Services = () => {
 
       {/* Service Detail Modal */}
       {selectedService && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 backdrop-blur-sm pt-20">
           {/* Navigation Arrows */}
           <button
             onClick={goToPrevService}
-            className="absolute left-4 md:left-8 text-white/80 hover:text-white text-3xl z-10 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors"
+            className="fixed left-4 md:left-8 text-white/80 hover:text-white text-3xl z-50 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors top-1/2 transform -translate-y-1/2"
           >
             <FiChevronLeft />
           </button>
           
           <button
             onClick={goToNextService}
-            className="absolute right-4 md:right-8 text-white/80 hover:text-white text-3xl z-10 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors"
+            className="fixed right-4 md:right-8 text-white/80 hover:text-white text-3xl z-50 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors top-1/2 transform -translate-y-1/2"
           >
             <FiChevronRight />
           </button>
@@ -309,7 +309,7 @@ const Services = () => {
             {/* Close Button */}
             <button 
               onClick={() => setSelectedService(null)}
-              className="absolute top-4 right-4 text-white/80 hover:text-white text-2xl z-10"
+              className="fixed top-6 right-6 text-white/80 hover:text-white text-2xl z-50 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors"
             >
               <FiX />
             </button>

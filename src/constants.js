@@ -175,16 +175,7 @@ export const projects = [
     github: "https://github.com/SamyakAnand/NetworkSecurity",
     webapp: "https://github.com/SamyakAnand/NetworkSecurity",
   },
-  {
-    id: 12,
-    title: "Amazon Prime Video Dashboard (Power BI)",
-    description: "Analytics dashboard analyzing Amazon Prime Video content library by genre, year, countries, actors, and ratings. Provides insights into content distribution and performance metrics.",
-    image: Amazon_dashboard_snapshot,
-    tags: ["Power BI", "Power Query", "DAX", "Genre Analysis", "Ratings Analysis", "Trend Charts", "Donut Charts", "Tables", "Custom Theme"],
-    category: ["Data Science", "Data Analysis"],
-    github: "https://github.com/SamyakAnand/Amazon-Prime-Video-Dashboard-in-Power-BI-",
-    webapp: "https://github.com/SamyakAnand/Amazon-Prime-Video-Dashboard-in-Power-BI-",
-  },
+
   // Live Projects
   {
     id: 13,

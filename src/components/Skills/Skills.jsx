@@ -1,6 +1,7 @@
 import React from "react";
 import { SkillsInfo } from "../../constants";
 import { motion } from "framer-motion";
+import Tilt from "react-parallax-tilt";
 
 const Skills = () => {
   // Animation variants
@@ -14,61 +15,29 @@ const Skills = () => {
     }
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+  const categoryVariants = {
+    hidden: { opacity: 0, y: 50 },
     visible: {
-      y: 0,
       opacity: 1,
+      y: 0,
       transition: {
-        duration: 0.5
-      }
-    },
-    hover: {
-      y: -10,
-      transition: {
-        duration: 0.3,
+        duration: 0.6,
         type: "spring",
-        stiffness: 300
+        stiffness: 100,
+        damping: 12
       }
     }
   };
 
   const skillVariants = {
-    hidden: { scale: 0.8, opacity: 0 },
+    hidden: { scale: 0, opacity: 0 },
     visible: {
       scale: 1,
       opacity: 1,
       transition: {
-        duration: 0.3
-      }
-    },
-    hover: {
-      scale: 1.15,
-      y: -5,
-      rotate: 5,
-      transition: {
-        duration: 0.3,
         type: "spring",
-        stiffness: 400
-      }
-    }
-  };
-
-  const categoryVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.5,
-        type: "spring",
-        stiffness: 100
-      }
-    },
-    hover: {
-      x: 10,
-      transition: {
-        duration: 0.3
+        stiffness: 260,
+        damping: 20
       }
     }
   };
@@ -150,35 +119,12 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="py-20 px-[7vw] md:px-[7vw] lg:px-[20vw] font-sans relative overflow-hidden"
+      className="py-20 px-[7vw] md:px-[7vw] lg:px-[15vw] font-sans relative overflow-hidden"
     >
-      {/* Animated background elements */}
+      {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <motion.div 
-          className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-pulse"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.3, 0.2]
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        ></motion.div>
-        <motion.div 
-          className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-cyan-500 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-pulse animation-delay-2000"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.4, 0.2]
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
-          }}
-        ></motion.div>
+        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] animate-blob"></div>
+        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-blob animation-delay-2000"></div>
       </div>
 
       {/* Section Title */}
@@ -190,11 +136,11 @@ const Skills = () => {
         className="text-center mb-16 relative z-10"
       >
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-          My <span className="text-[#8245ec]">Skills</span>
+          My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Skills</span>
         </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-6"></div>
-        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-          Here are the technologies and tools I've mastered in my journey as a Data Scientist and ML Engineer
+        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-6 rounded-full"></div>
+        <p className="text-gray-300 max-w-2xl mx-auto text-lg leading-relaxed">
+          Here are the technologies and tools I've mastered in my journey as a Data Scientist and ML Engineer.
         </p>
       </motion.div>
 
@@ -203,89 +149,72 @@ const Skills = () => {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10"
+        viewport={{ once: true, margin: "-50px" }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10"
       >
         {updatedSkillsInfo.map((category, index) => (
-          <motion.div
+          <Tilt
             key={category.title}
-            variants={categoryVariants}
-            whileHover="hover"
-            className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700 shadow-xl hover:border-[#8245ec] transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 group relative overflow-hidden"
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            tiltMaxAngleX={2}
+            tiltMaxAngleY={2}
+            glareEnable={false}
+            scale={1.01}
+            transitionSpeed={2500}
+            className="h-full"
           >
-            {/* Glowing border effect */}
-            <div className="absolute inset-0 rounded-2xl border border-transparent animate-border-pulse"></div>
-            
-            <div className="flex items-center justify-center mb-6">
-              <h3 className="text-2xl font-bold text-white text-center group-hover:text-purple-400 transition-colors duration-300">
-                {category.title}
-              </h3>
-              <div className="ml-2 w-3 h-3 bg-purple-500 rounded-full animate-ping"></div>
-            </div>
+            <motion.div
+              variants={categoryVariants}
+              className="glass-card h-full p-8 rounded-3xl border border-white/10 relative overflow-hidden group"
+            >
+              {/* Hover Gradient Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-            <div className="grid grid-cols-3 gap-3">
-              {category.skills.map((skill, skillIndex) => (
-                <motion.div
-                  key={skill.name}
-                  variants={skillVariants}
-                  whileHover="hover"
-                  className="flex flex-col items-center justify-center p-3 rounded-xl bg-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-[#8245ec] transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 relative overflow-hidden"
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.3, delay: skillIndex * 0.05 }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-                  <div className="w-16 h-16 mb-2 flex items-center justify-center relative z-10">
-                    <motion.img
-                      src={skill.logo}
-                      alt={`${skill.name} logo`}
-                      className={`w-12 h-12 object-contain filter drop-shadow-lg ${
-                        skill.name === "Pandas" || skill.name === "NumPy" 
-                          ? "invert brightness-0" 
-                          : ""
-                      }`}
-                      style={{
-                        filter: skill.name === "Pandas" || skill.name === "NumPy" 
-                          ? "invert(1) brightness(2)" 
-                          : "none"
-                      }}
-                      onError={(e) => {
-                        // Fallback for images that fail to load
-                        e.target.src = "https://skillicons.dev/icons?i=code&theme=dark";
-                      }}
-                      whileHover={{ 
-                        scale: 1.2,
-                        rotate: [0, 10, -10, 0],
-                        transition: { duration: 0.5 }
-                      }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      initial={{ opacity: 0, y: 20 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </div>
-                  <motion.span 
-                    className="text-xs text-gray-300 text-center relative z-10 leading-tight"
-                    whileHover={{ 
-                      color: "#a855f7",
-                      fontWeight: "500"
+              <div className="flex items-center mb-8 relative z-10">
+                <div className="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full mr-4"></div>
+                <h3 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">
+                  {category.title}
+                </h3>
+              </div>
+
+              <div className="flex flex-wrap gap-4 relative z-10">
+                {category.skills.map((skill, skillIndex) => (
+                  <motion.div
+                    key={skill.name}
+                    variants={skillVariants}
+                    whileHover={{
+                      scale: 1.1,
+                      y: -5,
+                      transition: { type: "spring", stiffness: 400, damping: 10 }
                     }}
-                    whileInView={{ opacity: 1 }}
-                    initial={{ opacity: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
+                    className="flex flex-col items-center gap-2 group/skill"
                   >
-                    {skill.name}
-                  </motion.span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center p-3 shadow-lg backdrop-blur-sm hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300"></div>
+                      <img
+                        src={skill.logo}
+                        alt={`${skill.name} logo`}
+                        className={`w-full h-full object-contain filter drop-shadow-md transition-transform duration-300 ${skill.name === "Pandas" || skill.name === "NumPy"
+                            ? "invert brightness-0 group-hover/skill:brightness-200"
+                            : ""
+                          }`}
+                        style={{
+                          filter: skill.name === "Pandas" || skill.name === "NumPy"
+                            ? "invert(1) brightness(2)"
+                            : "none"
+                        }}
+                        onError={(e) => {
+                          e.target.src = "https://skillicons.dev/icons?i=code&theme=dark";
+                        }}
+                      />
+                    </div>
+                    <span className="text-xs sm:text-sm text-gray-400 font-medium group-hover/skill:text-white transition-colors duration-300">
+                      {skill.name}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </Tilt>
         ))}
       </motion.div>
 
@@ -294,13 +223,16 @@ const Skills = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="mt-16 text-center relative z-10"
+        transition={{ duration: 0.5, delay: 0.5 }}
+        className="mt-20 text-center relative z-10"
       >
-        <div className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-purple-900/50 to-pink-900/50 border border-purple-700/50 backdrop-blur-sm">
-          <div className="w-3 h-3 bg-purple-500 rounded-full mr-3 animate-bounce"></div>
-          <p className="text-gray-300 text-lg">
-            Continuously learning and expanding my skills to stay at the forefront of technology
+        <div className="inline-flex items-center justify-center px-8 py-4 rounded-full glass-card border border-purple-500/30">
+          <span className="relative flex h-3 w-3 mr-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+          </span>
+          <p className="text-gray-300 font-medium">
+            Always learning and exploring new technologies
           </p>
         </div>
       </motion.div>

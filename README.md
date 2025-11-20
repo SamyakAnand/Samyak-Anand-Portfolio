@@ -32,13 +32,18 @@ npm run build
 For the portfolio to function correctly, you must set the following environment variables in your Vercel project settings:
 
 ```bash
+# Euri API Configuration (Optional - for chatbot functionality)
+VITE_EURI_API_KEY=your_euri_api_key_here
+VITE_EURI_API_URL=https://api.euron.one/api/v1/euri/chat/completions
+VITE_EURI_MODEL=gpt-4.1-nano
+
 # Resume Download Link (Required - link to your resume)
-VITE_RESUME_DOWNLOAD_URL=your_resume_download_link_here
+VITE_RESUME_DOWNLOAD_URL=/Samyak_Updated_CV.pdf
 
 # EmailJS Configuration (Required - for contact form)
-VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id_here
-VITE_EMAILJS_TEMPLATE_ID=your_emailjs_template_id_here
-VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key_here
+VITE_EMAILJS_SERVICE_ID=your_service_id_here
+VITE_EMAILJS_TEMPLATE_ID=your_template_id_here
+VITE_EMAILJS_PUBLIC_KEY=your_public_key_here
 ```
 
 ### Setting Environment Variables in Vercel

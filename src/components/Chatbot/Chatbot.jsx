@@ -21,14 +21,17 @@ const PortfolioChatbot = () => {
 
   // Check if we're in browser environment
   useEffect(() => {
-    setIsBrowser(typeof window !== 'undefined');
+    const inBrowser = typeof window !== 'undefined';
+    console.log("Browser environment check:", inBrowser);
+    setIsBrowser(inBrowser);
   }, []);
 
   // Auto-scroll to bottom of messages
   useEffect(() => {
+    console.log("Messages updated, attempting to scroll to bottom");
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
+  
   // Set initial suggestions
   useEffect(() => {
     if (messages.length === 1) {
@@ -41,6 +44,13 @@ const PortfolioChatbot = () => {
       setSuggestionsCount(1);
     }
   }, [messages]);
+  
+  // Reset suggestions count when chat is closed and reopened
+  useEffect(() => {
+    if (!open && suggestionsCount > 0) {
+      setSuggestionsCount(0);
+    }
+  }, [open, suggestionsCount]);
 
   // Generate context-aware suggestions based on last user message
   useEffect(() => {
@@ -50,6 +60,10 @@ const PortfolioChatbot = () => {
       const previousUserMessage = messages.length > 2 && messages[messages.length - 2].role === "user" 
         ? messages[messages.length - 2].content.toLowerCase() 
         : "";
+      
+      console.log("Generating suggestions for message:", lastUserMessage);
+      console.log("Previous message:", previousUserMessage);
+      console.log("Suggestions count:", suggestionsCount);
       
       // Only update suggestions if this is a new message (not a repeat) and we haven't shown suggestions more than 2 times
       if (lastUserMessage !== previousUserMessage && suggestionsCount < 2) {
@@ -116,15 +130,24 @@ const PortfolioChatbot = () => {
           ];
         }
         
+        console.log("New suggestions generated:", newSuggestions);
+        
         // Only update if suggestions are different to prevent unnecessary re-renders
         setSuggestions(prevSuggestions => {
           const suggestionsChanged = JSON.stringify(prevSuggestions) !== JSON.stringify(newSuggestions);
+          console.log("Suggestions changed:", suggestionsChanged);
           if (suggestionsChanged) {
             // Increment the suggestions count when new suggestions are actually set
-            setSuggestionsCount(prevCount => prevCount + 1);
+            setSuggestionsCount(prevCount => {
+              const newCount = prevCount + 1;
+              console.log("Suggestions count updated to:", newCount);
+              return newCount;
+            });
           }
           return suggestionsChanged ? newSuggestions : prevSuggestions;
         });
+      } else {
+        console.log("Skipping suggestions generation - either message repeated or max count reached");
       }
     }
   }, [messages, suggestionsCount]);
@@ -202,7 +225,7 @@ const PortfolioChatbot = () => {
       
       // Switch to education tab after a delay to ensure section is visible
       setTimeout(() => {
-        const educationTabButton = document.querySelector('button[onClick*="education"]');
+        const educationTabButton = document.querySelector('button[onClick*="education"]') || document.querySelector('[data-tab="education"]');
         if (educationTabButton) {
           educationTabButton.click();
           console.log("Switched to education tab");
@@ -220,7 +243,7 @@ const PortfolioChatbot = () => {
       
       // Switch to experience tab after a delay to ensure section is visible
       setTimeout(() => {
-        const experienceTabButton = document.querySelector('button[onClick*="experience"]');
+        const experienceTabButton = document.querySelector('button[onClick*="experience"]') || document.querySelector('[data-tab="experience"]');
         if (experienceTabButton) {
           experienceTabButton.click();
           console.log("Switched to experience tab");
@@ -253,7 +276,7 @@ const PortfolioChatbot = () => {
     if (lower.includes("cv") || lower.includes("resume") || lower.includes("download")) {
       console.log("Opening CV download link");
       const resumeUrl = import.meta.env.VITE_RESUME_DOWNLOAD_URL;
-      if (resumeUrl) {
+      if (resumeUrl && resumeUrl !== '#') {
         setTimeout(() => {
           window.open(resumeUrl, "_blank");
         }, 300); // Slight delay to allow any scrolling to complete
@@ -289,12 +312,12 @@ const PortfolioChatbot = () => {
     
     // Motivation/Goals questions
     if (lower.includes("motivate") || lower.includes("goal") || lower.includes("aspiration") || lower.includes("dream")) {
-      return "Somyak is motivated by the potential of data science to solve real-world problems. His goal is to become a skilled Data Scientist and ML Engineer who can drive business impact through innovative AI solutions. He's particularly interested in MLOps and building end-to-end ML pipelines.";
+      return "Samyak is motivated by the potential of data science to solve real-world problems. His goal is to become a skilled Data Scientist and ML Engineer who can drive business impact through innovative AI solutions. He's particularly interested in MLOps and building end-to-end ML pipelines.";
     }
     
     // Strengths questions
     if (lower.includes("strength") || lower.includes("strong") || lower.includes("best at")) {
-      return "Somyak's key strengths include analytical thinking, proficiency in Python and data analysis tools, ability to build end-to-end ML workflows, and creating insightful Power BI dashboards. He's also skilled at working in teams and translating business problems into data-driven solutions.";
+      return "Samyak's key strengths include analytical thinking, proficiency in Python and data analysis tools, ability to build end-to-end ML workflows, and creating insightful Power BI dashboards. He's also skilled at working in teams and translating business problems into data-driven solutions.";
     }
     
     // Weaknesses/Improvement questions
@@ -304,17 +327,17 @@ const PortfolioChatbot = () => {
     
     // Work style questions
     if (lower.includes("work style") || lower.includes("work approach") || lower.includes("work habit")) {
-      return "Somyak approaches projects methodically, starting with understanding the business problem, then exploring and cleaning data, building and validating models, and finally deploying solutions. He values collaboration, documentation, and creating reproducible workflows.";
+      return "Samyak approaches projects methodically, starting with understanding the business problem, then exploring and cleaning data, building and validating models, and finally deploying solutions. He values collaboration, documentation, and creating reproducible workflows.";
     }
     
     // Teamwork questions
     if (lower.includes("team") || lower.includes("collaborat") || lower.includes("work with others")) {
-      return "Somyak is a collaborative team player who has experience leading teams of interns. He values diverse perspectives and believes in the power of teamwork to solve complex problems. He's comfortable taking leadership roles while also contributing as a team member.";
+      return "Samyak is a collaborative team player who has experience leading teams of interns. He values diverse perspectives and believes in the power of teamwork to solve complex problems. He's comfortable taking leadership roles while also contributing as a team member.";
     }
     
     // Learning style questions
     if (lower.includes("learn") || lower.includes("education style")) {
-      return "Somyak is a hands-on learner who believes in learning by doing. He builds projects, participates in internships, and takes practical courses to apply his knowledge. He's also active in the data science community and stays updated with the latest research and tools.";
+      return "Samyak is a hands-on learner who believes in learning by doing. He builds projects, participates in internships, and takes practical courses to apply his knowledge. He's also active in the data science community and stays updated with the latest research and tools.";
     }
     
     // General greetings
@@ -429,15 +452,18 @@ const PortfolioChatbot = () => {
   };
 
   const sendMessage = async (messageText = input) => {
-    if (!messageText.trim() || isLoading) return;
+    if (!messageText.trim() || isLoading) {
+      console.log("Skipping sendMessage - empty message or already loading");
+      return;
+    }
 
+    console.log("Sending message:", messageText);
     const userMessage = { role: "user", content: messageText };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInput("");
     setIsLoading(true);
 
-    console.log("Sending message:", messageText);
     // Handle navigation immediately
     handleNavigation(messageText);
 
@@ -446,6 +472,7 @@ const PortfolioChatbot = () => {
       await new Promise(resolve => setTimeout(resolve, 500));
       
       const botReply = getResponse(messageText);
+      console.log("Bot reply:", botReply);
       
       setMessages([...updatedMessages, { role: "assistant", content: botReply }]);
     } catch (err) {
@@ -463,6 +490,7 @@ const PortfolioChatbot = () => {
   };
 
   const handleSuggestionClick = (suggestion) => {
+    console.log("Suggestion clicked:", suggestion);
     setInput(suggestion);
     sendMessage(suggestion);
   };
@@ -470,6 +498,7 @@ const PortfolioChatbot = () => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      console.log("Enter key pressed, sending message");
       sendMessage();
     }
   };
@@ -483,7 +512,10 @@ const PortfolioChatbot = () => {
     <div className="chatbot-wrapper">
       {/* Floating Button */}
       <motion.div
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          console.log("Chatbot icon clicked, toggling open state");
+          setOpen(!open);
+        }}
         className="chatbot-icon bg-gradient-to-r from-purple-600 via-purple-700 to-pink-500 p-0 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center group relative overflow-hidden cursor-pointer border-2 border-white/30"
         whileHover={{ scale: 1.15 }}
         whileTap={{ scale: 0.9 }}
@@ -559,7 +591,10 @@ const PortfolioChatbot = () => {
                 <span>SAM</span>
               </div>
               <motion.button 
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  console.log("Close button clicked");
+                  setOpen(false);
+                }}
                 className="text-white hover:text-gray-200 transition-colors relative z-10 hover:bg-white/20 p-1 rounded-full"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -636,7 +671,10 @@ const PortfolioChatbot = () => {
                 <motion.input
                   type="text"
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => {
+                    console.log("Input changed:", e.target.value);
+                    setInput(e.target.value);
+                  }}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
                   className="flex-1 bg-gray-800/50 backdrop-blur-sm border border-white/20 rounded-full px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
@@ -646,7 +684,10 @@ const PortfolioChatbot = () => {
                   transition={{ duration: 0.3 }}
                 />
                 <motion.button
-                  onClick={() => sendMessage()}
+                  onClick={() => {
+                    console.log("Send button clicked");
+                    sendMessage();
+                  }}
                   disabled={!input.trim() || isLoading}
                   className="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white rounded-full p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                   whileHover={{ scale: 1.1 }}
