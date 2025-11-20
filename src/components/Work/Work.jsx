@@ -34,10 +34,11 @@ const ProjectCard = ({ index, project, onClick }) => {
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover rounded-2xl"
+            className="w-full h-full object-contain rounded-2xl"
           />
           <div className="absolute inset-0 flex justify-end m-3 card-img_hover">
-            {project.github && (
+            {/* Show GitHub button only for non-live projects */}
+            {project.github && project.github !== "#" && !project.category.includes("Live Projects") && (
               <div
                 onClick={(e) => {
                   e.stopPropagation();
@@ -48,7 +49,9 @@ const ProjectCard = ({ index, project, onClick }) => {
                 <FiGithub className="w-1/2 h-1/2 text-white" />
               </div>
             )}
-            {project.webapp && project.webapp !== "#" && (
+
+            {/* Show Live Demo button only for live projects */}
+            {project.webapp && project.webapp !== "#" && project.category.includes("Live Projects") && (
               <div
                 onClick={(e) => {
                   e.stopPropagation();
@@ -201,7 +204,7 @@ const Work = () => {
                   <img
                     src={getCurrentImage(selectedProject)}
                     alt={selectedProject.title}
-                    className="w-full h-auto rounded-xl object-cover"
+                    className="w-full h-auto rounded-xl object-contain"
                   />
                   {selectedProject.images && selectedProject.images.length > 1 && (
                     <div className="flex gap-2 mt-4 justify-center">
@@ -232,7 +235,7 @@ const Work = () => {
                   </p>
 
                   <div className="flex gap-4">
-                    {selectedProject.github && (
+                    {selectedProject.github && selectedProject.github !== "#" && !selectedProject.category.includes("Live Projects") && (
                       <a
                         href={selectedProject.github}
                         target="_blank"
@@ -242,7 +245,8 @@ const Work = () => {
                         <FiGithub /> GitHub
                       </a>
                     )}
-                    {selectedProject.webapp && selectedProject.webapp !== "#" && (
+                    {/* Show Live Demo button only for live projects */}
+                    {selectedProject.webapp && selectedProject.webapp !== "#" && selectedProject.category.includes("Live Projects") && (
                       <a
                         href={selectedProject.webapp}
                         target="_blank"
