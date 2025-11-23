@@ -1,716 +1,434 @@
-import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiSend } from "react-icons/fi";
-import "./Chatbot.css"; // Import the CSS file
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { FiSend, FiSmile, FiUser, FiX } from "react-icons/fi";
+import { experiences, projects, SkillsInfo } from "../../constants";
+import "./Chatbot.css";
 
 const PortfolioChatbot = () => {
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState("professional"); // 'professional' or 'friendly'
   const [messages, setMessages] = useState([
-    { 
-      role: "assistant", 
-      content: "👋 Hey there! I'm SAM — Samyak Anand's AI twin. I'm here to help you explore his portfolio and answer questions about his work! What would you like to know?" 
+    {
+      role: "assistant",
+      content: "Hello! I'm SAM, Samyak's AI assistant. I can help you navigate this portfolio and answer questions about his work. How can I assist you today?"
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
-  const [suggestionsCount, setSuggestionsCount] = useState(0); // Track how many times suggestions have been shown
-  const [isBrowser, setIsBrowser] = useState(false);
+  const [suggestions, setSuggestions] = useState([
+    "Tell me about Samyak's skills",
+    "Show me his latest projects",
+    "What is his experience?",
+    "Why should we hire him?"
+  ]);
   const messagesEndRef = useRef(null);
-  const suggestionsRef = useRef(null);
+  const [isBrowser, setIsBrowser] = useState(false);
 
-  // Check if we're in browser environment
   useEffect(() => {
-    const inBrowser = typeof window !== 'undefined';
-    console.log("Browser environment check:", inBrowser);
-    setIsBrowser(inBrowser);
+    setIsBrowser(typeof window !== 'undefined');
   }, []);
 
-  // Auto-scroll to bottom of messages
   useEffect(() => {
-    console.log("Messages updated, attempting to scroll to bottom");
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-  
-  // Set initial suggestions
-  useEffect(() => {
-    if (messages.length === 1) {
-      setSuggestions([
-        "What projects has SAM worked on?",
-        "Tell me about SAM's skills",
-        "Show me his live projects"
-      ]);
-      // Increment suggestions count for initial suggestions
-      setSuggestionsCount(1);
-    }
-  }, [messages]);
-  
-  // Reset suggestions count when chat is closed and reopened
-  useEffect(() => {
-    if (!open && suggestionsCount > 0) {
-      setSuggestionsCount(0);
-    }
-  }, [open, suggestionsCount]);
 
-  // Generate context-aware suggestions based on last user message
+  // Update welcome message when mode changes
   useEffect(() => {
-    // Only update suggestions when we have a new user message
-    if (messages.length > 1 && messages[messages.length - 1].role === "user") {
-      const lastUserMessage = messages[messages.length - 1].content.toLowerCase();
-      const previousUserMessage = messages.length > 2 && messages[messages.length - 2].role === "user" 
-        ? messages[messages.length - 2].content.toLowerCase() 
-        : "";
-      
-      console.log("Generating suggestions for message:", lastUserMessage);
-      console.log("Previous message:", previousUserMessage);
-      console.log("Suggestions count:", suggestionsCount);
-      
-      // Only update suggestions if this is a new message (not a repeat) and we haven't shown suggestions more than 2 times
-      if (lastUserMessage !== previousUserMessage && suggestionsCount < 2) {
-        // Generate multiple suggestions based on the last user message
-        let newSuggestions = [];
-        
-        if (lastUserMessage.includes("project") || lastUserMessage.includes("work")) {
-          newSuggestions = [
-            "Show me details about his ML projects",
-            "What technologies did he use in his projects?",
-            "Can you tell me about his Power BI dashboards?",
-            "What was his most challenging project?",
-            "Show me his live projects"
-          ];
-        } else if (lastUserMessage.includes("skill") || lastUserMessage.includes("technology")) {
-          newSuggestions = [
-            "What programming languages does he know?",
-            "Tell me about his cloud experience",
-            "What ML frameworks is he proficient in?",
-            "Does he have experience with MLOps tools?"
-          ];
-        } else if (lastUserMessage.includes("certification") || lastUserMessage.includes("course")) {
-          newSuggestions = [
-            "What Kaggle certificates does he have?",
-            "Tell me about his Naresh IT course",
-            "Does he have any cloud certifications?",
-            "What about his university certifications?"
-          ];
-        } else if (lastUserMessage.includes("experience") || lastUserMessage.includes("internship")) {
-          newSuggestions = [
-            "What did he do at Evoastra?",
-            "Tell me about his Gilbert Research Center internship",
-            "What were his key achievements at Evoastra?",
-            "How long was his internship at Gilbert Research Center?"
-          ];
-        } else if (lastUserMessage.includes("education") || lastUserMessage.includes("study")) {
-          newSuggestions = [
-            "What's his highest qualification?",
-            "Where did he complete his diploma?",
-            "What was his university major?",
-            "Did he have any academic achievements?"
-          ];
-        } else if (lastUserMessage.includes("contact") || lastUserMessage.includes("hire")) {
-          newSuggestions = [
-            "What's his email address?",
-            "How can I connect with him on LinkedIn?",
-            "Does he have a phone number I can reach?",
-            "Where is he located?"
-          ];
-        } else if (lastUserMessage.includes("live") || lastUserMessage.includes("deploy")) {
-          newSuggestions = [
-            "Show me his live projects",
-            "What websites has he deployed?",
-            "Does he have any portfolio websites?",
-            "Show me his coming soon projects"
-          ];
-        } else {
-          // Default suggestions if no specific context
-          newSuggestions = [
-            "What makes him stand out as a data scientist?",
-            "What are his career goals?",
-            "How can I hire him for a project?",
-            "What's his GitHub profile?"
-          ];
-        }
-        
-        console.log("New suggestions generated:", newSuggestions);
-        
-        // Only update if suggestions are different to prevent unnecessary re-renders
-        setSuggestions(prevSuggestions => {
-          const suggestionsChanged = JSON.stringify(prevSuggestions) !== JSON.stringify(newSuggestions);
-          console.log("Suggestions changed:", suggestionsChanged);
-          if (suggestionsChanged) {
-            // Increment the suggestions count when new suggestions are actually set
-            setSuggestionsCount(prevCount => {
-              const newCount = prevCount + 1;
-              console.log("Suggestions count updated to:", newCount);
-              return newCount;
-            });
-          }
-          return suggestionsChanged ? newSuggestions : prevSuggestions;
-        });
-      } else {
-        console.log("Skipping suggestions generation - either message repeated or max count reached");
-      }
+    if (messages.length === 1 && messages[0].role === "assistant") {
+      const welcomeMsg = mode === "professional"
+        ? "Hello! I'm SAM, Samyak's AI assistant. I can help you navigate this portfolio and answer questions about his work. How can I assist you today?"
+        : "Hey there! I'm SAM! 🤖 I'm here to show you around Samyak's awesome portfolio. Ask me anything about his projects, skills, or just say hi! 🚀";
+
+      setMessages([{ role: "assistant", content: welcomeMsg }]);
     }
-  }, [messages, suggestionsCount]);
+  }, [mode]);
 
   const handleNavigation = (content) => {
-    const lower = content.toLowerCase();
-    console.log("Chatbot navigation triggered with content:", content);
-    
-    // Only attempt navigation in browser environment
     if (!isBrowser) return;
-    
-    // Helper function to scroll to element with better reliability
-    const scrollToElement = (elementId) => {
-      console.log(`Attempting to scroll to element: ${elementId}`);
-      
-      // Try multiple times with increasing delays to ensure element is available
-      let attempts = 0;
-      const maxAttempts = 10;
-      
-      const tryScroll = () => {
-        const element = document.getElementById(elementId);
-        attempts++;
-        
-        if (element) {
-          console.log(`Found element: ${elementId}, scrolling...`);
-          // Scroll with offset to account for fixed navbar
-          const navbarHeight = 80; // Approximate navbar height
-          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-          const offsetPosition = elementPosition - navbarHeight;
-          
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-          });
-          
-          // Also try the native scrollIntoView as fallback
-          setTimeout(() => {
-            element.scrollIntoView({ behavior: "smooth", block: "start" });
-          }, 100);
-        } else if (attempts < maxAttempts) {
-          console.log(`Element ${elementId} not found, attempt ${attempts}/${maxAttempts}. Retrying in 100ms...`);
-          setTimeout(tryScroll, 100);
-        } else {
-          console.log(`Element ${elementId} not found after ${maxAttempts} attempts`);
-        }
-      };
-      
-      // Start the first attempt
-      tryScroll();
+    const lower = content.toLowerCase();
+
+    const scrollTo = (id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 80;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+      }
     };
-    
-    // Navigation actions with more specific keyword matching
-    if (lower.includes("project") || lower.includes("work") || lower.includes("portfolio")) {
-      console.log("Navigating to work section");
-      scrollToElement("work");
-      return;
-    }
-    
-    if (lower.includes("contact") || lower.includes("get in touch") || lower.includes("reach")) {
-      console.log("Navigating to contact section");
-      scrollToElement("contact");
-      return;
-    }
-    
-    if (lower.includes("certification") || lower.includes("certificate") || lower.includes("kaggle") || lower.includes("naresh")) {
-      console.log("Navigating to certification section");
-      scrollToElement("certification");
-      return;
-    }
-    
-    // Handle education requests - navigate to section AND switch to education tab
-    if (lower.includes("education") || lower.includes("study") || lower.includes("school") || lower.includes("college") || lower.includes("university") || lower.includes("degree") || lower.includes("diploma")) {
-      console.log("Navigating to experience-education section and switching to education tab");
-      scrollToElement("experience-education");
-      
-      // Switch to education tab after a delay to ensure section is visible
-      setTimeout(() => {
-        const educationTabButton = document.querySelector('button[onClick*="education"]') || document.querySelector('[data-tab="education"]');
-        if (educationTabButton) {
-          educationTabButton.click();
-          console.log("Switched to education tab");
-        } else {
-          console.log("Education tab button not found");
-        }
-      }, 500);
-      return;
-    }
-    
-    // Handle experience requests - navigate to section AND switch to experience tab
-    if (lower.includes("background") || lower.includes("experience") || lower.includes("internship") || lower.includes("work experience") || lower.includes("job") || lower.includes("career")) {
-      console.log("Navigating to experience-education section and switching to experience tab");
-      scrollToElement("experience-education");
-      
-      // Switch to experience tab after a delay to ensure section is visible
-      setTimeout(() => {
-        const experienceTabButton = document.querySelector('button[onClick*="experience"]') || document.querySelector('[data-tab="experience"]');
-        if (experienceTabButton) {
-          experienceTabButton.click();
-          console.log("Switched to experience tab");
-        } else {
-          console.log("Experience tab button not found");
-        }
-      }, 500);
-      return;
-    }
-    
-    if (lower.includes("skill") || lower.includes("abilities") || lower.includes("expertise") || lower.includes("competenc") || lower.includes("programming") || lower.includes("language") || lower.includes("tool")) {
-      console.log("Navigating to skills section");
-      scrollToElement("skills");
-      return;
-    }
-    
-    if (lower.includes("about") || lower.includes("introduction") || lower.includes("hi") || lower.includes("hello") || lower.includes("who are you")) {
-      console.log("Navigating to about section");
-      scrollToElement("about");
-      return;
-    }
-    
-    if (lower.includes("service") || lower.includes("offer") || lower.includes("solution") || lower.includes("website") || lower.includes("ai") || lower.includes("ml") || lower.includes("machine learning") || lower.includes("data science")) {
-      console.log("Navigating to services section");
-      scrollToElement("services");
-      return;
-    }
-    
-    // Resume download
-    if (lower.includes("cv") || lower.includes("resume") || lower.includes("download")) {
-      console.log("Opening CV download link");
-      const resumeUrl = import.meta.env.VITE_RESUME_DOWNLOAD_URL;
-      if (resumeUrl && resumeUrl !== '#') {
-        setTimeout(() => {
-          window.open(resumeUrl, "_blank");
-        }, 300); // Slight delay to allow any scrolling to complete
-      } else {
-        console.warn("Resume download URL not configured");
-      }
-      return;
+
+    if (lower.includes("project") || lower.includes("work")) scrollTo("work");
+    else if (lower.includes("skill") || lower.includes("tech")) scrollTo("skills");
+    else if (lower.includes("about")) scrollTo("about");
+    else if (lower.includes("contact") || lower.includes("email")) scrollTo("contact");
+    else if (lower.includes("experience") || lower.includes("job")) scrollTo("experience-education");
+    else if (lower.includes("education") || lower.includes("study")) scrollTo("experience-education");
+    else if (lower.includes("certif")) scrollTo("certification");
+    else if (lower.includes("service")) scrollTo("services");
+  };
+
+  const updateSuggestions = (text) => {
+    const lower = text.toLowerCase();
+    if (lower.includes("skill") || lower.includes("tech")) {
+      setSuggestions(["What are his ML skills?", "Does he know Power BI?", "Show me his projects", "Contact Samyak"]);
+    } else if (lower.includes("project") || lower.includes("work")) {
+      setSuggestions(["Tell me about Blinkit Dashboard", "What is the Disease Predictor?", "See his experience", "Back to skills"]);
+    } else if (lower.includes("experience") || lower.includes("job") || lower.includes("intern")) {
+      setSuggestions(["What did he do at Evoastra?", "Tell me about Gilbert Research", "View his resume", "Why hire him?"]);
+    } else if (lower.includes("hire") || lower.includes("strength") || lower.includes("weakness")) {
+      setSuggestions(["What is his biggest challenge?", "How does he handle conflict?", "Contact info", "View projects"]);
+    } else {
+      setSuggestions(["Tell me about Samyak's skills", "Show me his latest projects", "What is his experience?", "Why should we hire him?"]);
     }
   };
 
-  const getResponse = (messageText) => {
-    const lower = messageText.toLowerCase();
-    
-    // About SAM/Samyak responses
-    if (lower.includes("who") && (lower.includes("sam") || lower.includes("samyak") || lower.includes("you"))) {
-      return "I'm SAM, Samyak Anand's AI assistant. I'm an AI twin designed to help you explore Samyak's portfolio, projects, skills, and experience. I can answer questions about his work in Data Science, Machine Learning, and Business Intelligence. What would you like to know specifically?";
-    }
-    
-    // How are you responses
-    if (lower.includes("how are you") || (lower.includes("how") && lower.includes("you"))) {
-      return "I'm doing great, thank you for asking! I'm here and ready to help you learn more about Samyak Anand's work and projects. What would you like to explore today?";
-    }
-    
-    // Personality/Character questions
-    if (lower.includes("personality") || lower.includes("character") || lower.includes("like to")) {
-      return "As Samyak's AI twin, I reflect his passion for data science and problem-solving. He's curious, detail-oriented, and enjoys turning complex data into actionable insights. He's also a team player who loves collaborating on innovative projects!";
-    }
-    
-    // Hobbies/Interests questions
-    if (lower.includes("hobby") || lower.includes("interest") || lower.includes("like to do") || lower.includes("free time")) {
-      return "Based on Samyak's portfolio, he's passionate about exploring new technologies in data science and machine learning. He likely enjoys working on personal projects, staying updated with industry trends, and possibly contributing to open-source initiatives in his free time.";
-    }
-    
-    // Motivation/Goals questions
-    if (lower.includes("motivate") || lower.includes("goal") || lower.includes("aspiration") || lower.includes("dream")) {
-      return "Samyak is motivated by the potential of data science to solve real-world problems. His goal is to become a skilled Data Scientist and ML Engineer who can drive business impact through innovative AI solutions. He's particularly interested in MLOps and building end-to-end ML pipelines.";
-    }
-    
-    // Strengths questions
-    if (lower.includes("strength") || lower.includes("strong") || lower.includes("best at")) {
-      return "Samyak's key strengths include analytical thinking, proficiency in Python and data analysis tools, ability to build end-to-end ML workflows, and creating insightful Power BI dashboards. He's also skilled at working in teams and translating business problems into data-driven solutions.";
-    }
-    
-    // Weaknesses/Improvement questions
-    if (lower.includes("weakness") || lower.includes("improve") || lower.includes("challenge")) {
-      return "Like any professional, Samyak is always learning and growing. He's actively working on expanding his expertise in deep learning, cloud technologies, and MLOps to stay current with industry advancements. His commitment to continuous learning is one of his strongest traits.";
-    }
-    
-    // Work style questions
-    if (lower.includes("work style") || lower.includes("work approach") || lower.includes("work habit")) {
-      return "Samyak approaches projects methodically, starting with understanding the business problem, then exploring and cleaning data, building and validating models, and finally deploying solutions. He values collaboration, documentation, and creating reproducible workflows.";
-    }
-    
-    // Teamwork questions
-    if (lower.includes("team") || lower.includes("collaborat") || lower.includes("work with others")) {
-      return "Samyak is a collaborative team player who has experience leading teams of interns. He values diverse perspectives and believes in the power of teamwork to solve complex problems. He's comfortable taking leadership roles while also contributing as a team member.";
-    }
-    
-    // Learning style questions
-    if (lower.includes("learn") || lower.includes("education style")) {
-      return "Samyak is a hands-on learner who believes in learning by doing. He builds projects, participates in internships, and takes practical courses to apply his knowledge. He's also active in the data science community and stays updated with the latest research and tools.";
-    }
-    
-    // General greetings
-    if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
-      return "Hello there! 👋 I'm SAM, Samyak Anand's AI twin. I'm here to help you explore his portfolio. What would you like to know about his work?";
-    }
-    
-    // Goodbye responses
-    if (lower.includes("bye") || lower.includes("goodbye") || lower.includes("see you")) {
-      return "Goodbye! Feel free to come back anytime if you want to learn more about Samyak's work. Have a great day! 👋";
-    }
-    
-    // Thank you responses
-    if (lower.includes("thank")) {
-      return "You're welcome! 😊 Is there anything else you'd like to know about Samyak's work or projects?";
-    }
-    
-    // Help responses
-    if (lower.includes("help") || lower.includes("what can you do")) {
-      return "I'm SAM, Samyak Anand's AI assistant. I can help you learn about his projects, skills, experience, and education. You can ask me about his Power BI dashboards, machine learning projects, certifications, work experience, or skills. What would you like to know?";
-    }
-    
-    // Project-related responses
-    if (lower.includes("project")) {
-      if (lower.includes("power bi") || lower.includes("dashboard")) {
-        return "I've worked on several Power BI projects including Financial Risk Analytics, Credit Card Analytics, Blinkit Sales & Inventory Analytics, Amazon Prime Video Dashboard, Netflix Dashboard, and Insurance Data Analysis. Each dashboard provides deep insights into different business domains with interactive visualizations.";
-      } else if (lower.includes("web scrap") || lower.includes("car24")) {
-        return "I built a web scraping pipeline for Car24 Hyderabad that extracts car listing data and structures it for analysis. The project uses Python, BeautifulSoup, and pandas for data processing.";
-      } else if (lower.includes("ml") || lower.includes("machine learning") || lower.includes("deep learning")) {
-        return "My ML projects include a Disease Predictor (multi-disease system), Customer Churn Prediction with Deep Learning, Student Performance Indicator, and Network Security ML Pipeline. These projects showcase various ML techniques from classification to deep learning.";
-      } else if (lower.includes("live") || lower.includes("deploy")) {
-        return "I have several live projects including Diksha Anand's Portfolio, Sonali Makeover Artistry website, Aurum Delights (coming soon), and Horeka (coming soon). You can view them in the Live Projects section of my portfolio.";
+  const generateResponse = (text) => {
+    const lower = text.toLowerCase();
+    let response = "";
+
+    // 1. Check for specific data queries
+
+    // Specific Project Query (Dynamic)
+    // Check if any project title (or part of it) is in the user input
+    const matchedProject = projects.find(p => {
+      const titleLower = p.title.toLowerCase();
+      const firstWord = titleLower.split(' ')[0];
+      const firstTwoWords = titleLower.split(' ').slice(0, 2).join(' ');
+
+      // Match if:
+      // 1. Input contains the full title
+      // 2. Input contains the first two words (e.g. "Disease Predictor")
+      // 3. Input contains the first word (e.g. "Blinkit", "Amazon") - provided it's not a common word like "the"
+      // 4. Title contains the input (fuzzy match for long inputs)
+      return lower.includes(titleLower) ||
+        lower.includes(firstTwoWords) ||
+        (firstWord.length > 3 && lower.includes(firstWord)) ||
+        (lower.length > 4 && titleLower.includes(lower));
+    });
+
+    if (matchedProject) {
+      if (mode === "professional") {
+        response = `The ${matchedProject.title} is a key project where Samyak used ${matchedProject.tags.slice(0, 3).join(", ")}. It involves ${matchedProject.description.split('.')[0]}. You can find more details in the 'Work' section.`;
       } else {
-        return "I've worked on 16+ projects across data science, machine learning, and business intelligence. My key projects include Power BI dashboards, ML models, web scraping pipelines, and NLP applications. Would you like to know about a specific project?";
+        response = `Oh, the ${matchedProject.title}? That one is cool! 🚀 He used ${matchedProject.tags[0]} and ${matchedProject.tags[1]} to build it. It's all about ${matchedProject.description.split('.')[0].toLowerCase()}. Check it out! 💻`;
+      }
+      return response;
+    }
+
+    // Skills
+    // Check if the input mentions any specific skill directly
+    const specificSkill = SkillsInfo?.flatMap(s => s.skills)?.find(s => lower.includes(s.name.toLowerCase()));
+
+    if (specificSkill || lower.includes("skill") || lower.includes("tech") || lower.includes("stack") || lower.includes("know")) {
+
+      if (specificSkill) {
+        if (mode === "professional") {
+          response = `Yes, Samyak is proficient in ${specificSkill.name}. It is one of his core technical skills.`;
+        } else {
+          response = `Totally! He knows ${specificSkill.name} inside out. 💻`;
+        }
+      } else if (lower.includes("ml") || lower.includes("machine learning")) {
+        if (mode === "professional") {
+          response = `Samyak has strong expertise in Machine Learning, including frameworks like TensorFlow, PyTorch, and Scikit-learn. He has built projects like Disease Predictor and Customer Churn Prediction.`;
+        } else {
+          response = `Machine Learning is his jam! 🤖 He works with TensorFlow, PyTorch, and more to build smart AI models.`;
+        }
+      } else if (lower.includes("skill") || lower.includes("tech") || lower.includes("stack")) {
+        const topSkills = ["Python", "React", "Machine Learning", "Power BI", "SQL"];
+        if (mode === "professional") {
+          response = `Samyak possesses a robust technical skillset including ${topSkills.join(", ")}, and more. He specializes in Data Science, Machine Learning, and Full Stack Development.`;
+        } else {
+          response = `Samyak is a tech wizard! 🧙‍♂️ He's great with ${topSkills.join(", ")} and a lot more. Whether it's crunching data or building apps, he's got it covered! ✨`;
+        }
       }
     }
-    
-    // Skill-related responses
-    if (lower.includes("skill") || lower.includes("technology")) {
-      if (lower.includes("program") || lower.includes("language")) {
-        return "I'm proficient in Python, SQL, R, Java, and C. Python is my primary language for data science and ML work.";
-      } else if (lower.includes("ml") || lower.includes("ai")) {
-        return "I specialize in Machine Learning with Scikit-learn, Deep Learning with TensorFlow/Keras, and NLP with NLTK. I also have experience with MLOps tools like MLflow and Docker.";
-      } else if (lower.includes("bi") || lower.includes("power bi") || lower.includes("dashboard")) {
-        return "I'm skilled in Power BI, DAX, and Power Query for creating interactive dashboards. I've built end-to-end analytics solutions for various business domains.";
+    // Projects (General)
+    else if (lower.includes("project") || lower.includes("built") || lower.includes("work")) {
+      const projectNames = projects.slice(0, 3).map(p => p.title).join(", ");
+      if (mode === "professional") {
+        response = `Samyak has worked on impactful projects such as ${projectNames}, and many more. His work spans Financial Analytics, Machine Learning, and Web Development. You can view them in the 'Work' section.`;
       } else {
-        return "My key skills include Data Science, Machine Learning, Deep Learning, NLP, Power BI, Python, SQL, and Cloud technologies. I'm also experienced in MLOps and web development with Flask/Streamlit.";
+        response = `Check out these cool projects! 🚀 He built ${projectNames} and so much more. He loves building things that solve real problems! 💻`;
       }
     }
-    
-    // Experience-related responses
-    if (lower.includes("experience") || lower.includes("internship")) {
+    // Experience
+    else if (lower.includes("experience") || lower.includes("job") || lower.includes("intern") || lower.includes("evoastra") || lower.includes("gilbert")) {
+      const latestExp = experiences[0];
       if (lower.includes("evoastra")) {
-        return "At Evoastra, I worked as a Data Science Intern where I led a team of 5 interns to build end-to-end Machine Learning workflows using Python, SQL, scikit-learn, and Power BI. I developed a CARS24 web-scraping & analytics pipeline and created an AI-powered resume parser (NLP + Flask).";
+        if (mode === "professional") {
+          response = `At Evoastra Ventures, Samyak led a team of 5 interns to build end-to-end ML workflows and developed a CARS24 web-scraping pipeline.`;
+        } else {
+          response = `At Evoastra, he was a team lead! 👨‍✈️ He guided 5 interns and built some awesome ML pipelines.`;
+        }
       } else if (lower.includes("gilbert")) {
-        return "At Gilbert Research Center, I worked as a Data Science & ML Intern where I engineered clinical ML models and modular pipelines with drift detection and API deployment using Flask, MLflow, and DAGsHub. I applied advanced statistical methods to improve accuracy and interpretability of clinical data insights.";
+        if (mode === "professional") {
+          response = `At Gilbert Research Center, he engineered clinical ML models and modular pipelines with drift detection using Flask and MLflow.`;
+        } else {
+          response = `At Gilbert Research, he worked on clinical ML models! 🏥 Helping save lives with data!`;
+        }
       } else {
-        return "I have experience as a Data Science Intern at Evoastra and as a Data Science & ML Intern at Gilbert Research Center. Both roles involved working with real-world data to drive business insights and develop ML solutions.";
+        if (mode === "professional") {
+          response = `Samyak most recently worked as a ${latestExp.role} at ${latestExp.company}. He has experience in leading teams and building end-to-end ML workflows.`;
+        } else {
+          response = `He recently crushed it as a ${latestExp.role} at ${latestExp.company}! 💼 He's all about leading teams and making data magic happen. ✨`;
+        }
       }
     }
-    
-    // Education-related responses
-    if (lower.includes("education") || lower.includes("study")) {
-      if (lower.includes("diploma")) {
-        return "I completed my Diploma in Computer Science at Bajaj College of Polytechnic with a strong foundation in programming, database management, and computer networks.";
+    // Resume / CV
+    else if (lower.includes("resume") || lower.includes("cv")) {
+      if (mode === "professional") {
+        response = "You can view and download Samyak's resume from the 'About' section or by clicking the 'Download CV' button on the main page.";
       } else {
-        return "I'm currently pursuing a Bachelor of Technology in Computer Science and Engineering with specialization in Artificial Intelligence and Machine Learning at Ballarpur Institute of Technology.";
+        response = "Want to see the official paper? 📄 You can grab his resume from the 'About' section. It's got all the details! 📝";
       }
     }
-    
-    // Certification-related responses
-    if (lower.includes("certification") || lower.includes("course")) {
-      if (lower.includes("kaggle")) {
-        return "I have multiple Kaggle certifications including Data Science with Python, Machine Learning, Data Visualization, and Pandas. These certifications validate my skills in data analysis and machine learning.";
+    // Contact
+    else if (lower.includes("contact") || lower.includes("email")) {
+      if (mode === "professional") {
+        response = "You can reach Samyak via the contact form below or connect with him on LinkedIn. He is open to discussing new opportunities.";
       } else {
-        return "I have several certifications from Kaggle in Data Science, Machine Learning, and Data Visualization. I also completed a Data Analysis course from Naresh i Technologies.";
+        response = "Hit him up! 📩 You can send a message through the contact form or say hi on LinkedIn. He'd love to hear from you! 👋";
       }
     }
-    
-    // Live projects related responses
-    if (lower.includes("live") || lower.includes("deploy")) {
-      return "I have several live projects including Diksha Anand's Portfolio (https://dikshaanand.vercel.app/), Sonali Makeover Artistry website (https://sonali-makeover-artistry.vercel.app/), Aurum Delights (https://aurum-delights.vercel.app/ - coming soon), and Horeka (coming soon). You can view them in the Live Projects section of my portfolio.";
+
+    // --- HR / Behavioral Questions ---
+
+    // Why Hire
+    else if (lower.includes("hire") || lower.includes("why you")) {
+      if (mode === "professional") {
+        response = "You should hire Samyak because he brings a unique blend of technical expertise in Data Science/ML and practical experience in building real-world applications. He is a proactive learner, a proven team leader (led 5 interns at Evoastra), and is dedicated to delivering high-quality, data-driven solutions.";
+      } else {
+        response = "Because he's awesome! 🌟 But seriously, Samyak is a fast learner, a great leader, and super passionate about tech. He doesn't just write code; he solves problems. Plus, he's a great team player! 🤝";
+      }
     }
-    
-    // Contact-related responses
-    if (lower.includes("contact") || lower.includes("hire") || lower.includes("email")) {
-      return "You can reach me at samyakanand2003@gmail.com or connect with me on LinkedIn. I'm open to opportunities in Data Science, Machine Learning, and Business Intelligence roles.";
+    // Strengths
+    else if (lower.includes("strength") || lower.includes("good at")) {
+      if (mode === "professional") {
+        response = "Samyak's key strengths include his strong analytical skills, proficiency in full-stack data science (Python, SQL, Power BI), and his ability to lead and mentor teams. He is also highly adaptable and quick to learn new technologies.";
+      } else {
+        response = "Samyak is a powerhouse! 💪 He's amazing at analyzing data, leading teams, and picking up new tech like it's nothing. He's the kind of person you want on your side! 🚀";
+      }
     }
-    
-    // Resume-related responses
-    if (lower.includes("cv") || lower.includes("resume")) {
-      return "You can download my resume using the link in the contact section. It contains detailed information about my experience, skills, and projects.";
+    // Weaknesses
+    else if (lower.includes("weakness") || lower.includes("bad at")) {
+      if (mode === "professional") {
+        response = "Samyak is a perfectionist who sometimes spends extra time ensuring every detail is correct. However, he is learning to balance this with agile methodologies to ensure timely delivery without compromising quality.";
+      } else {
+        response = "Sometimes he cares *too* much about the details! 😅 He wants everything to be perfect. But hey, that means you get high-quality work, right? He's working on being faster while staying precise! ⏱️";
+      }
     }
-    
-    // Weather responses (just for fun)
-    if (lower.includes("weather") || lower.includes("temperature")) {
-      return "I'm an AI assistant focused on Samyak's portfolio, so I don't have access to real-time weather data. But I hope you're having a great day regardless of the weather! ☀️🌧️";
+    // Challenge
+    else if (lower.includes("challenge") || lower.includes("difficult") || lower.includes("problem")) {
+      if (mode === "professional") {
+        response = "A significant challenge Samyak faced was managing a team of 5 interns at Evoastra while delivering a complex ML project. He successfully coordinated their efforts, established clear workflows, and ensured the project was delivered on time, teaching him valuable leadership and project management skills.";
+      } else {
+        response = "Managing a team of 5 interns was a big challenge! 🤯 But Samyak stepped up, organized everyone, and they crushed the project! It taught him a ton about leadership and teamwork. 🏆";
+      }
     }
-    
-    // Time responses (just for fun)
-    if (lower.includes("time") || lower.includes("date")) {
-      return "I'm focused on helping you learn about Samyak's work, but I'm always here when you need assistance with his portfolio! What would you like to know?";
+    // Teamwork / Conflict
+    else if (lower.includes("team") || lower.includes("conflict")) {
+      if (mode === "professional") {
+        response = "Samyak believes in open communication and collaborative problem-solving. In team settings, he actively listens to diverse viewpoints and focuses on finding data-driven solutions that benefit the project and the team.";
+      } else {
+        response = "Teamwork makes the dream work! 🤝 Samyak is all about good vibes and collaboration. He listens to everyone and helps the team find the best solution together! ✨";
+      }
     }
-    
-    // Joke responses (just for fun)
-    if (lower.includes("joke") || lower.includes("funny")) {
-      return "Why don't data scientists like to go camping? They prefer debugging indoors where there are fewer actual bugs! 😄 Want to learn more about Samyak's projects?";
+
+    // General / Fallback
+    else if (lower.includes("hello") || lower.includes("hi")) {
+      response = mode === "professional"
+        ? "Hello! How can I help you explore Samyak's portfolio today?"
+        : "Hi there! 👋 Ready to explore? Ask me anything!";
     }
-    
-    // Fallback response
-    return "I'm SAM, Samyak Anand's AI assistant. I can help you learn about his projects, skills, experience, and education. Try asking specific questions like: 'What Power BI projects has Samyak worked on?', 'Tell me about his machine learning experience', or 'Show me his certifications'.";
+    else {
+      response = mode === "professional"
+        ? "I can provide information about Samyak's projects, skills, experience, and education. I can also answer questions about his strengths and work style. What would you like to know?"
+        : "I'm mostly an expert on Samyak's work! 😅 Ask me about his projects, skills, or experience and I'll spill the beans! 🫘";
+    }
+
+    return response;
   };
 
-  const sendMessage = async (messageText = input) => {
-    if (!messageText.trim() || isLoading) {
-      console.log("Skipping sendMessage - empty message or already loading");
-      return;
-    }
+  const handleSendMessage = (text) => {
+    if (!text.trim()) return;
 
-    console.log("Sending message:", messageText);
-    const userMessage = { role: "user", content: messageText };
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
+    const userMsg = { role: "user", content: text };
+    setMessages(prev => [...prev, userMsg]);
     setInput("");
     setIsLoading(true);
 
-    // Handle navigation immediately
-    handleNavigation(messageText);
+    // Navigate if applicable
+    handleNavigation(text);
 
-    try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      const botReply = getResponse(messageText);
-      console.log("Bot reply:", botReply);
-      
-      setMessages([...updatedMessages, { role: "assistant", content: botReply }]);
-    } catch (err) {
-      console.error("Chatbot error:", err);
-      setMessages([
-        ...updatedMessages,
-        {
-          role: "assistant",
-          content: "⚠️ I'm having trouble responding right now. Please try again later!",
-        },
-      ]);
-    } finally {
+    // Update suggestions based on context
+    updateSuggestions(text);
+
+    // Simulate delay
+    setTimeout(() => {
+      const replyText = generateResponse(text);
+      setMessages(prev => [...prev, { role: "assistant", content: replyText }]);
       setIsLoading(false);
-    }
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    console.log("Suggestion clicked:", suggestion);
-    setInput(suggestion);
-    sendMessage(suggestion);
+    }, 600);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      console.log("Enter key pressed, sending message");
-      sendMessage();
-    }
+    if (e.key === "Enter") handleSendMessage(input);
   };
 
-  // Don't render anything if we're not in browser environment
-  if (!isBrowser) {
-    return null;
-  }
+  if (!isBrowser) return null;
 
   return (
-    <div className="chatbot-wrapper">
-      {/* Floating Button */}
-      <motion.div
-        onClick={() => {
-          console.log("Chatbot icon clicked, toggling open state");
-          setOpen(!open);
-        }}
-        className="chatbot-icon bg-gradient-to-r from-purple-600 via-purple-700 to-pink-500 p-0 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center group relative overflow-hidden cursor-pointer border-2 border-white/30"
-        whileHover={{ scale: 1.15 }}
-        whileTap={{ scale: 0.9 }}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      >
-        {/* Pulsing glow effect */}
-        <div className="absolute inset-0 rounded-full animate-pulse bg-gradient-to-r from-purple-600 to-pink-500 opacity-70 blur-md"></div>
-        
-        {/* Inner glow */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20"></div>
-        
-        {/* Main content */}
-        <div className="flex items-center justify-center relative z-10 w-full h-full rounded-full bg-gradient-to-br from-purple-700/80 to-pink-600/80 backdrop-blur-sm">
-          <motion.span 
-            className="text-white text-lg mr-1"
-            animate={{
-              scale: [1, 1.3, 1],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            🤖
-          </motion.span>
-          <span className="text-white text-sm font-bold tracking-wider">SAM</span>
-        </div>
-        
-        {/* Floating particles */}
-        <div className="absolute inset-0 rounded-full overflow-hidden">
-          {[...Array(6)].map((_, i) => (
-            <div 
-              key={i}
-              className="absolute w-1.5 h-1.5 bg-white rounded-full opacity-40"
-              style={{
-                top: `${50 + Math.sin(i * 60 * Math.PI / 180) * 35}%`,
-                left: `${50 + Math.cos(i * 60 * Math.PI / 180) * 35}%`,
-                animation: `float-bob 4s infinite ${i * 0.5}s`
-              }}
-            ></div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Chat Window */}
+    <div className="fixed bottom-6 right-6 z-[9999] font-sans">
       <AnimatePresence>
         {open && (
-          <motion.div 
-            className="chatbot-window bg-gradient-to-br from-[#1a0b2e]/95 to-[#0d081f]/95 backdrop-blur-2xl border border-white/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="absolute bottom-20 right-0 w-[350px] sm:w-[400px] h-[500px] bg-tertiary/90 backdrop-blur-xl border border-white/10 dark:border-white/10 border-black/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           >
-            <div className="p-4 text-white bg-gradient-to-r from-purple-600 via-purple-700 to-pink-500 rounded-t-2xl font-semibold flex justify-between items-center relative overflow-hidden">
-              <div className="flex items-center relative z-10">
-                <motion.span 
-                  className="text-2xl mr-2"
-                  animate={{
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
+            {/* Header */}
+            <div className="p-4 bg-gradient-to-r from-[#8245ec] to-[#a855f7] flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-2xl">
                   🤖
-                </motion.span>
-                <span>SAM</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-white">SAM</h3>
+                  <div className="flex items-center gap-1 text-xs text-white/80">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    Online
+                  </div>
+                </div>
               </div>
-              <motion.button 
-                onClick={() => {
-                  console.log("Close button clicked");
-                  setOpen(false);
-                }}
-                className="text-white hover:text-gray-200 transition-colors relative z-10 hover:bg-white/20 p-1 rounded-full"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                ✕
-              </motion.button>
+              <div className="flex items-center gap-2">
+                {/* Mode Toggle */}
+                <button
+                  onClick={() => setMode(mode === "professional" ? "friendly" : "professional")}
+                  className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+                  title={`Switch to ${mode === "professional" ? "Friendly" : "Professional"} Mode`}
+                >
+                  {mode === "professional" ? <FiUser size={18} className="text-white" /> : <FiSmile size={18} className="text-white" />}
+                </button>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="p-2 hover:bg-white/20 rounded-full transition-colors text-white"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
             </div>
 
-            {/* Chat Log */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-hide">
-              <AnimatePresence>
-                {messages.map((m, i) => (
-                  <motion.div
-                    key={i}
-                    className={`p-3 rounded-xl text-sm max-w-[85%] ${
-                      m.role === "user"
-                        ? "bg-gradient-to-r from-purple-600 to-blue-500 text-white self-end ml-auto"
-                        : "bg-gradient-to-br from-gray-700/50 to-gray-800/50 text-white border border-white/10"
-                    }`}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                  >
-                    {m.content}
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-              {isLoading && (
-                <motion.div 
-                  className="p-3 rounded-xl text-sm bg-gradient-to-br from-gray-700/50 to-gray-800/50 text-white border border-white/10"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
+              {messages.map((msg, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
-                  <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                  <div
+                    className={`max-w-[80%] p-3 rounded-2xl ${msg.role === "user"
+                      ? "bg-[#8245ec] text-white rounded-br-none"
+                      : "bg-white-100/10 dark:bg-white/10 text-secondary rounded-bl-none border border-black/5 dark:border-white/5"
+                      }`}
+                  >
+                    {msg.content}
                   </div>
                 </motion.div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-white-100/10 dark:bg-white/10 p-3 rounded-2xl rounded-bl-none flex gap-1">
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></span>
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></span>
+                  </div>
+                </div>
               )}
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Suggestions */}
-            <div 
-              ref={suggestionsRef}
-              className="px-4 pb-2 flex flex-col gap-2 max-h-32 overflow-y-auto"
-            >
-              <AnimatePresence>
-                {suggestionsCount < 2 && suggestions.slice(0, 2).map((suggestion, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    disabled={isLoading}
-                    className="px-3 py-2 text-sm bg-gradient-to-r from-purple-600/80 to-blue-500/80 text-white rounded-full hover:scale-[1.02] transition-transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm border border-white/20 text-left shadow-lg hover:shadow-xl"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {suggestion}
-                  </motion.button>
-                ))}
-              </AnimatePresence>
+            {/* Suggestions - Always Visible */}
+            <div className="px-4 py-2 flex gap-2 overflow-x-auto scrollbar-hide">
+              {suggestions.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    const text = s;
+                    if (!text.trim()) return;
+
+                    const userMsg = { role: "user", content: text };
+                    setMessages(prev => [...prev, userMsg]);
+                    setInput("");
+                    setIsLoading(true);
+
+                    // Navigate if applicable
+                    handleNavigation(text);
+
+                    // Update suggestions based on context
+                    updateSuggestions(text);
+
+                    // Simulate delay
+                    setTimeout(() => {
+                      const replyText = generateResponse(text);
+                      setMessages(prev => [...prev, { role: "assistant", content: replyText }]);
+                      setIsLoading(false);
+                    }, 600);
+                  }}
+                  className="whitespace-nowrap px-3 py-1 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 rounded-full text-xs text-secondary transition-colors"
+                >
+                  {s}
+                </button>
+              ))}
             </div>
 
-            {/* Input Area */}
-            <div className="p-4 border-t border-white/10">
+            {/* Input */}
+            <div className="p-4 bg-primary/50 border-t border-black/10 dark:border-white/10">
               <div className="flex gap-2">
-                <motion.input
+                <input
                   type="text"
                   value={input}
-                  onChange={(e) => {
-                    console.log("Input changed:", e.target.value);
-                    setInput(e.target.value);
-                  }}
+                  onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
-                  className="flex-1 bg-gray-800/50 backdrop-blur-sm border border-white/20 rounded-full px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  whileFocus={{ scale: 1.02 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  placeholder={mode === "professional" ? "Ask about Samyak's work..." : "Say hi to Sam! 👋"}
+                  className="flex-1 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-full px-4 py-2 text-white-100 focus:outline-none focus:border-[#8245ec] transition-colors placeholder-gray-500"
                 />
-                <motion.button
-                  onClick={() => {
-                    console.log("Send button clicked");
-                    sendMessage();
-                  }}
-                  disabled={!input.trim() || isLoading}
-                  className="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white rounded-full p-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3 }}
+                <button
+                  onClick={() => handleSendMessage(input)}
+                  disabled={!input.trim()}
+                  className="p-3 bg-[#8245ec] hover:bg-[#6d39c3] text-white rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <FiSend size={20} />
-                </motion.button>
+                  <FiSend size={18} />
+                </button>
               </div>
-              <motion.div 
-                className="text-xs text-purple-400 text-center mt-2 opacity-60"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-              >
-                AI assistant by Samyak Anand ©
-              </motion.div>
+              <div className="text-center mt-2">
+                <span className="text-[10px] text-gray-500">
+                  Mode: <span className={mode === "professional" ? "text-blue-400" : "text-yellow-400"}>{mode.charAt(0).toUpperCase() + mode.slice(1)}</span>
+                </span>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Toggle Button */}
+      <motion.button
+        onClick={() => setOpen(!open)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`h-14 bg-gradient-to-r from-[#8245ec] to-[#a855f7] rounded-full shadow-[0_0_20px_rgba(130,69,236,0.5)] flex items-center justify-center text-white relative group transition-all duration-300 ${open ? "w-14" : "w-auto px-6 gap-2"}`}
+      >
+        <div className="absolute inset-0 rounded-full bg-white/20 animate-ping opacity-0 group-hover:opacity-100 transition-opacity" />
+        {open ? (
+          <FiX size={24} />
+        ) : (
+          <>
+            <span className="text-2xl">🤖</span>
+            <span className="font-bold text-lg whitespace-nowrap">SAM</span>
+          </>
+        )}
+      </motion.button>
     </div>
   );
 };

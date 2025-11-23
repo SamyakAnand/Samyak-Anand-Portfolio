@@ -50,191 +50,193 @@ const Contact = () => {
       .send(serviceID, templateID, formData)
       .then(() => {
         toast.success("Message sent successfully!");
-        setFormData({ user_name: "", user_email: "", subject: "", message: "" });
+        setFormData({
+          user_name: "",
+          user_email: "",
+          subject: "",
+          message: ""
+        });
+        setIsSubmitting(false);
       })
-      .catch(() => toast.error("Failed to send message. Please try again."))
-      .finally(() => setIsSubmitting(false));
+      .catch((error) => {
+        console.error("EmailJS Error:", error);
+        toast.error("Failed to send message. Please try again.");
+        setIsSubmitting(false);
+      });
   };
 
   return (
-    <section
-      id="contact"
-      className="flex flex-col items-center justify-center py-16 md:py-24 px-4 md:px-[7vw] lg:px-[10vw] relative overflow-hidden"
-    >
+    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative overflow-hidden">
+      <ToastContainer position="bottom-right" theme="dark" />
+
       {/* Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] right-[10%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] animate-blob"></div>
-        <div className="absolute bottom-[10%] left-[10%] w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px] animate-blob animation-delay-2000"></div>
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-purple-600/5 dark:bg-purple-600/10 rounded-full blur-[100px] animate-blob" />
+        <div className="absolute bottom-[20%] right-[10%] w-[300px] h-[300px] bg-blue-600/5 dark:bg-blue-600/10 rounded-full blur-[100px] animate-blob animation-delay-2000" />
       </div>
 
-      <ToastContainer theme="dark" position="bottom-right" />
-
-      {/* Section Title */}
       <motion.div
-        className="text-center mb-16 relative z-10"
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
+        className="text-center mb-16 relative z-10"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Touch</span>
-        </h2>
+        <p className="text-secondary text-[18px] uppercase tracking-wider">Get in touch</p>
+        <h2 className="text-white-100 font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">Contact.</h2>
         <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
-        <p className="text-gray-300 mt-6 text-lg max-w-2xl mx-auto">
-          Have a project in mind or want to discuss opportunities? I'd love to hear from you!
-        </p>
       </motion.div>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch w-full max-w-6xl relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
         {/* Contact Form */}
         <motion.div
-          className="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl"
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
-              <FiSend className="w-6 h-6 text-purple-400" />
+          <div className="bg-tertiary rounded-3xl p-6 md:p-8 border border-white/10 dark:border-white/10 border-black/10 shadow-2xl">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
+                <FiSend className="w-6 h-6 text-purple-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-white-100">Send Message</h3>
             </div>
-            <h3 className="text-2xl font-bold text-white">Send Message</h3>
-          </div>
 
-          <form onSubmit={sendEmail} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={sendEmail} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="user_name" className="block text-secondary mb-2 text-sm font-medium">Full Name</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <FiUser className="text-gray-500 group-focus-within:text-purple-500 transition-colors" />
+                    </div>
+                    <input
+                      type="text"
+                      name="user_name"
+                      value={formData.user_name}
+                      onChange={handleInputChange}
+                      placeholder="John Doe"
+                      className="w-full rounded-xl pl-11 px-4 py-3 bg-primary/50 border border-white/10 dark:border-white/10 border-black/10 focus:border-purple-500 focus:bg-primary transition-all duration-300 text-white-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="user_email" className="block text-secondary mb-2 text-sm font-medium">Email Address</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <FiMail className="text-gray-500 group-focus-within:text-purple-500 transition-colors" />
+                    </div>
+                    <input
+                      type="email"
+                      name="user_email"
+                      value={formData.user_email}
+                      onChange={handleInputChange}
+                      placeholder="john@example.com"
+                      className="w-full rounded-xl pl-11 px-4 py-3 bg-primary/50 border border-white/10 dark:border-white/10 border-black/10 focus:border-purple-500 focus:bg-primary transition-all duration-300 text-white-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
               <div>
-                <label htmlFor="user_name" className="block text-gray-400 mb-2 text-sm font-medium">Full Name</label>
+                <label htmlFor="subject" className="block text-secondary mb-2 text-sm font-medium">Subject</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <FiUser className="text-gray-500 group-focus-within:text-purple-500 transition-colors" />
+                    <FiMessageSquare className="text-gray-500 group-focus-within:text-purple-500 transition-colors" />
                   </div>
                   <input
                     type="text"
-                    name="user_name"
-                    value={formData.user_name}
+                    name="subject"
+                    value={formData.subject}
                     onChange={handleInputChange}
-                    placeholder="John Doe"
-                    className="w-full rounded-xl pl-11 px-4 py-3 bg-white/5 border border-white/10 focus:border-purple-500 focus:bg-white/10 transition-all duration-300 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+                    placeholder="Project Inquiry"
+                    className="w-full rounded-xl pl-11 px-4 py-3 bg-primary/50 border border-white/10 dark:border-white/10 border-black/10 focus:border-purple-500 focus:bg-primary transition-all duration-300 text-white-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="user_email" className="block text-gray-400 mb-2 text-sm font-medium">Email Address</label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <FiMail className="text-gray-500 group-focus-within:text-purple-500 transition-colors" />
-                  </div>
-                  <input
-                    type="email"
-                    name="user_email"
-                    value={formData.user_email}
-                    onChange={handleInputChange}
-                    placeholder="john@example.com"
-                    className="w-full rounded-xl pl-11 px-4 py-3 bg-white/5 border border-white/10 focus:border-purple-500 focus:bg-white/10 transition-all duration-300 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="subject" className="block text-gray-400 mb-2 text-sm font-medium">Subject</label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <FiMessageSquare className="text-gray-500 group-focus-within:text-purple-500 transition-colors" />
-                </div>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
+                <label htmlFor="message" className="block text-secondary mb-2 text-sm font-medium">Your Message</label>
+                <textarea
+                  name="message"
+                  value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Project Inquiry"
-                  className="w-full rounded-xl pl-11 px-4 py-3 bg-white/5 border border-white/10 focus:border-purple-500 focus:bg-white/10 transition-all duration-300 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+                  placeholder="Tell me about your project..."
+                  rows="5"
+                  className="w-full rounded-xl px-4 py-3 bg-primary/50 border border-white/10 dark:border-white/10 border-black/10 focus:border-purple-500 focus:bg-primary transition-all duration-300 text-white-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 resize-none"
                   required
                 />
               </div>
-            </div>
 
-            <div>
-              <label htmlFor="message" className="block text-gray-400 mb-2 text-sm font-medium">Your Message</label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                placeholder="Tell me about your project..."
-                rows="5"
-                className="w-full rounded-xl px-4 py-3 bg-white/5 border border-white/10 focus:border-purple-500 focus:bg-white/10 transition-all duration-300 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 resize-none"
-                required
-              />
-            </div>
-
-            <motion.button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-4 px-6 rounded-xl font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {isSubmitting ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <>
-                  <FiSend className="w-5 h-5" />
-                  Send Message
-                </>
-              )}
-            </motion.button>
-          </form>
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-4 px-6 rounded-xl font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {isSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <FiSend className="w-5 h-5" />
+                    Send Message
+                  </>
+                )}
+              </motion.button>
+            </form>
+          </div>
         </motion.div>
 
         {/* Contact Information */}
         <motion.div
-          className="flex flex-col gap-6"
+          className="flex flex-col gap-6 h-full"
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl flex-grow">
+          <div className="bg-tertiary rounded-3xl p-6 md:p-8 border border-white/10 dark:border-white/10 border-black/10 shadow-2xl flex-grow">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
                 <FiPhone className="w-6 h-6 text-purple-400" />
               </div>
-              <h3 className="text-2xl font-bold text-white">Contact Info</h3>
+              <h3 className="text-2xl font-bold text-white-100">Contact Info</h3>
             </div>
 
-            <p className="text-gray-400 mb-6 leading-relaxed text-sm md:text-base">
+            <p className="text-secondary mb-6 leading-relaxed text-sm md:text-base">
               I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
             </p>
 
             <div className="space-y-4">
               <a
                 href="mailto:samyak.g.anand@gmail.com"
-                className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 hover:bg-white/10 transition-all duration-300 group"
+                className="flex items-center gap-4 p-4 rounded-2xl bg-primary/50 border border-white/5 dark:border-white/5 border-black/5 hover:border-purple-500/30 hover:bg-primary transition-all duration-300 group"
               >
                 <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <FiMail className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <div className="text-xs md:text-sm text-gray-400 mb-1">Mail me at</div>
-                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors text-sm md:text-base">samyak.g.anand@gmail.com</div>
+                  <div className="text-xs md:text-sm text-secondary mb-1">Mail me at</div>
+                  <div className="font-semibold text-white-100 group-hover:text-purple-400 transition-colors text-sm md:text-base">samyak.g.anand@gmail.com</div>
                 </div>
               </a>
 
               <a
                 href="tel:+919623719948"
-                className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 hover:bg-white/10 transition-all duration-300 group"
+                className="flex items-center gap-4 p-4 rounded-2xl bg-primary/50 border border-white/5 dark:border-white/5 border-black/5 hover:border-purple-500/30 hover:bg-primary transition-all duration-300 group"
               >
                 <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <FiPhone className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <div className="text-xs md:text-sm text-gray-400 mb-1">Call me at</div>
-                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors text-sm md:text-base">+91 9623719948</div>
+                  <div className="text-xs md:text-sm text-secondary mb-1">Call me at</div>
+                  <div className="font-semibold text-white-100 group-hover:text-purple-400 transition-colors text-sm md:text-base">+91 9623719948</div>
                 </div>
               </a>
 
@@ -242,28 +244,28 @@ const Contact = () => {
                 href="https://www.google.com/maps/search/?api=1&query=Hyderabad,+Telangana,+India"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 hover:bg-white/10 transition-all duration-300 group"
+                className="flex items-center gap-4 p-4 rounded-2xl bg-primary/50 border border-white/5 dark:border-white/5 border-black/5 hover:border-purple-500/30 hover:bg-primary transition-all duration-300 group"
               >
                 <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <FiMapPin className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <div className="text-xs md:text-sm text-gray-400 mb-1">Location</div>
-                  <div className="font-semibold text-white group-hover:text-purple-400 transition-colors text-sm md:text-base">Hyderabad, Telangana, India</div>
+                  <div className="text-xs md:text-sm text-secondary mb-1">Location</div>
+                  <div className="font-semibold text-white-100 group-hover:text-purple-400 transition-colors text-sm md:text-base">Hyderabad, Telangana, India</div>
                 </div>
               </a>
             </div>
           </div>
 
           {/* Social Links Card */}
-          <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl">
-            <h4 className="text-lg font-bold text-white mb-6">Connect with me</h4>
+          <div className="bg-tertiary rounded-3xl p-6 md:p-8 border border-white/10 dark:border-white/10 border-black/10 shadow-2xl mt-auto">
+            <h4 className="text-lg font-bold text-white-100 mb-6">Connect with me</h4>
             <div className="flex gap-4 justify-between sm:justify-start">
               <motion.a
                 href="https://github.com/SamyakAnand"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-purple-600 hover:border-purple-600 transition-all duration-300"
+                className="w-12 h-12 rounded-xl bg-primary/50 border border-white/10 dark:border-white/10 border-black/10 flex items-center justify-center text-secondary hover:text-white hover:bg-purple-600 hover:border-purple-600 transition-all duration-300"
                 whileHover={{ y: -5 }}
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -274,7 +276,7 @@ const Contact = () => {
                 href="https://www.linkedin.com/in/samyakanand/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#0077b5] hover:border-[#0077b5] transition-all duration-300"
+                className="w-12 h-12 rounded-xl bg-primary/50 border border-white/10 dark:border-white/10 border-black/10 flex items-center justify-center text-secondary hover:text-white hover:bg-[#0077b5] hover:border-[#0077b5] transition-all duration-300"
                 whileHover={{ y: -5 }}
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

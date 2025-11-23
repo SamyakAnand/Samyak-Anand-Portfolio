@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { 
-  FaChartBar, 
-  FaRobot, 
-  FaCloudUploadAlt, 
-  FaMagic, 
-  FaLaptopCode,
-  FaRocket
+import { useEffect, useState } from "react";
+import {
+    FaChartBar,
+    FaCloudUploadAlt,
+    FaLaptopCode,
+    FaMagic,
+    FaRobot,
+    FaRocket
 } from "react-icons/fa";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 
@@ -75,37 +75,31 @@ const serviceData = [
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const [animatedCards, setAnimatedCards] = useState([]);
-
-  // Generate random starting positions for each card
-  useEffect(() => {
-    const generateRandomPosition = () => {
-      const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
-      const distance = 300 + Math.random() * 300; // Random distance between 300-600px
-      
-      switch (side) {
-        case 0: // top
-          return { x: (Math.random() - 0.5) * window.innerWidth, y: -distance };
-        case 1: // right
-          return { x: window.innerWidth + distance, y: (Math.random() - 0.5) * window.innerHeight };
-        case 2: // bottom
-          return { x: (Math.random() - 0.5) * window.innerWidth, y: window.innerHeight + distance };
-        case 3: // left
-          return { x: -distance, y: (Math.random() - 0.5) * window.innerHeight };
-        default:
-          return { x: 0, y: 0 };
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
       }
-    };
+    }
+  };
 
-    // Create array with random starting positions for each card
-    const initialPositions = serviceData.map((_, index) => ({
-      id: index,
-      ...generateRandomPosition(),
-      delay: Math.random() * 0.5 // Random delay between 0-0.5s
-    }));
-    
-    setAnimatedCards(initialPositions);
-  }, []);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 100, scale: 0.8, rotateX: -15 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotateX: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+        mass: 0.8
+      }
+    }
+  };
 
   // Function to navigate to next service
   const goToNextService = () => {
@@ -144,10 +138,10 @@ const Services = () => {
   }, [selectedService]);
 
   return (
-    <section id="services" className="py-24 px-[7vw] md:px-[7vw] lg:px-[10vw] font-sans relative overflow-hidden">
+    <section id="services" className="py-24 px-[7vw] md:px-[7vw] lg:px-[10vw] font-sans relative overflow-hidden perspective-1000">
       <div className="text-center mb-16">
-        <motion.h2 
-          className="text-4xl md:text-5xl font-bold text-white mb-4"
+        <motion.h2
+          className="text-4xl md:text-5xl font-bold text-white-100 mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -157,8 +151,8 @@ const Services = () => {
           Services
         </motion.h2>
         <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
-        <motion.p 
-          className="text-gray-400 mt-6 text-lg max-w-3xl mx-auto"
+        <motion.p
+          className="text-secondary mt-6 text-lg max-w-3xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -170,66 +164,55 @@ const Services = () => {
       </div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-1000"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+      >
         {serviceData.map((service, index) => {
-          const cardAnimation = animatedCards.find(card => card.id === index) || { x: 0, y: 0, delay: 0 };
-          
           return (
             <motion.div
               key={index}
-              initial={{ 
-                opacity: 0, 
-                x: cardAnimation.x, 
-                y: cardAnimation.y,
-                scale: 0.8
-              }}
-              animate={{ 
-                opacity: 1, 
-                x: 0, 
-                y: 0,
-                scale: 1
-              }}
-              transition={{ 
-                type: "spring",
-                stiffness: 100,
-                damping: 15,
-                mass: 1,
-                delay: cardAnimation.delay
-              }}
-              whileHover={{ 
+              variants={itemVariants}
+              whileHover={{
                 scale: 1.05,
-                y: -10,
+                y: -15,
+                rotateX: 5,
+                rotateY: 5,
+                z: 50,
+                boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
                 transition: { duration: 0.3 }
               }}
-              whileTap={{ scale: 0.98 }}
+              whileTap={{ scale: 0.95, z: 0 }}
               onClick={() => setSelectedService(service)}
-              className={`bg-gradient-to-br ${service.color} rounded-2xl p-6 flex flex-col items-center text-center cursor-pointer hover:shadow-[0_0_30px_rgba(130,69,236,0.6)] transition-all duration-300 group relative overflow-hidden`}
-              whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
+              className={`bg-gradient-to-br ${service.color} rounded-2xl p-6 flex flex-col items-center text-center cursor-pointer hover:shadow-[0_0_30px_rgba(130,69,236,0.6)] transition-all duration-300 group relative overflow-hidden transform-style-3d`}
+              style={{ transformStyle: "preserve-3d" }}
             >
               {/* Shine effect on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-full group-hover:translate-x-[-150%] transition-transform duration-1000"></div>
               </div>
-              
-              <div className="text-white mb-4 relative z-10">{service.icon}</div>
-              <motion.h3 
-                className="text-xl font-bold text-white mb-2 relative z-10"
+
+              <div className="text-white mb-4 relative z-10 transform translate-z-20 group-hover:translate-z-30 transition-transform duration-300">{service.icon}</div>
+              <motion.h3
+                className="text-xl font-bold text-white mb-2 relative z-10 transform translate-z-10 group-hover:translate-z-20 transition-transform duration-300"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
               >
                 {service.title}
               </motion.h3>
-              <motion.p 
-                className="text-white/90 text-sm mb-3 relative z-10"
+              <motion.p
+                className="text-white/90 text-sm mb-3 relative z-10 transform translate-z-5 group-hover:translate-z-10 transition-transform duration-300"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 }}
               >
                 {service.tagline}
               </motion.p>
-              <motion.p 
+              <motion.p
                 className="text-white/80 text-sm relative z-10"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -240,10 +223,10 @@ const Services = () => {
             </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
       {/* CTA Section */}
-      <motion.div 
+      <motion.div
         className="mt-16 text-center"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -251,7 +234,7 @@ const Services = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <p className="text-gray-300 text-lg mb-6">💡 Have an idea or project in mind? Let's build something amazing together.</p>
+        <p className="text-secondary text-lg mb-6">💡 Have an idea or project in mind? Let's build something amazing together.</p>
         <motion.a
           href="#contact"
           className="inline-block text-white py-4 px-8 rounded-full mt-5 text-lg font-bold transition-all duration-300 transform hover:scale-105 relative overflow-hidden group animate-float shadow-lg hover:shadow-xl"
@@ -284,41 +267,41 @@ const Services = () => {
 
       {/* Service Detail Modal */}
       {selectedService && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 backdrop-blur-sm pt-20">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm pt-20">
           {/* Navigation Arrows */}
           <button
             onClick={goToPrevService}
-            className="fixed left-4 md:left-8 text-white/80 hover:text-white text-3xl z-50 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors top-1/2 transform -translate-y-1/2"
+            className="absolute left-4 md:left-8 text-white/80 hover:text-white text-3xl z-40 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors top-1/2 transform -translate-y-1/2"
           >
             <FiChevronLeft />
           </button>
-          
+
           <button
             onClick={goToNextService}
-            className="fixed right-4 md:right-8 text-white/80 hover:text-white text-3xl z-50 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors top-1/2 transform -translate-y-1/2"
+            className="absolute right-4 md:right-8 text-white/80 hover:text-white text-3xl z-40 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors top-1/2 transform -translate-y-1/2"
           >
             <FiChevronRight />
           </button>
-          
-          <motion.div 
-            className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-700 relative"
+
+          <motion.div
+            className="bg-tertiary rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-white/10 dark:border-white/10 border-black/10 relative"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
             {/* Close Button */}
-            <button 
+            <button
               onClick={() => setSelectedService(null)}
-              className="fixed top-6 right-6 text-white/80 hover:text-white text-2xl z-50 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors"
+              className="absolute top-6 right-6 text-white/80 hover:text-white text-2xl z-50 bg-gray-800/50 rounded-full p-2 hover:bg-gray-700 transition-colors"
             >
               <FiX />
             </button>
-            
+
             <div className={`bg-gradient-to-r ${selectedService.color} p-6 rounded-t-2xl`}>
               <div className="flex justify-between items-start">
                 <div>
                   <div className="text-white mb-2">{selectedService.icon}</div>
-                  <motion.h3 
+                  <motion.h3
                     className="text-2xl font-bold text-white"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -326,7 +309,7 @@ const Services = () => {
                   >
                     {selectedService.title}
                   </motion.h3>
-                  <motion.p 
+                  <motion.p
                     className="text-white/90 mt-1"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -337,65 +320,65 @@ const Services = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="p-6">
-              <motion.p 
-                className="text-gray-300 mb-4"
+              <motion.p
+                className="text-secondary mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 }}
               >
                 {selectedService.fullDescription}
               </motion.p>
-              
+
               <motion.div
                 className="mt-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.3 }}
               >
-                <h4 className="text-lg font-semibold text-white mb-3">Key Benefits:</h4>
+                <h4 className="text-lg font-semibold text-white-100 mb-3">Key Benefits:</h4>
                 <ul className="space-y-2">
-                  <motion.li 
+                  <motion.li
                     className="flex items-start"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.4 }}
                   >
                     <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">Tailored solutions for your specific business needs</span>
+                    <span className="text-secondary">Tailored solutions for your specific business needs</span>
                   </motion.li>
-                  <motion.li 
+                  <motion.li
                     className="flex items-start"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.5 }}
                   >
                     <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">Cutting-edge technologies and methodologies</span>
+                    <span className="text-secondary">Cutting-edge technologies and methodologies</span>
                   </motion.li>
-                  <motion.li 
+                  <motion.li
                     className="flex items-start"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.6 }}
                   >
                     <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">End-to-end implementation and support</span>
+                    <span className="text-secondary">End-to-end implementation and support</span>
                   </motion.li>
-                  <motion.li 
+                  <motion.li
                     className="flex items-start"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.7 }}
                   >
                     <span className="text-green-400 mr-2">✓</span>
-                    <span className="text-gray-300">Measurable ROI and business impact</span>
+                    <span className="text-secondary">Measurable ROI and business impact</span>
                   </motion.li>
                 </ul>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="mt-8 flex justify-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

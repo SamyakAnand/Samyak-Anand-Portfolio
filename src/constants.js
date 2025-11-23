@@ -41,6 +41,8 @@ import glaLogo from './assets/education_logo/gla_logo.png';
 import bsaLogo from './assets/education_logo/bsa_logo.png';
 // Import your portfolio image
 import SamyakPortfolioImage from './assets/work_logo/sam_portfolio.png';
+// Deep Learning Project Image
+import ChurnPredictionDLImage from './assets/work_logo/Churn prediction dl .png';
 
 export const projects = [
   {
@@ -86,10 +88,10 @@ export const projects = [
   {
     id: 4,
     title: "Student Performance Indicator",
-    description:"This project analyzes how various socioeconomic and educational factors impact a student's academic performance based on test scores. Using a Kaggle dataset with 1,000 records, it explores attributes like gender, ethnicity, parental education level, lunch type, and test preparation participation.",
+    description: "This project analyzes how various socioeconomic and educational factors impact a student's academic performance based on test scores. Using a Kaggle dataset with 1,000 records, it explores attributes like gender, ethnicity, parental education level, lunch type, and test preparation participation.",
     image: Stud_performance,
-    tags: ["Machine Learning", "Data Science", "Predictive Modeling","Render", "Regression", "Flask API", "Docker", "Python", "Pandas", "NumPy", "Seaborn", "Matplotlib"],
-    category: ["Data Science","Data Analysis","Machine Learning"],
+    tags: ["Machine Learning", "Data Science", "Predictive Modeling", "Render", "Regression", "Flask API", "Docker", "Python", "Pandas", "NumPy", "Seaborn", "Matplotlib"],
+    category: ["Data Science", "Data Analysis", "Machine Learning"],
     github: "https://github.com/SamyakAnand/Student-Performance-Indicatorr",
     webapp: "https://student-performance-indicator-3pe6.onrender.com/",
   },
@@ -99,7 +101,7 @@ export const projects = [
     description: "This interactive Power BI dashboard provides deep insights into Prime Video's content catalog, covering titles, ratings, genres, directors, and country-wise trends. With engaging visualizations, users can explore ratings, content distribution, and yearly trends at a glance.",
     image: Amazon_dashboard_snapshot,
     tags: ["Data Analysis", "Data Visualization", "PowerBI"],
-    category:["Data Science","Data Analysis"],
+    category: ["Data Science", "Data Analysis"],
     github: "https://github.com/SamyakAnand/Amazon-Prime-Video-Dashboard-in-Power-BI-",
     webapp: "https://github.com/SamyakAnand/Amazon-Prime-Video-Dashboard-in-Power-BI-/blob/main/Snapshot/Amazon%20prime%20snapshot.png"
   },
@@ -109,17 +111,17 @@ export const projects = [
     description: "Analyze Netflix’s content library with this interactive Power BI dashboard. It highlights metrics like title counts, genres, ratings, production countries, and yearly trends. Featuring engaging visuals, it offers valuable insights into Netflix's catalog and growth patterns....",
     image: Neflix_dashboard_snapshot,
     tags: ["Data Analysis", "Data Visualization", "PowerBI"],
-    category: ["Data Science","Data Analysis"],
+    category: ["Data Science", "Data Analysis"],
     github: "https://github.com/SamyakAnand/Netflix-Dashboard-in-Power-BI",
     webapp: "https://github.com/SamyakAnand/Netflix-Dashboard-in-Power-BI/blob/main/Snapshot/Neflix_dashboard_snapshot.png",
   },
   {
     id: 7,
     title: "Insurance Data Analysis in PowerBI",
-    description:"This project is an interactive dashboard inspired by PRISM Insurance's business model. It analyzes insurance data to reveal insights about policy performance, customer demographics, and claim behavior. Key metrics—such as premium amounts, coverage totals, and claim distributions—are segmented by policy type, age group, and customer activity. With dynamic filters and engaging charts, the dashboard makes it easy to explore trends and uncover actionable insights.",
+    description: "This project is an interactive dashboard inspired by PRISM Insurance's business model. It analyzes insurance data to reveal insights about policy performance, customer demographics, and claim behavior. Key metrics—such as premium amounts, coverage totals, and claim distributions—are segmented by policy type, age group, and customer activity. With dynamic filters and engaging charts, the dashboard makes it easy to explore trends and uncover actionable insights.",
     image: Insurance_dashboard,
     tags: ["Data Analysis", "Data Visualization", "PowerBI"],
-    category: ["Data Science","Data Analysis"],
+    category: ["Data Science", "Data Analysis"],
     github: "https://github.com/SamyakAnand/Insurance-Data-Analysis",
     webapp: "https://github.com/SamyakAnand/Insurance-Data-Analysis/blob/main/Screenshots/Overview%20page.png",
   },
@@ -159,7 +161,7 @@ export const projects = [
     id: 10,
     title: "Customer Churn Prediction (Deep Learning + Streamlit)",
     description: "Deep learning model predicting customer churn with an interactive Streamlit app. The project builds a neural network to predict which customers are likely to leave and provides an interactive interface for exploring predictions.",
-    image: Financial_risk_dashboard, // Using placeholder for now
+    image: ChurnPredictionDLImage,
     tags: ["Python", "TensorFlow", "Keras", "Deep Neural Networks", "Streamlit", "Pandas", "NumPy", "StandardScaler", "OneHotEncoder", "Model Evaluation", "Loss", "Accuracy", "Saved Model"],
     category: ["Data Science", "Deep Learning"],
     github: "https://github.com/SamyakAnand/Customer-Churn-Prediction-Deep-Learning",
@@ -175,7 +177,6 @@ export const projects = [
     github: "https://github.com/SamyakAnand/NetworkSecurity",
     webapp: "https://github.com/SamyakAnand/NetworkSecurity",
   },
-
   // Live Projects
   {
     id: 13,
@@ -230,76 +231,76 @@ export const projects = [
   }
 ];
 
-// Skills Info
 export const SkillsInfo = [
   {
-    title: "Core Programming",
+    title: "Programming & Development Tools",
     skills: [
       { name: "Python", logo: "https://skillicons.dev/icons?i=python&theme=dark" },
-      { name: "R", logo: "https://skillicons.dev/icons?i=r&theme=dark" },
-      { name: "SQL", logo: "https://img.shields.io/badge/SQL-025E8C?style=for-the-badge&logo=databricks&logoColor=white" },
-      { name: "Java", logo: "https://skillicons.dev/icons?i=java&theme=dark" },
-      { name: "C", logo: "https://skillicons.dev/icons?i=c&theme=dark" },
+      { name: "SQL", logo: "https://img.shields.io/badge/SQL-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" },
       { name: "HTML", logo: "https://skillicons.dev/icons?i=html&theme=dark" },
       { name: "CSS", logo: "https://skillicons.dev/icons?i=css&theme=dark" },
-    ],
-  },
-  {
-    title: "Data Science & Analytics",
-    skills: [
-      { name: "Pandas", logo: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg" },
-      { name: "NumPy", logo: "https://upload.wikimedia.org/wikipedia/commons/3/31/NumPy_logo_2020.svg" },
-      { name: "Matplotlib", logo: "https://matplotlib.org/stable/_images/sphx_glr_logos2_001.png" },
-      { name: "Seaborn", logo: "https://seaborn.pydata.org/_images/logo-mark-lightbg.svg" },
-      { name: "Tableau", logo: "https://raw.githubusercontent.com/gilbarbara/logos/master/logos/tableau.svg" },
-      { name: "Power BI", logo: "https://raw.githubusercontent.com/microsoft/PowerBI-Icons/main/SVG/Power-BI.svg" },
-      { name: "Excel", logo: "https://img.icons8.com/color/512/microsoft-excel-2019.png" },
-    ],
-  },
-  {
-    title: "Databases",
-    skills: [
-      { name: "MySQL", logo: "https://skillicons.dev/icons?i=mysql&theme=dark" },
-      { name: "PostgreSQL", logo: "https://skillicons.dev/icons?i=postgres&theme=dark" },
-      { name: "MongoDB", logo: "https://skillicons.dev/icons?i=mongodb&theme=dark" },
-      { name: "MS SQL Server", logo: "https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" },
-    ],
-  },
-  {
-    title: "Machine Learning & AI",
-    skills: [
-      { name: "Scikit-learn", logo: "https://skillicons.dev/icons?i=sklearn&theme=dark" },
-      { name: "TensorFlow", logo: "https://skillicons.dev/icons?i=tensorflow&theme=dark" },
-      { name: "PyTorch", logo: "https://skillicons.dev/icons?i=pytorch&theme=dark" },
-      { name: "Keras", logo: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Keras_logo.svg" },
-      { name: "NLTK", logo: "https://img.shields.io/badge/NLTK-026e00?style=for-the-badge&logo=python&logoColor=white" },
-      { name: "spaCy", logo: "https://img.shields.io/badge/spaCy-09A3D5?style=for-the-badge&logo=python&logoColor=white" },
-      { name: "Transformers", logo: "https://img.shields.io/badge/Transformers-HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" },
-    ],
-  },
-  {
-    title: "MLOps & Cloud",
-    skills: [
-      { name: "FastAPI", logo: "https://skillicons.dev/icons?i=fastapi&theme=dark" },
-      { name: "Flask", logo: "https://skillicons.dev/icons?i=flask&theme=dark" },
-      { name: "Docker", logo: "https://skillicons.dev/icons?i=docker&theme=dark" },
-      { name: "Kubernetes", logo: "https://skillicons.dev/icons?i=kubernetes&theme=dark" },
-      { name: "MLflow", logo: "https://img.shields.io/badge/MLflow-0194E2?style=for-the-badge&logo=mlflow&logoColor=white" },
-      { name: "DVC", logo: "https://cdn.simpleicons.org/dvc/945DD6" },
-      { name: "AWS", logo: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg" },
-      { name: "GCP", logo: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg" },
-      { name: "Azure", logo: "https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" },
-    ],
-  },
-  {
-    title: "Developer Tools",
-    skills: [
       { name: "Git", logo: "https://skillicons.dev/icons?i=git&theme=dark" },
       { name: "GitHub", logo: "https://skillicons.dev/icons?i=github&theme=dark" },
       { name: "VS Code", logo: "https://skillicons.dev/icons?i=vscode&theme=dark" },
-      { name: "PyCharm", logo: "https://skillicons.dev/icons?i=pycharm&theme=dark" },
-      { name: "Jupyter", logo: "https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white" },
-      { name: "DAGsHub", logo: "https://img.shields.io/badge/DAGsHub-000000?style=for-the-badge&logo=github&logoColor=white" },
+      { name: "Jupyter Notebook", logo: "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg" },
+    ],
+  },
+  {
+    title: "Machine Learning, NLP & DL Libraries",
+    skills: [
+      { name: "scikit-learn", logo: "https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" },
+      { name: "XGBoost", logo: "https://img.shields.io/badge/XGBoost-15B5B0?style=for-the-badge&logo=xgboost&logoColor=white" },
+      { name: "TensorFlow", logo: "https://skillicons.dev/icons?i=tensorflow&theme=dark" },
+      { name: "Keras", logo: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Keras_logo.svg" },
+      { name: "PyTorch", logo: "https://skillicons.dev/icons?i=pytorch&theme=dark" },
+      { name: "Hugging Face Transformers", logo: "https://img.shields.io/badge/%F0%9F%A4%97-Transformers-yellow" },
+      { name: "spaCy", logo: "https://upload.wikimedia.org/wikipedia/commons/8/88/SpaCy_logo.svg" },
+      { name: "NLTK", logo: "https://img.shields.io/badge/NLTK-306998?style=for-the-badge&logo=python&logoColor=white" },
+    ],
+  },
+  {
+    title: "Backend, APIs & Web Frameworks",
+    skills: [
+      { name: "Flask", logo: "https://skillicons.dev/icons?i=flask&theme=dark" },
+      { name: "FastAPI", logo: "https://skillicons.dev/icons?i=fastapi&theme=dark" },
+      { name: "REST APIs", logo: "https://img.shields.io/badge/REST-007ACC?style=for-the-badge&logo=rest&logoColor=white" },
+      { name: "BeautifulSoup", logo: "https://img.shields.io/badge/BeautifulSoup-4.9.3-blue" },
+      { name: "Regex", logo: "https://img.shields.io/badge/Regex-000000?style=for-the-badge&logo=regex&logoColor=white" },
+    ],
+  },
+  {
+    title: "Data Visualization, BI Tools & Dashboarding",
+    skills: [
+      { name: "Power BI", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" },
+      { name: "Tableau", logo: "https://cdn.worldvectorlogo.com/logos/tableau-software.svg" },
+      { name: "Matplotlib", logo: "https://upload.wikimedia.org/wikipedia/commons/8/84/Matplotlib_icon.svg" },
+      { name: "Seaborn", logo: "https://img.shields.io/badge/Seaborn-776796?style=for-the-badge&logo=seaborn&logoColor=white" },
+      { name: "Plotly", logo: "https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white" },
+      { name: "Streamlit", logo: "https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" },
+    ],
+  },
+  {
+    title: "Cloud & Databases",
+    skills: [
+      { name: "PostgreSQL", logo: "https://skillicons.dev/icons?i=postgres&theme=dark" },
+      { name: "MySQL", logo: "https://skillicons.dev/icons?i=mysql&theme=dark" },
+      { name: "MS SQL Server", logo: "https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" },
+      { name: "MongoDB", logo: "https://skillicons.dev/icons?i=mongodb&theme=dark" },
+      { name: "Vector DB", logo: "https://img.shields.io/badge/Vector_DB-000000?style=for-the-badge&logo=vector&logoColor=white" },
+      { name: "AWS", logo: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg" },
+      { name: "Azure", logo: "https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" },
+      { name: "Google Cloud", logo: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg" },
+    ],
+  },
+  {
+    title: "DevOps & MLOps",
+    skills: [
+      { name: "Docker", logo: "https://skillicons.dev/icons?i=docker&theme=dark" },
+      { name: "GitHub Actions", logo: "https://skillicons.dev/icons?i=githubactions&theme=dark" },
+      { name: "Jenkins", logo: "https://skillicons.dev/icons?i=jenkins&theme=dark" },
+      { name: "MLflow", logo: "https://img.shields.io/badge/MLflow-0194E2?style=for-the-badge&logo=mlflow&logoColor=white" },
+      { name: "DVC", logo: "https://cdn.simpleicons.org/dvc/945DD6" },
+      { name: "DAGsHub", logo: "https://img.shields.io/badge/DAGsHub-000000?style=for-the-badge&logo=dagshub&logoColor=white" },
     ],
   },
 ];
@@ -311,7 +312,7 @@ export const experiences = [
     img: evoastraLogo,
     role: "Data Scientist Intern",
     company: "Evoastra Ventures Inc",
-    date: "Jun 2025 - Present",
+    date: "Jun 2025 - Aug 2025",
     desc: "Led a team of 5 interns to build end-to-end Machine Learning (ML) workflows using Python, SQL, scikit-learn, and Power BI, covering data ingestion, cleaning, modeling, and interactive dashboards. Developed a CARS24 web-scraping & analytics pipeline to track real-time pricing trends and uncover market patterns, enhancing market analysis capabilities. Created an AI-powered resume parser (Natural Language Processing (NLP) + Flask) that extracts candidate details and matches resumes to job descriptions, accelerating shortlisting processes.",
     skills: ["Python", "SQL", "Scikit-learn", "Power BI", "Machine Learning", "Web Scraping", "NLP", "Flask"],
   },
@@ -336,7 +337,7 @@ export const education = [
     desc: "B.Tech in Computer Science & Engineering.",
     degree: "Bachelor of Technology - Computer Science and Engineering",
     skills: [
-      "Python", "Machine Learning", "Data Analysis", 
+      "Python", "Machine Learning", "Data Analysis",
       "SQL", "Java", "Cloud Computing"
     ]
   },
@@ -348,7 +349,7 @@ export const education = [
     desc: "Diploma in Computer Science with focus on programming, database management, and computer networks.",
     degree: "Diploma in Computer Science",
     skills: [
-      "C Programming", "Database Management", 
+      "C Programming", "Database Management",
       "Computer Networks", "Web Development"
     ]
   },

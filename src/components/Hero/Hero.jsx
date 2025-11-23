@@ -24,9 +24,9 @@ const Hero = () => {
         <section className="relative w-full h-screen mx-auto bg-primary overflow-hidden" id="hero">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-900/20 blur-[100px] animate-blob" />
-                <div className="absolute top-[20%] right-[-10%] w-[30%] h-[30%] rounded-full bg-indigo-900/20 blur-[100px] animate-blob animation-delay-2000" />
-                <div className="absolute bottom-[-10%] left-[20%] w-[35%] h-[35%] rounded-full bg-blue-900/20 blur-[100px] animate-blob animation-delay-4000" />
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-900/10 blur-[120px] animate-blob" />
+                <div className="absolute top-[20%] right-[-10%] w-[30%] h-[30%] rounded-full bg-indigo-900/10 blur-[120px] animate-blob animation-delay-2000" />
+                <div className="absolute bottom-[-10%] left-[20%] w-[35%] h-[35%] rounded-full bg-blue-900/10 blur-[120px] animate-blob animation-delay-4000" />
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-10 pt-20">
@@ -38,10 +38,10 @@ const Hero = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
-                        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4">
+                        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-primary mb-4">
                             Hi, I'm <span className="text-[#915eff]">Samyak</span>
                         </h1>
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-300 mb-6 h-[50px]">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-secondary mb-6 h-[50px]">
                             I am a{' '}
                             <span className="text-[#915eff]">
                                 <Typewriter
@@ -55,7 +55,7 @@ const Hero = () => {
                                 />
                             </span>
                         </h2>
-                        <p className="text-gray-400 text-lg max-w-xl mx-auto md:mx-0 mb-10 leading-relaxed">
+                        <p className="text-secondary text-lg max-w-xl mx-auto md:mx-0 mb-10 leading-relaxed">
                             Transforming complex data into actionable insights and building intelligent systems that drive innovation.
                         </p>
 

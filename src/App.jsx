@@ -1,204 +1,98 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "./components/Navbar/Navbar";
+import React from "react";
 import About from "./components/About/About";
-import Skills from "./components/Skills/Skills";
-import ExperienceEducation from "./components/ExperienceEducation/ExperienceEducation";
-import Services from "./components/Services/Services";
-import Work from "./components/Work/Work";
 import Certification from "./components/Certification/Certification";
-import Contact from "./components/Contact/Contact";
-import Footer from "./components/Footer/Footer";
 import PortfolioChatbot from "./components/Chatbot/Chatbot";
+import Contact from "./components/Contact/Contact";
+import ExperienceEducation from "./components/ExperienceEducation/ExperienceEducation";
+import Footer from "./components/Footer/Footer";
 import LiveProjectHighlights from "./components/LiveProjectHighlights/LiveProjectHighlights";
-import { motion } from "framer-motion";
+import Navbar from "./components/Navbar/Navbar";
+import ScrollProgress from "./components/ScrollProgress";
+import Services from "./components/Services/Services";
+import Skills from "./components/Skills/Skills";
+import Tutorial from "./components/Tutorial/Tutorial";
+import Work from "./components/Work/Work";
 
-// Simple error boundary component
-const ErrorBoundary = ({ children, componentName }) => {
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    const errorHandler = (error) => {
-      console.error(`Error in ${componentName}:`, error);
-      setHasError(true);
-    };
-
-    // Add error listener
-    window.addEventListener('error', errorHandler);
-    
-    return () => {
-      window.removeEventListener('error', errorHandler);
-    };
-  }, [componentName]);
-
-  if (hasError) {
-    return (
-      <div className="bg-[#050414] min-h-screen flex items-center justify-center p-4">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Component Error</h2>
-          <p className="text-gray-400 mb-6">Failed to load {componentName} component.</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
+// Class-based Error Boundary component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
   }
 
-  return children;
-};
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error(`Error in ${this.props.componentName}:`, error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-4 m-4 bg-red-900/20 border border-red-500/50 rounded-lg text-center">
+          <h3 className="text-red-400 font-bold mb-2">Error in {this.props.componentName}</h3>
+          <p className="text-gray-400 text-sm mb-4">Something went wrong loading this component.</p>
+          <button
+            onClick={() => this.setState({ hasError: false })}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-sm transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 const App = () => {
-  const [appError, setAppError] = useState(null);
-
-  // Error boundary effect
-  useEffect(() => {
-    const handleError = (error) => {
-      console.error("App error:", error);
-      setAppError(error);
-    };
-
-    window.addEventListener("error", handleError);
-    return () => window.removeEventListener("error", handleError);
-  }, []);
-
-  // If there's an error, show a fallback UI
-  if (appError) {
-    return (
-      <div className="bg-[#050414] min-h-screen flex items-center justify-center p-4">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-white mb-4">Something went wrong</h1>
-          <p className="text-gray-400 mb-6">We're sorry, but something went wrong. Please try refreshing the page.</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="bg-[#050414] min-h-screen">
+    <div className="bg-primary min-h-screen relative">
+      <ScrollProgress />
       <Navbar />
       <div className="pt-20">
-        {/* Background grid pattern */}
-        <div
-          className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
-        />
         <div className="relative">
+          <Tutorial />
+
           <ErrorBoundary componentName="About">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <About />
-            </motion.div>
+            <About />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="Skills">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <Skills />
-            </motion.div>
+            <Skills />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="ExperienceEducation">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <ExperienceEducation />
-            </motion.div>
+            <ExperienceEducation />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="Services">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <Services />
-            </motion.div>
+            <Services />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="LiveProjectHighlights">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <LiveProjectHighlights />
-            </motion.div>
+            <LiveProjectHighlights />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="Work">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <Work />
-            </motion.div>
+            <Work />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="Certification">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <Certification />
-            </motion.div>
+            <Certification />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="Contact">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.4 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <Contact />
-            </motion.div>
+            <Contact />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="Footer">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.6 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
-              <Footer />
-            </motion.div>
+            <Footer />
           </ErrorBoundary>
-          
+
           <ErrorBoundary componentName="Chatbot">
             <PortfolioChatbot />
           </ErrorBoundary>

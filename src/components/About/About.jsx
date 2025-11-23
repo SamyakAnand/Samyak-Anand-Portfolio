@@ -9,7 +9,7 @@ const About = () => {
     '/images/profile1.png',
     '/images/profile2.png',
   ];
-  
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
 
@@ -41,7 +41,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="py-4 px-[7vw] md:px-[7vw] lg:px-[20vw] font-sans mt-16 md:mt-24 lg:mt-32 relative overflow-hidden"
+      className="py-4 px-[7vw] md:px-[7vw] lg:px-[20vw] font-sans mt-16 md:mt-24 lg:mt-32 relative overflow-hidden pb-10"
     >
       {/* Stars Background */}
       <div className="absolute inset-0 z-0">
@@ -61,7 +61,7 @@ const About = () => {
             />
           ))}
         </div>
-        
+
         {/* Twinkling stars */}
         <div className="absolute inset-0">
           {[...Array(50)].map((_, i) => (
@@ -91,54 +91,107 @@ const About = () => {
 
       <div className="flex flex-col-reverse md:flex-row justify-between items-center relative z-10">
         {/* Left Side */}
-        <motion.div 
+        <motion.div
           className="md:w-1/2 text-center md:text-left mt-8 md:mt-0"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5, delay: 0.9 }}
         >
-          {/* Name */}
-          <motion.h1 
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            Samyak Anand
-          </motion.h1>
-          
-          {/* Skills Heading with Typing Effect */}
-          <motion.h3 
+          <motion.h3
             className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-[#8245ec] leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.9 }}
           >
-            <span className="text-white">I am a </span>
-            <ReactTypingEffect
-              text={['Data Scientist', 'Data Analyst', 'ML Engineer', 'Developer']}
-              speed={100}
-              eraseSpeed={50}
-              typingDelay={500}
-              eraseDelay={2000}
-              cursorRenderer={(cursor) => (
-                <span className="text-[#8245ec]">{cursor}</span>
-              )}
-            />
+            <div className="mb-2">
+              <span className="text-gray-800 dark:text-white text-lg sm:text-xl md:text-2xl">Hi, I am</span>
+            </div>
+            <div className="mb-2">
+              <motion.span
+                className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 via-purple-600 to-purple-800 bg-clip-text text-transparent inline-block whitespace-nowrap"
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  y: 0
+                }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.7
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  textShadow: "0 0 20px rgba(130, 69, 236, 0.8)"
+                }}
+              >
+                <motion.span
+                  animate={{
+                    y: [0, -5, 0],
+                    textShadow: [
+                      "0 0 5px rgba(130, 69, 236, 0.5)",
+                      "0 0 20px rgba(130, 69, 236, 0.8)",
+                      "0 0 5px rgba(130, 69, 236, 0.5)"
+                    ]
+                  }}
+                  transition={{
+                    y: {
+                      duration: 3,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      ease: "easeInOut",
+                      delay: 0.8
+                    },
+                    textShadow: {
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 0.8
+                    }
+                  }}
+                >
+                  {Array.from("Samyak Anand").map((letter, index) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0.9 + index * 0.1
+                      }}
+                      className="inline-block"
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </motion.span>
+              </motion.span>
+            </div>
+            <div className="mt-4">
+              <span className="text-gray-800 dark:text-white text-lg sm:text-xl md:text-2xl">I am a </span>
+              <ReactTypingEffect
+                text={['Data Scientist', 'Data Analyst', 'ML Engineer', 'AI Engineer', 'Developer', 'Gen AI Engineer', 'Coder']}
+                speed={100}
+                eraseSpeed={50}
+                typingDelay={500}
+                eraseDelay={2000}
+                cursorRenderer={(cursor) => (
+                  <span className="text-[#8245ec] text-lg sm:text-xl md:text-2xl">{cursor}</span>
+                )}
+                className="text-lg sm:text-xl md:text-2xl"
+              />
+            </div>
           </motion.h3>
-          
+
           {/* About Me Paragraph */}
-          <motion.p 
-            className="text-base sm:text-lg md:text-lg text-gray-400 mb-10 mt-8 leading-relaxed"
+          <motion.p
+            className="text-base sm:text-lg md:text-lg text-secondary mb-10 mt-8 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1.1 }}
           >
-          Certified Data Scientist & ML Engineer skilled in data analysis, predictive modeling, and MLOps. Expertise in Python, SQL, machine learning, and cloud deployment. Experienced in data preprocessing, statistical analysis, and feature engineering for AI solutions. Developed end-to-end ML pipelines using MLFlow, Docker, and FastAPI to drive business impact.
+            Certified Data Scientist & ML Engineer skilled in data analysis, predictive modeling, and MLOps. Expertise in Python, SQL, machine learning, and cloud deployment. Experienced in data preprocessing, statistical analysis, and feature engineering for AI solutions. Developed end-to-end ML pipelines using MLFlow, Docker, and FastAPI to drive business impact.
           </motion.p>
-          
+
           {/* Resume Button */}
           <motion.a
             href={resumeUrl}
@@ -157,9 +210,9 @@ const About = () => {
           >
             DOWNLOAD CV
           </motion.a>
-          
+
         </motion.div>
-        
+
         {/* Right Side - Profile Image Slider */}
         <div className="md:w-1/2 flex justify-center md:justify-end">
           <Tilt
