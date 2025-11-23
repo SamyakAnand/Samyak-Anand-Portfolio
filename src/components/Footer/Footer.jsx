@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaEnvelope, FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaEnvelope, FaFacebook, FaGithub, FaInstagram, FaLinkedin, FaMapMarkerAlt } from "react-icons/fa";
 
 const Footer = () => {
   // Smooth scroll function
@@ -82,7 +82,7 @@ const Footer = () => {
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
                 <div className="w-10 h-10 rounded-full bg-tertiary flex items-center justify-center group-hover:bg-purple-500/20 transition-colors duration-300">
-                  <FaLinkedin className="text-secondary group-hover:text-purple-500 transition-colors" />
+                  <FaMapMarkerAlt className="text-secondary group-hover:text-purple-500 transition-colors" />
                 </div>
                 <span className="text-secondary group-hover:text-white-100 transition-colors">Hyderabad, Telangana, India</span>
               </motion.div>
