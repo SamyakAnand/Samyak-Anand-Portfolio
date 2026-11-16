@@ -18,7 +18,7 @@ const Hero = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const resumeUrl = import.meta.env.VITE_RESUME_DOWNLOAD_URL || '#';
+    const resumeUrl = import.meta.env.VITE_RESUME_DOWNLOAD_URL || '/Samyak_Updated_CV.pdf';
 
     return (
         <section className="relative w-full h-screen mx-auto bg-primary overflow-hidden" id="hero">
@@ -45,7 +45,7 @@ const Hero = () => {
                             I am a{' '}
                             <span className="text-[#915eff]">
                                 <Typewriter
-                                    words={['Data Scientist', 'ML Engineer', 'Data Analyst', 'Developer']}
+                                    words={['Applied AI Engineer', 'Generative AI Engineer', 'Python Backend Engineer', 'ML Engineer']}
                                     loop={0}
                                     cursor
                                     cursorStyle='|'
@@ -56,7 +56,7 @@ const Hero = () => {
                             </span>
                         </h2>
                         <p className="text-secondary text-lg max-w-xl mx-auto md:mx-0 mb-10 leading-relaxed">
-                            Transforming complex data into actionable insights and building intelligent systems that drive innovation.
+                            Building source-grounded AI applications, Python APIs, machine-learning workflows, and data products with a focus on traceability and practical outcomes.
                         </p>
 
                         <div className="flex flex-wrap gap-4 justify-center md:justify-start">

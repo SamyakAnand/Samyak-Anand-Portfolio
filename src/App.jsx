@@ -61,6 +61,14 @@ const App = () => {
             <About />
           </ErrorBoundary>
 
+          <ErrorBoundary componentName="LiveProjectHighlights">
+            <LiveProjectHighlights />
+          </ErrorBoundary>
+
+          <ErrorBoundary componentName="Work">
+            <Work />
+          </ErrorBoundary>
+
           <ErrorBoundary componentName="Skills">
             <Skills />
           </ErrorBoundary>
@@ -71,14 +79,6 @@ const App = () => {
 
           <ErrorBoundary componentName="Services">
             <Services />
-          </ErrorBoundary>
-
-          <ErrorBoundary componentName="LiveProjectHighlights">
-            <LiveProjectHighlights />
-          </ErrorBoundary>
-
-          <ErrorBoundary componentName="Work">
-            <Work />
           </ErrorBoundary>
 
           <ErrorBoundary componentName="Certification">

@@ -177,10 +177,10 @@ const Certification = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-white-100 mb-4">CERTIFICATIONS</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-white-100 mb-4">CERTIFICATIONS &amp; CREDENTIALS</h2>
         <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
         <p className="text-secondary mt-6 text-lg max-w-3xl mx-auto">
-          Industry-recognized certifications that validate my expertise and commitment to continuous learning in data science and machine learning.
+          Courses, technical training completions, and internship credentials across Data Science, Machine Learning, Python, and analytics.
         </p>
       </motion.div>
 

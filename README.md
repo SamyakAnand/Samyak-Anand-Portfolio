@@ -1,112 +1,61 @@
-# Samyak Anand Portfolio
+# SAM.exe — Applied AI Engineer Portfolio
 
-This is a professional portfolio website built with React, Vite, and Tailwind CSS. It showcases projects, skills, and experience as a Data Scientist and ML Engineer.
+**Live portfolio:** https://samyak-anand.vercel.app/
 
-## 🚀 Deployment to Vercel
+A cinematic, interactive portfolio for Samyak Anand, an Applied AI Engineer focused on Python applications, retrieval workflows, machine learning, NLP, analytics, and backend APIs.
 
-### Automatic Deployment (Recommended)
-1. Push the code to a GitHub repository
-2. Go to [Vercel](https://vercel.com) and create a new project
-3. Import your GitHub repository
-4. Configure the project settings:
-   - Framework Preset: Vite
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-5. Add Environment Variables (see section below)
-6. Deploy the project
+## Explore
 
-### Manual Deployment
-```bash
-# Install dependencies
-npm install
+- **Interactive demos:** NEXUS, ARGUS AI, Disease Predictor, and Student Performance Indicator.
+- **Curated project gallery:** searchable and filterable case studies with source-code and demo links.
+- **Project detail modals:** descriptions, implementation scope, technology tags, and external links.
+- **Engineering toolkit:** grouped skills across Applied AI, programming, ML/NLP, data analytics, backend, databases, and MLOps.
+- **Experience & education:** Softgrowth Infotech, Evoastra Ventures, Gilbert Research Center, and academic background.
+- **SAM assistant:** portfolio Q&A based on the published projects, skills, and experience.
+- **Credentials:** courses, technical training completions, and internship credentials.
 
-# Build for production
-npm run build
+## Featured work
 
-# The build output will be in the `dist` folder
-# Upload the contents of the `dist` folder to your hosting provider
-```
+| Project | What it demonstrates | Links |
+|---|---|---|
+| NEXUS | Deterministic data analysis, read-only SQL, evidence-linked findings | [Demo](https://nexus-peach-six.vercel.app/) · [GitHub](https://github.com/SamyakAnand/NEXUS) |
+| ARGUS AI | Lexical passage retrieval, exact source offsets, citation-ID checks | [Demo](https://argus-ai-iota.vercel.app/) · [GitHub](https://github.com/SamyakAnand/Argus-Ai) |
+| SHIRO CodeMind | Public repository snapshots, source browsing, validated file/line references | [GitHub](https://github.com/SamyakAnand/Shiro-Ai) |
+| L — LLM Evaluation | Early-stage local-first prompt and evaluation platform | [GitHub](https://github.com/SamyakAnand/L-Intelligence-Platform) |
+| Disease Predictor | Five-category educational ML prototype | [Demo](https://disease-predictor-dvty.onrender.com/) · [GitHub](https://github.com/SamyakAnand/Disease-Predictor) |
+| Resume Analyzer | PDF/DOCX extraction and weighted resume/JD matching | [GitHub](https://github.com/SamyakAnand/Resume-Analyzer) |
 
-## 🔐 Environment Variables
+## Technology
 
-For the portfolio to function correctly, you must set the following environment variables in your Vercel project settings:
-
-```bash
-# Euri API Configuration (Optional - for chatbot functionality)
-VITE_EURI_API_KEY=your_euri_api_key_here
-VITE_EURI_API_URL=https://api.euron.one/api/v1/euri/chat/completions
-VITE_EURI_MODEL=gpt-4.1-nano
-
-# Resume Download Link (Required - link to your resume)
-VITE_RESUME_DOWNLOAD_URL=/Samyak_Updated_CV.pdf
-
-# EmailJS Configuration (Required - for contact form)
-VITE_EMAILJS_SERVICE_ID=your_service_id_here
-VITE_EMAILJS_TEMPLATE_ID=your_template_id_here
-VITE_EMAILJS_PUBLIC_KEY=your_public_key_here
-```
-
-### Setting Environment Variables in Vercel
-1. Go to your Vercel project dashboard
-2. Click on "Settings" tab
-3. Click on "Environment Variables" in the sidebar
-4. Add each variable with its corresponding value
-5. Redeploy your project for changes to take effect
-
-## 🛠️ Development
-
-### Prerequisites
-- Node.js (version 14 or higher)
-- npm or yarn
-
-### Installation
-```bash
-# Clone the repository
-git clone <repository-url>
-
-# Navigate to the project directory
-cd Samyak-Portfolio
-
-# Install dependencies
-npm install
-```
-
-### Running the Development Server
-```bash
-# Start the development server
-npm run dev
-
-# Open your browser and visit http://localhost:5173
-```
-
-### Building for Production
-```bash
-# Build the project
-npm run build
-
-# Preview the production build
-npm run preview
-```
-
-## 📁 Project Structure
-```
-src/
-├── assets/          # Images, logos, and other assets
-├── components/      # React components
-├── constants.js     # Project data and constants
-├── App.jsx          # Main App component
-└── main.jsx         # Entry point
-```
-
-## 🎨 Technologies Used
-- React
-- Vite
+- React + Vite
 - Tailwind CSS
 - Framer Motion
-- EmailJS
 - React Icons
 - React Parallax Tilt
-- React Typing Effect
+- Vercel deployment
 
-## 📞 Contact
-If you have any questions or feedback, feel free to reach out to Samyak Anand at samyakanand2003@gmail.com.
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Create a `.env` file if you want to override the resume asset path:
+
+```env
+VITE_RESUME_DOWNLOAD_URL=/Samyak_Updated_CV.pdf
+```
+
+The public site uses the repository's `public/Samyak_Updated_CV.pdf` as its fallback resume asset.
+
+## Contact
+
+- **LinkedIn:** https://www.linkedin.com/in/samyakanand/
+- **GitHub:** https://github.com/SamyakAnand
+- **Email:** samyak.g.anand@gmail.com
+- **Location:** Hyderabad, Telangana, India
+
+---
+
+Built by Samyak Anand · SAM.exe

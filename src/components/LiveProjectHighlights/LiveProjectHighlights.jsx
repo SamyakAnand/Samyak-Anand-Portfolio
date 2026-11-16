@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FiChevronLeft, FiChevronRight, FiExternalLink, FiStar } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiExternalLink, FiStar, FiCpu } from "react-icons/fi";
 import { projects } from "../../constants";
 
 const LiveProjectHighlights = () => {
@@ -64,10 +64,10 @@ const LiveProjectHighlights = () => {
       >
         <div className="text-center mb-16">
           <p className="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider mb-2">
-            Real-world applications
+            Explore the deployed builds
           </p>
           <h2 className="text-white-100 font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">
-            Live Projects.
+            Interactive Demos.
           </h2>
         </div>
 
@@ -83,17 +83,26 @@ const LiveProjectHighlights = () => {
             >
               {/* Image Section */}
               <div className="w-full md:w-1/2 h-1/2 md:h-full relative group overflow-hidden bg-black-200">
-                {projectImage && (
+                {projectImage ? (
                   <motion.img
                     src={projectImage}
                     alt={currentProject.title}
                     className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110"
                     initial={{ scale: 1 }}
                     whileHover={{ scale: 1.05 }}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
                     }}
                   />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-center p-8 bg-gradient-to-br from-violet-950 via-indigo-950 to-slate-950">
+                    <div className="w-20 h-20 rounded-3xl bg-white/10 border border-white/15 flex items-center justify-center">
+                      <FiCpu className="w-11 h-11 text-violet-200" />
+                    </div>
+                    <span className="mt-5 text-[10px] tracking-[0.28em] font-bold text-white/50">{currentProject.eyebrow || "APPLIED AI DEMO"}</span>
+                    <h3 className="mt-2 text-2xl font-black text-white">{currentProject.shortTitle || currentProject.title}</h3>
+                    <span className="mt-3 text-[10px] tracking-[0.18em] text-white/40">SAM.EXE · PUBLIC DEMO</span>
+                  </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black-100 via-transparent to-transparent opacity-60" />
               </div>
@@ -109,7 +118,7 @@ const LiveProjectHighlights = () => {
                   <div className="flex-shrink-0">
                     <div className="flex flex-wrap gap-2 mb-4">
                       <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
-                        LIVE
+                        PUBLIC DEMO
                       </span>
                       <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-tertiary text-secondary border border-white/10 dark:border-white/10 border-black/10">
                         {currentProject.category && currentProject.category.filter(cat => cat !== "Live Projects")[0] || "Web App"}
@@ -123,6 +132,7 @@ const LiveProjectHighlights = () => {
                     <p className="text-secondary text-xs md:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-2 md:line-clamp-none">
                       {currentProject.description}
                     </p>
+                    <p className="text-[10px] text-secondary/80 mt-2">{currentProject.status}</p>
                   </div>
 
                   <div className="flex-shrink-0 mb-3 md:mb-4">
@@ -153,7 +163,7 @@ const LiveProjectHighlights = () => {
                           className="flex items-center justify-center gap-1 md:gap-2 px-3 py-2 md:px-4 md:py-2.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-xs md:text-sm min-w-fit w-auto"
                         >
                           <FiExternalLink className="text-xs md:text-sm flex-shrink-0" />
-                          <span className="whitespace-nowrap">Visit Site</span>
+                          <span className="whitespace-nowrap">Open Demo</span>
                         </a>
                       )}
                     </div>

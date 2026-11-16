@@ -2,72 +2,56 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import {
     FaChartBar,
-    FaCloudUploadAlt,
     FaLaptopCode,
     FaMagic,
     FaRobot,
-    FaRocket
+    FaGraduationCap
 } from "react-icons/fa";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 
 const serviceData = [
   {
-    icon: <FaChartBar className="text-3xl" />,
-    title: "Data Analytics & Visualization",
-    tagline: "Transforming raw data into actionable insights.",
-    description:
-      "I help businesses uncover hidden patterns and trends through advanced analytics and interactive dashboards using Power BI, Tableau, and Python libraries.",
-    fullDescription: "Data Analytics & Visualization services transform complex datasets into clear, actionable insights that drive business decisions. Using tools like Power BI, Tableau, and Python libraries (Pandas, Matplotlib, Seaborn), I create interactive dashboards and reports that tell compelling data stories. My approach combines statistical analysis with intuitive visualization design to help stakeholders understand key metrics, identify opportunities, and track performance. Whether you need executive dashboards for strategic oversight or operational reports for day-to-day management, I deliver solutions that make data accessible and meaningful. My services include data cleaning and preprocessing, statistical modeling, trend analysis, and the creation of custom visualizations that highlight the most important insights for your business.",
-    color: "from-blue-500 to-cyan-500",
-    glow: "shadow-blue-500/50"
-  },
-  {
     icon: <FaRobot className="text-3xl" />,
-    title: "AI & Machine Learning Solutions",
-    tagline: "Building intelligent models that predict and optimize.",
-    description:
-      "From predictive analytics to deep learning, I create AI solutions that solve real business problems using Python, Scikit-learn, TensorFlow, and PyTorch.",
-    fullDescription: "AI & Machine Learning Solutions services leverage advanced algorithms to extract value from your data and solve complex business challenges. I specialize in developing predictive models, classification systems, clustering solutions, and deep learning applications that drive measurable results. Using Python and frameworks like Scikit-learn, TensorFlow, and PyTorch, I build models for customer segmentation, demand forecasting, risk assessment, recommendation systems, computer vision, and natural language processing. My approach combines domain expertise with technical excellence to ensure models are not only accurate but also interpretable and aligned with business objectives. I handle the entire ML pipeline from data preprocessing and feature engineering to model training, validation, and deployment. Whether you're looking to optimize pricing, reduce churn, or improve operational efficiency, I create tailored solutions that deliver real business impact.",
+    title: "Applied AI & Retrieval Workflows",
+    tagline: "Build knowledge tools with source traceability.",
+    description: "Project-led work in document retrieval, source-grounded Q&A, and structured LLM workflows.",
+    fullDescription: "ARGUS AI indexes Markdown and UTF-8 documents, retrieves passages lexically, and tracks exact source offsets. SHIRO CodeMind explores public GitHub repositories as indexed snapshots and validates file/line references. The focus is on visible evidence and clear implementation boundaries—not unverified claims of production vector RAG or autonomous agent deployment.",
     color: "from-purple-500 to-indigo-500",
     glow: "shadow-purple-500/50"
   },
   {
-    icon: <FaCloudUploadAlt className="text-3xl" />,
-    title: "MLOps & Model Deployment",
-    tagline: "Taking AI models from experiment to enterprise-scale production.",
-    description:
-      "End-to-end MLOps solutions including model containerization, CI/CD pipelines, and monitoring using Docker, Kubernetes, and FastAPI.",
-    fullDescription: "MLOps & Model Deployment services bridge the gap between machine learning experimentation and production implementation. I design and implement robust MLOps pipelines that ensure models are deployed reliably, monitored effectively, and maintained efficiently. Using Docker for containerization, Kubernetes for orchestration, and FastAPI for API development, I create scalable deployment solutions that integrate seamlessly with your existing infrastructure. My services include model versioning, experiment tracking with MLflow, automated testing, CI/CD pipeline setup, and real-time monitoring for model performance and data drift. I also implement A/B testing frameworks, rollback mechanisms, and security measures to ensure your AI systems are production-ready. Whether you're deploying a single model or managing an entire ML ecosystem, I provide the infrastructure and processes needed to operationalize your AI initiatives at scale.",
+    icon: <FaLaptopCode className="text-3xl" />,
+    title: "Python Backend & API Engineering",
+    tagline: "Build clear API contracts for AI and analytics products.",
+    description: "FastAPI, Flask, REST APIs, Pydantic, and relational/document data stores.",
+    fullDescription: "Project work includes Python services and REST endpoints for NEXUS, ARGUS AI, and machine-learning applications. Focus areas include request validation, modular service structure, deterministic tool boundaries, and documented interfaces. No enterprise-scale concurrency or production SLA claim is made.",
     color: "from-cyan-500 to-blue-500",
     glow: "shadow-cyan-500/50"
   },
   {
     icon: <FaMagic className="text-3xl" />,
-    title: "Generative AI & AI Automation",
-    tagline: "Creating intelligent systems that generate content and automate workflows.",
-    description:
-      "Generative AI solutions for content creation, code generation, and intelligent automation tools that enhance productivity and creativity.",
-    fullDescription: "Generative AI & AI Automation services unlock new possibilities for content creation, workflow optimization, and intelligent automation. I develop generative models using state-of-the-art techniques like GANs, transformers, and diffusion models to create text, images, code, and multimedia content. My automation solutions include intelligent chatbots, document processing systems, and workflow automation tools that reduce manual effort and improve efficiency. Using platforms like LangChain and Hugging Face, I build custom generative AI applications tailored to your specific needs. Whether you're looking to accelerate content creation, automate repetitive tasks, or enhance user experiences with AI-powered features, I provide innovative solutions that boost productivity and creativity. My services also include prompt engineering, fine-tuning of pre-trained models, and integration of generative AI capabilities into existing applications.",
+    title: "Machine Learning & NLP",
+    tagline: "From data preparation to model evaluation.",
+    description: "Supervised learning, feature engineering, text processing, and evaluation workflows.",
+    fullDescription: "Projects include Disease Predictor, Network Security, Student Performance, and Resume Analyzer. Work covers data ingestion, validation, transformation, model training, evaluation, drift reporting, and experiment tracking with MLflow and DagsHub. Healthcare projects are educational prototypes, not clinical tools.",
     color: "from-green-500 to-emerald-500",
     glow: "shadow-green-500/50"
   },
   {
-    icon: <FaLaptopCode className="text-3xl" />,
-    title: "Web Development & AI Integration",
-    tagline: "Building modern web applications enhanced with AI capabilities.",
-    description:
-      "Full-stack web development with seamless AI integration using React, Node.js, FastAPI, and cloud technologies for intelligent user experiences.",
-    fullDescription: "Web Development & AI Integration services combine modern web development practices with cutting-edge AI capabilities to create intelligent, interactive applications. I build responsive, scalable web applications using React, Vue.js, and Angular for the frontend, paired with Node.js, FastAPI, and Python for the backend. My AI integration expertise includes implementing recommendation systems, chatbots, personalization engines, and real-time analytics within web applications. I ensure seamless user experiences by embedding AI functionality naturally into the interface while maintaining high performance and reliability. My services cover the entire development lifecycle from UI/UX design and architecture planning to implementation, testing, and deployment. Whether you need a dashboard for AI model outputs, a customer-facing AI application, or an internal tool enhanced with intelligent features, I deliver web solutions that showcase the power of AI through intuitive, engaging interfaces.",
+    icon: <FaChartBar className="text-3xl" />,
+    title: "Data Analytics & Business Intelligence",
+    tagline: "Turn structured data into useful dashboards and reports.",
+    description: "Power BI, DAX, Power Query, SQL, Tableau, Excel, and Python analytics.",
+    fullDescription: "Dashboard case studies cover financial risk, insurance, credit cards, retail sales, Netflix, and Prime Video. The work focuses on data modelling, measures, segmentation, trend analysis, and clear visual reporting. No unverified revenue uplift or business-impact metrics are claimed.",
     color: "from-orange-500 to-amber-500",
     glow: "shadow-orange-500/50"
   },
   {
-    icon: <FaRocket className="text-3xl" />,
-    title: "Startup Builder",
-    tagline: "Building innovative tech startups from concept to launch.",
-    description:
-      "End-to-end startup development services including ideation, MVP development, and scaling strategies for tech ventures.",
-    fullDescription: "Startup Builder services help transform innovative ideas into successful technology ventures. I provide comprehensive support throughout the entire startup journey, from initial concept validation to product launch and scaling. My services include market research and competitive analysis, business model development, minimum viable product (MVP) creation, technical architecture design, and fundraising preparation. I specialize in building scalable tech solutions using modern frameworks and cloud technologies, ensuring your startup has a solid technical foundation. Whether you're a first-time entrepreneur or an experienced founder looking to launch a new venture, I help you navigate the complexities of startup development. My approach combines technical expertise with business acumen to create solutions that are not only technically sound but also commercially viable. I assist with product strategy, team building, investor pitch preparation, and go-to-market planning to maximize your startup's chances of success.",
+    icon: <FaGraduationCap className="text-3xl" />,
+    title: "Technical Mentorship & Project Guidance",
+    tagline: "Help learners turn concepts into working projects.",
+    description: "Mentored 100+ learners and guided 5+ postgraduate academic project teams.",
+    fullDescription: "At Softgrowth Infotech, Samyak supported Python, Data Science, Machine Learning, preprocessing, exploratory analysis, statistics, and technical problem solving. Project guidance included problem definition, architecture, implementation, documentation, and presentations.",
     color: "from-indigo-500 to-purple-500",
     glow: "shadow-indigo-500/50"
   },
@@ -148,7 +132,7 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Services
+          Engineering Focus
         </motion.h2>
         <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
         <motion.p
@@ -159,7 +143,7 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          End-to-end AI and data science solutions tailored to your business needs
+          Project-backed engineering areas across Applied AI, Python, Machine Learning, Analytics, and Mentorship
         </motion.p>
       </div>
 
