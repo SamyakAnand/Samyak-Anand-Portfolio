@@ -136,14 +136,13 @@ const ExperienceEducation = () => {
                       {/* Logo positioned before title */}
                       <div className="flex justify-center md:justify-start mb-4">
                         <div className="w-16 h-16 rounded-xl bg-gray-50 dark:bg-white/5 p-2 border border-gray-100 dark:border-white/10 flex items-center justify-center shadow-sm">
-                          <img
-                            src={item.img}
-                            alt={item.company || item.school}
-                            className="w-full h-full object-contain"
-                            onError={(e) => {
-                              e.target.src = "https://via.placeholder.com/64?text=Logo";
-                            }}
-                          />
+                          {item.img ? (
+                            <img src={item.img} alt={item.company || item.school} className="w-full h-full object-contain" />
+                          ) : activeTab === "experience" ? (
+                            <FiBriefcase className="w-8 h-8 text-purple-400" />
+                          ) : (
+                            <FiBook className="w-8 h-8 text-purple-400" />
+                          )}
                         </div>
                       </div>
 
