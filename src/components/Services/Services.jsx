@@ -57,7 +57,7 @@ const serviceData = [
   },
 ];
 
-const Engineering Focus = () => {
+const Services = () => {
   const [selectedService, setSelectedService] = useState(null);
   const containerVariants = {
     hidden: { opacity: 0 },
