@@ -24,11 +24,11 @@ const Navbar = () => {
 
   const menuItems = useMemo(() => [
     { id: "about", label: "About" },
-    { id: "skills", label: "Skills" },
-    { id: "experience-education", label: "Background" },
-    { id: "services", label: "Services" },
     { id: "work", label: "Projects" },
-    { id: "certification", label: "Certifications" },
+    { id: "skills", label: "Skills" },
+    { id: "experience-education", label: "Experience" },
+    { id: "services", label: "Engineering Focus" },
+    { id: "certification", label: "Credentials" },
     { id: "contact", label: "Contact" }
   ], []);
 
