@@ -69,10 +69,10 @@ const PortfolioChatbot = () => {
   const updateSuggestions = (text) => {
     const lower = text.toLowerCase();
     if (lower.includes("skill") || lower.includes("tech")) {
-      setSuggestions(["What are his ML skills?", "Does he know Power BI?", "Show me his projects", "Contact Samyak"]);
+      setSuggestions(["What are his Applied AI skills?", "Which ML tools does he use?", "Show me the live demos", "Contact Samyak"]);
     } else if (lower.includes("project") || lower.includes("work")) {
       setSuggestions(["Show me NEXUS", "What does ARGUS AI do?", "Explain SHIRO CodeMind", "See his experience"]);
-    } else if (lower.includes("experience") || lower.includes("job") || lower.includes("intern")) {
+    } else if (lower.includes("experience") || lower.includes("job") || lower.includes("intern") || lower.includes("softgrowth") || lower.includes("trainer")) {
       setSuggestions(["What did he do at Softgrowth?", "What did he do at Evoastra?", "Tell me about Gilbert Research", "View his resume"]);
     } else if (lower.includes("hire") || lower.includes("strength") || lower.includes("weakness")) {
       setSuggestions(["What is his biggest challenge?", "How does he handle conflict?", "Contact info", "View projects"]);
@@ -145,15 +145,21 @@ const PortfolioChatbot = () => {
     else if (lower.includes("project") || lower.includes("built") || lower.includes("work")) {
       const projectNames = projects.slice(0, 3).map(p => p.title).join(", ");
       if (mode === "professional") {
-        response = `Samyak has worked on impactful projects such as ${projectNames}, and many more. His work spans Financial Analytics, Machine Learning, and Web Development. You can view them in the 'Work' section.`;
+        response = `Samyak has worked on impactful projects such as ${projectNames}, and many more. His work spans Applied AI, Machine Learning, and Business Intelligence. You can view them in the 'Work' section.`;
       } else {
         response = `Check out these cool projects! 🚀 He built ${projectNames} and so much more. He loves building things that solve real problems! 💻`;
       }
     }
     // Experience
-    else if (lower.includes("experience") || lower.includes("job") || lower.includes("intern") || lower.includes("evoastra") || lower.includes("gilbert")) {
+    else if (lower.includes("experience") || lower.includes("job") || lower.includes("intern") || lower.includes("evoastra") || lower.includes("gilbert") || lower.includes("softgrowth") || lower.includes("trainer")) {
       const latestExp = experiences[0];
-      if (lower.includes("evoastra")) {
+      if (lower.includes("softgrowth") || lower.includes("trainer")) {
+        if (mode === "professional") {
+          response = `At Softgrowth Infotech, Samyak worked as a Data Science Trainer from October 2025 to November 2026. He mentored 100+ learners and guided 5+ postgraduate project teams in Python, Data Science, Machine Learning, preprocessing, EDA, statistics, and technical project work. The engagement concluded on 9 November 2026.`;
+        } else {
+          response = `At Softgrowth, Samyak mentored more than 100 learners and guided 5+ postgraduate project teams in Data Science and ML. 🎓`;
+        }
+      } else if (lower.includes("evoastra")) {
         if (mode === "professional") {
           response = `At Evoastra Ventures, Samyak led a team of five interns, developed CARS24 listing data-collection workflows, and contributed to NLP-based recruitment and resume analysis.`;
         } else {
@@ -197,7 +203,7 @@ const PortfolioChatbot = () => {
       if (mode === "professional") {
         response = "Samyak combines project-led Applied AI work, Python backend development, machine-learning workflows, and analytics. His documented experience includes mentoring 100+ learners, guiding 5+ postgraduate teams, and leading five interns at Evoastra. His projects emphasize traceability and clear implementation boundaries.";
       } else {
-        response = "Because he's awesome! 🌟 But seriously, Samyak is a fast learner, a great leader, and super passionate about tech. He doesn't just write code; he solves problems. Plus, he's a great team player! 🤝";
+        response = "Samyak's profile combines applied project work, Python backend development, machine-learning workflows, analytics, and technical mentorship. The portfolio links to working demos and source repositories so you can review the work directly.";
       }
     }
     // Strengths
@@ -205,7 +211,7 @@ const PortfolioChatbot = () => {
       if (mode === "professional") {
         response = "Samyak's documented strengths include Python and API development, machine-learning and NLP workflows, data analytics, source-grounded retrieval, and technical mentorship.";
       } else {
-        response = "Samyak is a powerhouse! 💪 He's amazing at analyzing data, leading teams, and picking up new tech like it's nothing. He's the kind of person you want on your side! 🚀";
+        response = "His documented strengths are Python and API development, ML/NLP workflows, retrieval-based applications, BI reporting, and technical mentorship. 🚀";
       }
     }
     // Weaknesses
