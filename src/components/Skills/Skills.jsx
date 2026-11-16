@@ -19,7 +19,7 @@ const Skills = () => {
           className="text-center mb-16"
         >
           <p className="text-secondary text-[18px] uppercase tracking-wider">
-            My Technical Proficiency
+            Project-Backed Technical Toolkit
           </p>
           <h2 className="text-gray-900 dark:text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">
             Skills.
@@ -70,7 +70,7 @@ const Skills = () => {
           className="mt-16 text-center"
         >
           <p className="text-secondary text-lg">
-            Always learning and exploring new technologies to solve real-world problems.
+            Skills are presented around documented project work, training experience, and the tools used to build and evaluate these systems.
           </p>
         </motion.div>
       </div>
