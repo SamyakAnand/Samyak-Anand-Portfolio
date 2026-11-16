@@ -1,6 +1,6 @@
 # SAM.exe — Applied AI Engineer Portfolio
 
-**Live portfolio:** https://samyak-anand-ai-scientist-portfolio.vercel.app/
+**Live portfolio:** https://samyak-anand.vercel.app/
 
 A cinematic, interactive portfolio for Samyak Anand, an Applied AI Engineer focused on Python applications, retrieval workflows, machine learning, NLP, analytics, and backend APIs.
 
