@@ -23,7 +23,7 @@ const About = () => {
   }, [profileImages.length]);
 
   // Fallback resume URL with better error handling
-  const resumeUrl = import.meta.env.VITE_RESUME_DOWNLOAD_URL || '#';
+  const resumeUrl = import.meta.env.VITE_RESUME_DOWNLOAD_URL || '/Samyak_Updated_CV.pdf';
 
   // Check if images exist and handle loading errors
   const handleImageError = (e) => {
@@ -169,7 +169,7 @@ const About = () => {
             <div className="mt-4">
               <span className="text-gray-800 dark:text-white text-lg sm:text-xl md:text-2xl">I am a </span>
               <ReactTypingEffect
-                text={['Data Scientist', 'Data Analyst', 'ML Engineer', 'AI Engineer', 'Developer', 'Gen AI Engineer', 'Coder']}
+                text={['Applied AI Engineer', 'Generative AI Engineer', 'Python Backend Engineer', 'Machine Learning Engineer']}
                 speed={100}
                 eraseSpeed={50}
                 typingDelay={500}
@@ -189,7 +189,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1.1 }}
           >
-            Certified Data Scientist & ML Engineer skilled in data analysis, predictive modeling, and MLOps. Expertise in Python, SQL, machine learning, and cloud deployment. Experienced in data preprocessing, statistical analysis, and feature engineering for AI solutions. Developed end-to-end ML pipelines using MLFlow, Docker, and FastAPI to drive business impact.
+            Applied AI Engineer and Computer Science graduate based in Hyderabad. I build Python-based AI applications, retrieval workflows, machine-learning systems, and analytical platforms. My work includes NEXUS (deterministic data analysis), ARGUS AI (lexical passage retrieval with exact source offsets), SHIRO CodeMind (source-grounded repository intelligence), and modular ML projects. I also bring technical mentorship experience: 100+ learners mentored and 5+ postgraduate project teams guided.
           </motion.p>
 
           {/* Resume Button */}
@@ -210,6 +210,10 @@ const About = () => {
           >
             DOWNLOAD CV
           </motion.a>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <a href="#work" className="px-6 py-3 rounded-full border border-purple-500/60 text-purple-300 font-semibold hover:bg-purple-500/10 transition-colors">EXPLORE PROJECTS</a>
+            <a href="https://github.com/SamyakAnand" target="_blank" rel="noopener noreferrer" className="px-6 py-3 rounded-full border border-white/15 text-secondary font-semibold hover:text-white hover:border-purple-500/60 transition-colors">GITHUB PROFILE ↗</a>
+          </div>
 
         </motion.div>
 
