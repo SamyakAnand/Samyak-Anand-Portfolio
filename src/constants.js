@@ -268,8 +268,8 @@ export const SkillsInfo = [
     skills: [
       { name: 'Next.js', logo: 'https://skillicons.dev/icons?i=nextjs&theme=dark' },
       { name: 'React', logo: 'https://skillicons.dev/icons?i=react&theme=dark' },
-      { name: 'TypeScript', logo: 'https://skillicons.dev/icons?i=ts&theme=dark' },
-      { name: 'JavaScript', logo: 'https://skillicons.dev/icons?i=js&theme=dark' },
+      { name: 'Framer Motion', logo: 'https://img.shields.io/badge/Framer-Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white' },
+      { name: 'Tailwind CSS', logo: 'https://skillicons.dev/icons?i=tailwind&theme=dark' },
     ],
   },
   {
