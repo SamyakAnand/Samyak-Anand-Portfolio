@@ -71,9 +71,9 @@ const PortfolioChatbot = () => {
     if (lower.includes("skill") || lower.includes("tech")) {
       setSuggestions(["What are his ML skills?", "Does he know Power BI?", "Show me his projects", "Contact Samyak"]);
     } else if (lower.includes("project") || lower.includes("work")) {
-      setSuggestions(["Tell me about Blinkit Dashboard", "What is the Disease Predictor?", "See his experience", "Back to skills"]);
+      setSuggestions(["Show me NEXUS", "What does ARGUS AI do?", "Explain SHIRO CodeMind", "See his experience"]);
     } else if (lower.includes("experience") || lower.includes("job") || lower.includes("intern")) {
-      setSuggestions(["What did he do at Evoastra?", "Tell me about Gilbert Research", "View his resume", "Why hire him?"]);
+      setSuggestions(["What did he do at Softgrowth?", "What did he do at Evoastra?", "Tell me about Gilbert Research", "View his resume"]);
     } else if (lower.includes("hire") || lower.includes("strength") || lower.includes("weakness")) {
       setSuggestions(["What is his biggest challenge?", "How does he handle conflict?", "Contact info", "View projects"]);
     } else {
@@ -122,22 +122,22 @@ const PortfolioChatbot = () => {
 
       if (specificSkill) {
         if (mode === "professional") {
-          response = `Yes, Samyak is proficient in ${specificSkill.name}. It is one of his core technical skills.`;
+          response = `Samyak lists ${specificSkill.name} among his technical skills. The portfolio highlights project work and learning context where available.`;
         } else {
-          response = `Totally! He knows ${specificSkill.name} inside out. 💻`;
+          response = `He has worked with ${specificSkill.name} as part of his technical toolkit. 💻`;
         }
       } else if (lower.includes("ml") || lower.includes("machine learning")) {
         if (mode === "professional") {
-          response = `Samyak has strong expertise in Machine Learning, including frameworks like TensorFlow, PyTorch, and Scikit-learn. He has built projects like Disease Predictor and Customer Churn Prediction.`;
+          response = `Samyak's machine-learning work includes Scikit-learn, TensorFlow, PyTorch, and NLP workflows. Relevant projects include Disease Predictor, Network Security, Student Performance, and Resume Analyzer.`;
         } else {
           response = `Machine Learning is his jam! 🤖 He works with TensorFlow, PyTorch, and more to build smart AI models.`;
         }
       } else if (lower.includes("skill") || lower.includes("tech") || lower.includes("stack")) {
-        const topSkills = ["Python", "React", "Machine Learning", "Power BI", "SQL"];
+        const topSkills = ["Python", "FastAPI", "Generative AI", "Machine Learning", "SQL", "Power BI"];
         if (mode === "professional") {
-          response = `Samyak possesses a robust technical skillset including ${topSkills.join(", ")}, and more. He specializes in Data Science, Machine Learning, and Full Stack Development.`;
+          response = `Samyak's technical toolkit includes ${topSkills.join(", ")}, alongside retrieval workflows, NLP, databases, and MLOps tools. His focus is Applied AI engineering, ML, and Python backend development.`;
         } else {
-          response = `Samyak is a tech wizard! 🧙‍♂️ He's great with ${topSkills.join(", ")} and a lot more. Whether it's crunching data or building apps, he's got it covered! ✨`;
+          response = `Samyak works across ${topSkills.join(", ")} and related tools for AI applications, analytics, and backend development. ✨`;
         }
       }
     }
@@ -155,21 +155,21 @@ const PortfolioChatbot = () => {
       const latestExp = experiences[0];
       if (lower.includes("evoastra")) {
         if (mode === "professional") {
-          response = `At Evoastra Ventures, Samyak led a team of 5 interns to build end-to-end ML workflows and developed a CARS24 web-scraping pipeline.`;
+          response = `At Evoastra Ventures, Samyak led a team of five interns, developed CARS24 listing data-collection workflows, and contributed to NLP-based recruitment and resume analysis.`;
         } else {
-          response = `At Evoastra, he was a team lead! 👨‍✈️ He guided 5 interns and built some awesome ML pipelines.`;
+          response = `At Evoastra, he was a team lead! 👨‍✈️ He guided five interns and contributed to CARS24 data collection and NLP resume analysis.`;
         }
       } else if (lower.includes("gilbert")) {
         if (mode === "professional") {
-          response = `At Gilbert Research Center, he engineered clinical ML models and modular pipelines with drift detection using Flask and MLflow.`;
+          response = `At Gilbert Research Center, Samyak worked with clinical healthcare datasets and modular ingestion, validation, transformation, and model-training workflows, using MLflow and DagsHub for experiment tracking.`;
         } else {
-          response = `At Gilbert Research, he worked on clinical ML models! 🏥 Helping save lives with data!`;
+          response = `At Gilbert Research, he worked on clinical datasets and ML workflows. 🏥`;
         }
       } else {
         if (mode === "professional") {
-          response = `Samyak most recently worked as a ${latestExp.role} at ${latestExp.company}. He has experience in leading teams and building end-to-end ML workflows.`;
+          response = `Samyak most recently worked as a ${latestExp.role} at ${latestExp.company}, where he mentored 100+ learners and guided 5+ postgraduate project teams.`;
         } else {
-          response = `He recently crushed it as a ${latestExp.role} at ${latestExp.company}! 💼 He's all about leading teams and making data magic happen. ✨`;
+          response = `He recently worked as a ${latestExp.role} at ${latestExp.company}! 💼 He mentored learners and guided postgraduate project teams. ✨`;
         }
       }
     }
@@ -195,7 +195,7 @@ const PortfolioChatbot = () => {
     // Why Hire
     else if (lower.includes("hire") || lower.includes("why you")) {
       if (mode === "professional") {
-        response = "You should hire Samyak because he brings a unique blend of technical expertise in Data Science/ML and practical experience in building real-world applications. He is a proactive learner, a proven team leader (led 5 interns at Evoastra), and is dedicated to delivering high-quality, data-driven solutions.";
+        response = "Samyak combines project-led Applied AI work, Python backend development, machine-learning workflows, and analytics. His documented experience includes mentoring 100+ learners, guiding 5+ postgraduate teams, and leading five interns at Evoastra. His projects emphasize traceability and clear implementation boundaries.";
       } else {
         response = "Because he's awesome! 🌟 But seriously, Samyak is a fast learner, a great leader, and super passionate about tech. He doesn't just write code; he solves problems. Plus, he's a great team player! 🤝";
       }
@@ -203,7 +203,7 @@ const PortfolioChatbot = () => {
     // Strengths
     else if (lower.includes("strength") || lower.includes("good at")) {
       if (mode === "professional") {
-        response = "Samyak's key strengths include his strong analytical skills, proficiency in full-stack data science (Python, SQL, Power BI), and his ability to lead and mentor teams. He is also highly adaptable and quick to learn new technologies.";
+        response = "Samyak's documented strengths include Python and API development, machine-learning and NLP workflows, data analytics, source-grounded retrieval, and technical mentorship.";
       } else {
         response = "Samyak is a powerhouse! 💪 He's amazing at analyzing data, leading teams, and picking up new tech like it's nothing. He's the kind of person you want on your side! 🚀";
       }
@@ -211,17 +211,17 @@ const PortfolioChatbot = () => {
     // Weaknesses
     else if (lower.includes("weakness") || lower.includes("bad at")) {
       if (mode === "professional") {
-        response = "Samyak is a perfectionist who sometimes spends extra time ensuring every detail is correct. However, he is learning to balance this with agile methodologies to ensure timely delivery without compromising quality.";
+        response = "The portfolio does not publish a formal weakness statement. Samyak should answer this personally in an interview; the assistant will not invent a personality trait.";
       } else {
-        response = "Sometimes he cares *too* much about the details! 😅 He wants everything to be perfect. But hey, that means you get high-quality work, right? He's working on being faster while staying precise! ⏱️";
+        response = "The profile does not list a personal weakness, so I won't make one up. That's a better question for Samyak himself. 🙂";
       }
     }
     // Challenge
     else if (lower.includes("challenge") || lower.includes("difficult") || lower.includes("problem")) {
       if (mode === "professional") {
-        response = "A significant challenge Samyak faced was managing a team of 5 interns at Evoastra while delivering a complex ML project. He successfully coordinated their efforts, established clear workflows, and ensured the project was delivered on time, teaching him valuable leadership and project management skills.";
+        response = "A documented challenge was coordinating a team of five interns at Evoastra while contributing to CARS24 data collection and an NLP resume-analysis workflow. The resume records the team-lead role and project scope, but does not publish a delivery-time or performance metric.";
       } else {
-        response = "Managing a team of 5 interns was a big challenge! 🤯 But Samyak stepped up, organized everyone, and they crushed the project! It taught him a ton about leadership and teamwork. 🏆";
+        response = "Leading five interns at Evoastra was a meaningful teamwork responsibility. He coordinated the team while contributing to data collection and NLP resume analysis. 🏆";
       }
     }
     // Teamwork / Conflict
