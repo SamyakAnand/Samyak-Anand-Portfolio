@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaEnvelope, FaFacebook, FaGithub, FaInstagram, FaLinkedin, FaMapMarkerAlt } from "react-icons/fa";
+import { FaEnvelope, FaGithub, FaLinkedin, FaMapMarkerAlt } from "react-icons/fa";
 
 const Footer = () => {
   // Smooth scroll function
@@ -56,7 +56,7 @@ const Footer = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              Data Scientist & ML Engineer crafting intelligent solutions that drive business impact through data-driven insights and cutting-edge AI technologies.
+              Applied AI Engineer building retrieval-based knowledge tools, machine-learning workflows, Python APIs, and analytical products.
             </motion.p>
 
             {/* Contact Info */}
@@ -148,9 +148,7 @@ const Footer = () => {
             >
               {[
                 { icon: <FaGithub />, link: "https://github.com/SamyakAnand", label: "GitHub" },
-                { icon: <FaLinkedin />, link: "http://www.linkedin.com/in/samyakanand-8aa77020b", label: "LinkedIn" },
-                { icon: <FaInstagram />, link: "https://www.instagram.com/samyak_anand17/", label: "Instagram" },
-                { icon: <FaFacebook />, link: "https://www.facebook.com/samyak.anand.9", label: "Facebook" },
+                { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/samyakanand/", label: "LinkedIn" },
               ].map((item, index) => (
                 <motion.a
                   key={index}
