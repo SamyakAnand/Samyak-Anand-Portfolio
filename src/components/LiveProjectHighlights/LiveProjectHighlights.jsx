@@ -90,10 +90,19 @@ const LiveProjectHighlights = () => {
                     className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110"
                     initial={{ scale: 1 }}
                     whileHover={{ scale: 1.05 }}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
                     }}
                   />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-center p-8 bg-gradient-to-br from-violet-950 via-indigo-950 to-slate-950">
+                    <div className="w-20 h-20 rounded-3xl bg-white/10 border border-white/15 flex items-center justify-center">
+                      <FiCpu className="w-11 h-11 text-violet-200" />
+                    </div>
+                    <span className="mt-5 text-[10px] tracking-[0.28em] font-bold text-white/50">{currentProject.eyebrow || "APPLIED AI DEMO"}</span>
+                    <h3 className="mt-2 text-2xl font-black text-white">{currentProject.shortTitle || currentProject.title}</h3>
+                    <span className="mt-3 text-[10px] tracking-[0.18em] text-white/40">SAM.EXE · PUBLIC DEMO</span>
+                  </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black-100 via-transparent to-transparent opacity-60" />
               </div>
@@ -123,6 +132,7 @@ const LiveProjectHighlights = () => {
                     <p className="text-secondary text-xs md:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-2 md:line-clamp-none">
                       {currentProject.description}
                     </p>
+                    <p className="text-[10px] text-secondary/80 mt-2">{currentProject.status}</p>
                   </div>
 
                   <div className="flex-shrink-0 mb-3 md:mb-4">
